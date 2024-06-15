@@ -1,19 +1,41 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
-import HomeView from '../views/HomeView.vue'
+
 
 const routes: Array<RouteRecordRaw> = [
   {
     path: '/',
     name: 'home',
-    component: HomeView
+    component: () => import('../views/HomeView.vue'),
+    meta: {title: '首页'}
   },
   {
-    path: '/about',
-    name: 'about',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/AboutView.vue')
+    path: '/register',
+    name: 'register',
+    component: () => import('../views/RegisterView.vue'),
+    meta: {title: '注册'}
+  },
+  {
+    path: '/login',
+    name: 'login',
+    component: () => import('../views/LoginView.vue'),
+    meta: {title: '登录'}
+  },
+  {
+    path: '/reset',
+    name: 'reset',
+    component: () => import('../views/ResetPasswordView.vue'),
+    meta: {title: '重置密码'}
+  },
+  {
+    path: '/admin',
+    name: 'admin',
+    component:() => import('../views/AdminView.vue'),
+    meta: {title: '管理员后台'}
+  },
+  {
+    path: '/details/:id',
+    name: 'details',
+    component:() => import('../views/DetailsView.vue')
   }
 ]
 
