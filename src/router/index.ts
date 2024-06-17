@@ -29,8 +29,18 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: '/admin',
     name: 'admin',
-    component:() => import('../views/AdminView.vue'),
+    component:() => import('../views/Admin/AdminView.vue'),
     meta: {title: '管理员后台'}
+  },
+  {
+    path: '/user',
+    name: 'user',
+    component:() => import('../views/User/UserCenterView.vue'),
+  },
+  {
+    path: '/user/settings',
+    name: 'userSettings',
+    component:() => import("../views/User/Settings/UserSettingsView.vue")
   },
   {
     path: '/details/:id',

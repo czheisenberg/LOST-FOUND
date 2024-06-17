@@ -1,5 +1,5 @@
 <template>
-
+<TheNavbar/>
 <div class="container mx-auto mt-4 flex flex-wrap dark:bg-gray-800">
     <!-- 循环渲染当前页的卡片 -->
     <div v-for="(card, index) in paginatedCards" :key="index" class="w-full sm:w-1/2 md:w-1/2 lg:w-1/3 xl:w-1/4 px-4 mb-4">
@@ -25,7 +25,7 @@
           </a>
           <!-- 物品状态判断 -->
           <div class="mt-2.5 mb-5">
-            <span v-if="card.stuffState" class="bg-green-300 text-blue-800 text-xs font-semibold px-2.5 py-0.5 rounded dark:bg-green-300 dark:text-blue-800 ms-3">找到物品</span>
+            <span v-if="card.stuffState" class="bg-green-300 text-blue-800 text-xs font-semibold px-2.5 py-0.5 rounded dark:bg-green-300 dark:text-blue-800 ms-3">捡到物品</span>
             <span v-else class="bg-red-300 text-blue-800 text-xs font-semibold px-2.5 py-0.5 rounded dark:bg-red-300 dark:text-blue-800 ms-3">丢失物品</span>
           </div>
           <!-- 联系电话和详细信息按钮 -->
@@ -65,15 +65,21 @@
     </div>
     <!-- 翻页 end -->
   </div>
-
+<TheFooter/>
 </template>
 
 
 <script lang="ts">
 import { defineComponent, computed, ref } from 'vue';
+import TheFooter from '@/components/TheFooter.vue';
+import TheNavbar from '@/components/TheNavbar.vue';
 
 export default defineComponent({
   name: 'HomeView',
+  components: {
+    TheNavbar,
+    TheFooter
+  },
   setup() {
    
     const cards = ref(
