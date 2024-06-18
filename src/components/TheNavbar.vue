@@ -36,9 +36,40 @@
                     </svg>
                 </button>
                 <!-- 黑白切换按钮 end for all screens -->
-                <router-link to="/login" class="hidden md:flex text-white px-4 py-2 rounded-md">
+                <!-- <router-link to="/login" class="hidden md:flex text-white px-4 py-2 rounded-md">
                     <img class="w-10 h-10 rounded-full" src="https://avatars.githubusercontent.com/u/52897817?v=4" alt="user photo">
-                </router-link>
+                </router-link> -->
+
+                <!-- 登录下拉列表 start -->
+                <div>
+                    <button type="button" class="flex text-sm bg-gray-800 rounded-full focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600" aria-expanded="false" data-dropdown-toggle="dropdown-user">
+                        <span class="sr-only">Open user menu</span>
+                        <img class="w-10 h-10 rounded-full" src="https://avatars.githubusercontent.com/u/52897817?v=4" alt="user photo">
+                    </button>
+                </div>
+                    <div class="z-50 hidden my-4 text-base list-none bg-white divide-y divide-gray-100 rounded shadow dark:bg-gray-700 dark:divide-gray-600" id="dropdown-user">
+                    <div class="px-4 py-3" role="none">
+                        <p class="text-sm text-gray-900 dark:text-white" role="none">
+                            {{ username}}
+                        </p>
+                        <p class="text-sm font-medium text-gray-900 truncate dark:text-gray-300" role="none">
+                            {{ email }}
+                        </p>
+                    </div>
+                    <ul class="py-1" role="none">
+                        <li>
+                            <a href="/login" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white" role="menuitem">登录</a>
+                        </li>
+                        <li>
+                            <a href="/user/settings" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white" role="menuitem">用户后台</a>
+                        </li>
+                        <li>
+                            <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white" role="menuitem">登出</a>
+                        </li>
+                    </ul>
+                </div>
+                <!-- 登录下拉列表 end -->
+                
             </div>
         </div>
     </div>
@@ -50,7 +81,8 @@
             <div class="relative">
                 <input type="text" placeholder="搜索..." class="w-full px-4 py-2 mb-2 rounded-md border border-gray-300 focus:border-blue-500 focus:ring focus:ring-blue-200 focus:outline-none dark:bg-gray-700 dark:text-white"/>
             </div>
-            <router-link to="/login" class="bg-blue-500 text-white px-4 py-2 rounded-md">登&nbsp;&nbsp;录</router-link>
+            <!-- <router-link to="/login" class="bg-blue-500 text-white px-4 py-2 rounded-md">登&nbsp;&nbsp;录</router-link> -->
+             
         </div>
     </div>
 </nav>
@@ -64,6 +96,10 @@ import { defineComponent, ref } from 'vue';
 export default defineComponent({
   name: 'TheNavbar',
   setup() {
+
+    const username = "Alice"
+    const email = "alice@alice.com"
+
     const isOpen = ref(false);
     const isDarkMode = ref(false);
 
@@ -77,9 +113,11 @@ export default defineComponent({
     };
 
     return {
-      isOpen,
-      isDarkMode,
-      toggleDarkMode
+        username,
+        email,
+        isOpen,
+        isDarkMode,
+        toggleDarkMode
     };
   }
 });
