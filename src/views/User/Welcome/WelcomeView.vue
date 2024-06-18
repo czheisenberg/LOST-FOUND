@@ -1,7 +1,6 @@
 <template>
-   <TheBackSidebar/>
-   <!-- <TheBackContent/> -->
-   <div id="main-content" class="relative  h-full overflow-y-auto bg-gray-50 lg:ml-64 dark:bg-gray-900">
+    <TheBackSidebar/>
+    <div id="main-content" class="relative  h-full overflow-y-auto bg-gray-50 lg:ml-64 dark:bg-gray-900">
     <main>
       <div class="p-4 bg-white block sm:flex items-center justify-between border-b border-gray-200 lg:mt-1.5 dark:bg-gray-800 dark:border-gray-700">
     <div class="w-full mb-1 mt-10">
@@ -49,19 +48,16 @@
     
   </div>
 </template>
-<script lang="ts">
 
-import { defineComponent } from 'vue';
+<script lang="ts">
+import{defineComponent} from 'vue';
 import TheBackSidebar from '@/components/TheBackSidebar.vue';
-// import TheBackContent from '@/components/TheBackContent.vue';
 
 export default defineComponent({
- name: 'UserCenterView',
- components: {
-   TheBackSidebar,
-  //  TheBackContent
- },
- 
-});
+    name: 'WelcomeView',
+    components: {
+        TheBackSidebar
+    }
 
+})
 </script>
