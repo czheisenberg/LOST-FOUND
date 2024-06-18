@@ -9,7 +9,7 @@ import TheBackSidebar from '@/components/TheBackSidebar.vue';
 import TheBackContent from '@/components/TheBackContent.vue';
 
 export default defineComponent({
- name: 'app',
+ name: 'UserCenterView',
  components: {
    TheBackSidebar,
    TheBackContent
