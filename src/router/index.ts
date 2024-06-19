@@ -10,6 +10,8 @@ const Welcome = () => import('../views/User/Welcome/WelcomeView.vue');
 const UserSettings = () => import('../views/User/Settings/UserSettingsView.vue');
 const UserGoods = () => import('../views/User/goods/UserGoodsView.vue');
 
+const Notice = () => import('../views/NoticeView.vue');
+
 const routes: Array<RouteRecordRaw> = [
   {
     path: '/',
@@ -71,6 +73,11 @@ const routes: Array<RouteRecordRaw> = [
     path: '/guestbook',
     name: 'guestBook',
     component:() => import('@/components/GuestBook.vue')
+  },
+  {
+    path: '/notice',
+    name: 'notice',
+    component: Notice,
   }
 ]
 

@@ -19,7 +19,7 @@
             </div>
             <div class="hidden md:flex md:items-center md:space-x-4 flex-grow">
                 <router-link to="/" class="text-gray-900 dark:text-white px-3 py-2 rounded-md text-sm font-medium">首页</router-link>
-                <a href="#" class="text-gray-900 dark:text-white px-3 py-2 rounded-md text-sm font-medium">分类</a>
+                <router-link to="/notice" class="text-gray-900 dark:text-white px-3 py-2 rounded-md text-sm font-medium">通知</router-link>
                 <a href="#" class="text-gray-900 dark:text-white px-3 py-2 rounded-md text-sm font-medium">联系我们</a>
                 <div class="relative flex-grow">
                     <input type="text" placeholder="搜索..." class="w-full px-4 py-2 rounded-md border border-gray-300 focus:border-blue-500 focus:ring focus:ring-blue-200 focus:outline-none dark:bg-gray-700 dark:text-white"/>
