@@ -12,20 +12,24 @@
               </h1>
               <form class="space-y-4 md:space-y-6" @submit.prevent="handleRegister">
                 <div>
-                  <label for="username" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">用户名</label>
-                  <input type="text" name="username" id="username" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="username" required>
+                  <label for="account" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">昵称</label>
+                  <input type="text" v-model="account" name="account" id="account" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="username" required>
+                </div>
+                <div>
+                  <label for="username" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">真实姓名</label>
+                  <input type="text" v-model="username" name="username" id="username" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="username" required>
                 </div>
                   <div>
                       <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">你的邮箱</label>
-                      <input type="email" name="email" id="email" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="name@company.com" required>
+                      <input type="email" v-model="email" name="email" id="email" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="name@company.com" required>
                   </div>
                   <div>
                       <label for="password" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">你的密码</label>
-                      <input type="password" name="password" id="password" placeholder="••••••••" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
+                      <input type="password" v-model="password" name="password" id="password" placeholder="••••••••" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
                   </div>
                   <div>
                       <label for="confirm-password" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">重复密码</label>
-                      <input type="confirm-password" name="confirm-password" id="confirm-password" placeholder="••••••••" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
+                      <input type="password" name="confirm-password" id="confirm-password" placeholder="••••••••" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
                   </div>
                   <div class="flex items-start">
                       <div class="flex items-center h-5">
@@ -39,6 +43,9 @@
                   <p class="text-sm font-light text-gray-500 dark:text-gray-400">
                     已经有账户了？ <a href="/login" class="font-medium text-primary-600 hover:underline dark:text-primary-500">点击登录</a>
                   </p>
+                  <p class="text-center text-red-500">
+                    {{message}}
+                  </p>
               </form>
           </div>
       </div>
@@ -50,55 +57,48 @@
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
 import axios from '../axios';
-import {LoginRequest, LoginResponse, RegisterRequest} from '../types';
-import { useRoute, useRouter } from 'vue-router';
+import { useRouter } from 'vue-router';
+import {RegisterRequest, LoginResponse, LoginRequest} from '../types';
 
 export default defineComponent({
   setup() {
     const router = useRouter(); // 获取路由对象
-    const route = useRoute(); // 获取当前路由信息
-    // const username = ref<string>('')
-    // const account = ref<string>('');
-    // const email = ref<string>('');
-    // const password = ref<string>('');
-
-    const formData = ref({
-      username: '',
-      email: '',
-      password: '',
-      confirmPassword: ''
-    });
-
-    // console.log("usrname: ",username.value)
-    // console.log("account: ",account.value)
-    // console.log("email: ",email.value)
-    // console.log("password: ",password.value)
+    const message = ref('')
+    const account = ref<string>('');
+    const username = ref<string>('');
+    const password = ref<string>('');
+    const email = ref<string>('');
 
     const handleRegister = async () => {
+      const requestData: RegisterRequest = {
+        account: account.value,
+        username: username.value,
+        password: password.value,
+        email: email.value
+      };
+
       try {
-        // 这里做表单验证，例如确认密码是否一致等
-
-        // 发送注册请求
-        const response = await axios.post('/register/doRegister', {
-          username: formData.value.username,
-          email: formData.value.email,
-          password: formData.value.password
-        });
-
-        console.log('注册成功！', response.data);
-
-        // 可以根据后端返回的响应进行逻辑处理，例如跳转到登录页等
+        const response = await axios.post('/register/doRegister',   requestData);
+        console.log(requestData)
+        if (response.data.code === 200) {
+          router.push('/login')
+        } else {
+          console.error('Register failed:', response.data.msg);
+          message.value = response.data.msg
+        }
       } catch (error) {
-        console.error('注册失败！', error);
+        console.error('Register failed:', error);
       }
     };
 
 
+
     return {
-      // account,
-      // email,
-      // password,
-      // handleLogin
+      account,
+      username,
+      email,
+      password,
+      message,
       handleRegister
     };
   }
