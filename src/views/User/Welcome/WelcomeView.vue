@@ -27,7 +27,7 @@
                   </li>
                 </ol>
             </nav>
-            <h1 class="text-xl font-semibold text-gray-900 sm:text-2xl dark:text-white">欢迎</h1>
+            <h1 class="text-xl font-semibold text-gray-900 sm:text-2xl dark:text-white">欢迎 {{ account }}</h1>
         </div>
         
     </div>
@@ -50,13 +50,35 @@
 </template>
 
 <script lang="ts">
-import{defineComponent} from 'vue';
+import{defineComponent, ref, onMounted} from 'vue';
+import axios from '../../../axios'
 import TheBackSidebar from '@/components/TheBackSidebar.vue';
 
 export default defineComponent({
     name: 'WelcomeView',
     components: {
         TheBackSidebar
+    },
+    setup(){
+      const account = ref('')
+
+      const fetchData = async()=>{
+        try{
+          const response = await axios.get('/userinfo/selfQuery');
+          account.value = response.data.data.account
+          console.log(response.data)
+        }catch(err){
+          console.log("err:", err)
+        }
+      }
+
+      onMounted(()=>{
+        fetchData()
+      })
+
+      return{
+        account
+      }
     }
 
 })

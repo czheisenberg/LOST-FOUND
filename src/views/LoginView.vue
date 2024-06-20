@@ -78,7 +78,7 @@ export default defineComponent({
           console.log('Login successful:', response.data);
 
 
-          localStorage.setItem(tokenName, tokenValue)
+          // localStorage.setItem(tokenName, tokenValue)
 
           // 跳转到其他页面，如：this.$router.push('/dashboard');
           router.push('/user')

@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
+import axios from "../axios";
 
 const Home = () => import('../views/HomeView.vue');
 const Register = () => import('../views/RegisterView.vue');
@@ -103,6 +104,9 @@ router.beforeEach((to, from,next)=>{
   }else{
     next("/login")
   }
+
+
+
 
 })
 

@@ -2,6 +2,7 @@
 import axios from 'axios';
 
 const instance = axios.create({
+    withCredentials: true,
     baseURL: 'http://localhost:8081',
     timeout: 1000,
     // headers: { 'Content-Type': 'application/json' }
@@ -11,7 +12,7 @@ instance.interceptors.request.use(config => {
     const tokenName = 'lftoken'; // 可以根据需要动态获取 tokenName
     const token = localStorage.getItem(tokenName);
     if (token) {
-        config.headers['Authorization'] = `Bearer ${token}`;
+        config.headers['Cookie'] = `${tokenName}=${token}`;
     }
     return config;
 }, error => {
