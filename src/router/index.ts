@@ -4,6 +4,7 @@ import axios from "../axios";
 const Home = () => import('../views/HomeView.vue');
 const Register = () => import('../views/RegisterView.vue');
 const Login = () => import('../views/LoginView.vue');
+const Logout = () => import('../views/LogoutVIew.vue')
 const Reset = () => import('../views/ResetPasswordView.vue');
 const Admin = () => import('../views/Admin/AdminView.vue');
 const UserCenter = () => import('../views/User/UserCenterView.vue');
@@ -32,6 +33,11 @@ const routes: Array<RouteRecordRaw> = [
     name: 'login',
     component: Login,
     meta: {title: '登录'}
+  },
+  {
+    path: '/logout',
+    name: 'logout',
+    component: Logout,
   },
   {
     path: '/reset',
@@ -94,7 +100,7 @@ const router = createRouter({
 })
 
 // 排除路由列表
-const excludeRoutes = ['/'];
+const excludeRoutes = ['/','/register'];
 
 // 路由拦截, before 前置拦截
 router.beforeEach((to, from,next)=>{
