@@ -37,6 +37,9 @@
             <p class="text-sm font-light text-gray-500 dark:text-gray-400">
               还没有账户? <a href="/register" class="font-medium text-primary-600 hover:underline dark:text-primary-500">去注册</a>
             </p>
+            <p class="text-center text-red-500">
+              {{message}}
+            </p>
           </form>
         </div>
       </div>
@@ -53,10 +56,9 @@ import { useRoute, useRouter } from 'vue-router';
 export default defineComponent({
   setup() {
     const router = useRouter(); // 获取路由对象
-    const route = useRoute(); // 获取当前路由信息
     const account = ref<string>('');
-    // const email = ref<string>('');
     const password = ref<string>('');
+    const message = ref('')
 
     const handleLogin = async () => {
       const requestData: LoginRequest = {
@@ -65,6 +67,7 @@ export default defineComponent({
       };
       console.log(account.value)
       console.log(password.value)
+
 
       try {
         const response = await axios.post<LoginResponse>('/login/doLogin',   requestData);
@@ -81,6 +84,7 @@ export default defineComponent({
           router.push('/user')
         } else {
           console.error('Login failed:', response.data.msg);
+          message.value = response.data.msg
         }
       } catch (error) {
         console.error('Login failed:', error);
@@ -89,9 +93,9 @@ export default defineComponent({
 
     return {
       account,
-      // email,
       password,
-      handleLogin
+      handleLogin,
+      message
     };
   }
 });
