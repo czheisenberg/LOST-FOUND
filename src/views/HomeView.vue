@@ -1,6 +1,6 @@
 <template>
-<TheNavbar/>
-<div class="container mx-auto mt-4 flex flex-wrap dark:bg-gray-800">
+  <TheNavbar/>
+  <div class="container mx-auto mt-4 flex flex-wrap dark:bg-gray-800">
     <!-- 循环渲染当前页的卡片 -->
     <div v-for="(card, index) in paginatedCards" :key="index" class="w-full sm:w-1/2 md:w-1/2 lg:w-1/3 xl:w-1/4 px-4 mb-4">
       <!-- 卡片内容 -->
@@ -31,16 +31,7 @@
           <!-- 联系电话和详细信息按钮 -->
           <div class="flex items-center justify-between">
             <span class="text-xs font-bold text-gray-900 dark:text-white">联系电话: {{ card.phoneNumber }}</span>
-            <!-- <a :href="card.detailsUrl" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">详细信息</a> -->
-            <router-link class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" :to="{
-              name:'details', 
-              params:{
-                id: card.id, 
-                message: card.message
-              }
-              
-              }">详细信息</router-link>
-            <!-- name: 'name'与路由页面中的name相匹配 -->
+            <router-link class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" :to="{ name: 'details', params: { id: card.id, message: card.message } }">详细信息</router-link>
           </div>
         </div>
       </div>
@@ -65,14 +56,28 @@
     </div>
     <!-- 翻页 end -->
   </div>
-<TheFooter/>
+  <TheFooter/>
 </template>
 
 
 <script lang="ts">
-import { defineComponent, computed, ref } from 'vue';
+import { defineComponent, computed, ref, onMounted } from 'vue';
+import axios from '../axios';
 import TheFooter from '@/components/TheFooter.vue';
 import TheNavbar from '@/components/TheNavbar.vue';
+
+interface BackendData {
+  goodsId: number;
+  userInfo: {
+    profileimage: string;
+    username: string;
+  };
+  datetime: string;
+  goodsimg: string;
+  message: string;
+  phonenumber: string;
+  stuffstate: boolean;
+}
 
 export default defineComponent({
   name: 'HomeView',
@@ -82,156 +87,157 @@ export default defineComponent({
   },
   setup() {
    
-    const cards = ref(
-      [
-        {
-          // 以下这些信息从数据库中读取
-            id: 1,
-            profileImage : ref("https://avatars.githubusercontent.com/u/52897817?v=4"),
-            username : ref('Alice'),
-            name: ref('李某'),
-            dateTime : ref('6/14/2024 10:34PM'),
-            goods: ref('手表'),
-            goodsImg : ref('https://flowbite.com/docs/images/products/apple-watch.png'),
-            message : ref('求助🙏我于今日在操场丢失一块Apple Watch🥲'),
-            phoneNumber : ref('13545678999'),
-            address: ref('操场'),
+    // const cards = ref(
+    //   [
+    //     {
+    //       // 以下这些信息从数据库中读取
+    //         id: 1,
+    //         profileImage : ref("https://avatars.githubusercontent.com/u/52897817?v=4"),
+    //         username : ref('Alice'),
+    //         name: ref('李某'),
+    //         dateTime : ref('6/14/2024 10:34PM'),
+    //         goods: ref('手表'),
+    //         goodsImg : ref('https://flowbite.com/docs/images/products/apple-watch.png'),
+    //         message : ref('求助🙏我于今日在操场丢失一块Apple Watch🥲'),
+    //         phoneNumber : ref('13545678999'),
+    //         address: ref('操场'),
+    //
+    //       // 物品状态: flase 代表:丢失物品, true 代表发现物品
+    //         stuffState : false,
+    //       // 详细信息
+    //       detailsUrl: "#",
+    //
+    //     },
+    //     {
+    //         id: 2,
+    //         profileImage : ref("https://avatars.githubusercontent.com/u/52897817?v=4"),
+    //         username : ref('Alice'),
+    //         name: ref('李某'),
+    //         dateTime : ref('6/14/2024 10:34PM'),
+    //         goods: ref('手表'),
+    //         goodsImg : ref('https://flowbite.com/docs/images/products/apple-watch.png'),
+    //         message : ref('求助🙏我于今日在操场丢失一块Apple Watch🥲'),
+    //         phoneNumber : ref('13545678999'),
+    //         address: ref('操场'),
+    //         stuffState : true,
+    //         detailsUrl: "#"
+    //     },
+    //     {
+    //         id: 3,
+    //         profileImage : ref("https://avatars.githubusercontent.com/u/52897817?v=4"),
+    //         username : ref('Alice'),
+    //         name: ref('李某'),
+    //         dateTime : ref('6/14/2024 10:34PM'),
+    //         goods: ref('手表'),
+    //         goodsImg : ref('https://flowbite.com/docs/images/products/apple-watch.png'),
+    //         message : ref('求助🙏我于今日在操场丢失一块Apple Watch🥲'),
+    //         phoneNumber : ref('13545678999'),
+    //         address: ref('操场'),
+    //         stuffState : true,
+    //         detailsUrl: "#"
+    //     },
+    //     {
+    //         id: 4,
+    //         profileImage : ref("https://avatars.githubusercontent.com/u/52897817?v=4"),
+    //         username : ref('Alice'),
+    //         name: ref('李某'),
+    //         dateTime : ref('6/14/2024 10:34PM'),
+    //         goods: ref('手表'),
+    //         goodsImg : ref('https://flowbite.com/docs/images/products/apple-watch.png'),
+    //         message : ref('求助🙏我于今日在操场丢失一块Apple Watch🥲'),
+    //         phoneNumber : ref('13545678999'),
+    //         address: ref('操场'),
+    //         stuffState : true,
+    //         detailsUrl: "#"
+    //     },
+    //     {
+    //         id: 5,
+    //         profileImage : ref("https://avatars.githubusercontent.com/u/52897817?v=4"),
+    //         username : ref('Alice'),
+    //         name: ref('李某'),
+    //         dateTime : ref('6/14/2024 10:34PM'),
+    //         goods: ref('手表'),
+    //         goodsImg : ref('https://flowbite.com/docs/images/products/apple-watch.png'),
+    //         message : ref('求助🙏我于今日在操场丢失一块Apple Watch🥲'),
+    //         phoneNumber : ref('13545678999'),
+    //         address: ref('操场'),
+    //         stuffState : true,
+    //         detailsUrl: "#"
+    //     },
+    //     {
+    //         id: 6,
+    //         profileImage : ref("https://avatars.githubusercontent.com/u/52897817?v=4"),
+    //         username : ref('Alice'),
+    //         name: ref('李某'),
+    //         dateTime : ref('6/14/2024 10:34PM'),
+    //         goods: ref('手表'),
+    //         goodsImg : ref('https://flowbite.com/docs/images/products/apple-watch.png'),
+    //         message : ref('求助🙏我于今日在操场丢失一块Apple Watch🥲'),
+    //         phoneNumber : ref('13545678999'),
+    //         address: ref('操场'),
+    //         stuffState : false,
+    //         detailsUrl: "#"
+    //     },
+    //     {
+    //         id: 7,
+    //         profileImage : ref("https://avatars.githubusercontent.com/u/52897817?v=4"),
+    //         username : ref('Alice'),
+    //         name: ref('李某'),
+    //         dateTime : ref('6/14/2024 10:34PM'),
+    //         goods: ref('手表'),
+    //         goodsImg : ref('https://flowbite.com/docs/images/products/apple-watch.png'),
+    //         message : ref('求助🙏我于今日在操场丢失一块Apple Watch🥲'),
+    //         phoneNumber : ref('13545678999'),
+    //         address: ref('操场'),
+    //         stuffState : false,
+    //         detailsUrl: "#"
+    //     },
+    //     {
+    //         id: 8,
+    //         profileImage : ref("https://avatars.githubusercontent.com/u/52897817?v=4"),
+    //         username : ref('Alice'),
+    //         name: ref('李某'),
+    //         dateTime : ref('6/14/2024 10:34PM'),
+    //         goods: ref('手表'),
+    //         goodsImg : ref('https://flowbite.com/docs/images/products/apple-watch.png'),
+    //         message : ref('求助🙏我于今日在操场丢失一块Apple Watch🥲'),
+    //         phoneNumber : ref('13545678999'),
+    //         address: ref('操场'),
+    //         stuffState : true,
+    //         detailsUrl: "#"
+    //     },
+    //     {
+    //         id: 9,
+    //         profileImage : ref("https://avatars.githubusercontent.com/u/52897817?v=4"),
+    //         username : ref('Alice'),
+    //         name: ref('李某'),
+    //         dateTime : ref('6/14/2024 10:34PM'),
+    //         goods: ref('手表'),
+    //         goodsImg : ref('https://flowbite.com/docs/images/products/apple-watch.png'),
+    //         message : ref('求助🙏我于今日在操场丢失一块Apple Watch🥲'),
+    //         phoneNumber : ref('13545678999'),
+    //         address: ref('操场'),
+    //         stuffState : true,
+    //         detailsUrl: "#"
+    //     },
+    //     {
+    //         id: 10,
+    //         profileImage : ref("https://avatars.githubusercontent.com/u/52897817?v=4"),
+    //         username : ref('Alice'),
+    //         name: ref('李某'),
+    //         dateTime : ref('6/14/2024 10:34PM'),
+    //         goods: ref('手表'),
+    //         goodsImg : ref('https://flowbite.com/docs/images/products/apple-watch.png'),
+    //         message : ref('求助🙏我于今日在操场丢失一块Apple Watch🥲'),
+    //         phoneNumber : ref('13545678999'),
+    //         address: ref('操场'),
+    //         stuffState : true,
+    //         detailsUrl: "#"
+    //     },
+    //   ]
+    // )
 
-          // 物品状态: flase 代表:丢失物品, true 代表发现物品
-            stuffState : false,
-          // 详细信息
-          detailsUrl: "#",
-
-        },
-        {
-            id: 2,
-            profileImage : ref("https://avatars.githubusercontent.com/u/52897817?v=4"),
-            username : ref('Alice'),
-            name: ref('李某'),
-            dateTime : ref('6/14/2024 10:34PM'),
-            goods: ref('手表'),
-            goodsImg : ref('https://flowbite.com/docs/images/products/apple-watch.png'),
-            message : ref('求助🙏我于今日在操场丢失一块Apple Watch🥲'),
-            phoneNumber : ref('13545678999'),
-            address: ref('操场'),
-            stuffState : true,
-            detailsUrl: "#"
-        },
-        {
-            id: 3,
-            profileImage : ref("https://avatars.githubusercontent.com/u/52897817?v=4"),
-            username : ref('Alice'),
-            name: ref('李某'),
-            dateTime : ref('6/14/2024 10:34PM'),
-            goods: ref('手表'),
-            goodsImg : ref('https://flowbite.com/docs/images/products/apple-watch.png'),
-            message : ref('求助🙏我于今日在操场丢失一块Apple Watch🥲'),
-            phoneNumber : ref('13545678999'),
-            address: ref('操场'),
-            stuffState : true,
-            detailsUrl: "#"
-        },
-        {
-            id: 4,
-            profileImage : ref("https://avatars.githubusercontent.com/u/52897817?v=4"),
-            username : ref('Alice'),
-            name: ref('李某'),
-            dateTime : ref('6/14/2024 10:34PM'),
-            goods: ref('手表'),
-            goodsImg : ref('https://flowbite.com/docs/images/products/apple-watch.png'),
-            message : ref('求助🙏我于今日在操场丢失一块Apple Watch🥲'),
-            phoneNumber : ref('13545678999'),
-            address: ref('操场'),
-            stuffState : true,
-            detailsUrl: "#"
-        },
-        {
-            id: 5,
-            profileImage : ref("https://avatars.githubusercontent.com/u/52897817?v=4"),
-            username : ref('Alice'),
-            name: ref('李某'),
-            dateTime : ref('6/14/2024 10:34PM'),
-            goods: ref('手表'),
-            goodsImg : ref('https://flowbite.com/docs/images/products/apple-watch.png'),
-            message : ref('求助🙏我于今日在操场丢失一块Apple Watch🥲'),
-            phoneNumber : ref('13545678999'),
-            address: ref('操场'),
-            stuffState : true,
-            detailsUrl: "#"
-        },
-        {
-            id: 6,
-            profileImage : ref("https://avatars.githubusercontent.com/u/52897817?v=4"),
-            username : ref('Alice'),
-            name: ref('李某'),
-            dateTime : ref('6/14/2024 10:34PM'),
-            goods: ref('手表'),
-            goodsImg : ref('https://flowbite.com/docs/images/products/apple-watch.png'),
-            message : ref('求助🙏我于今日在操场丢失一块Apple Watch🥲'),
-            phoneNumber : ref('13545678999'),
-            address: ref('操场'),
-            stuffState : false,
-            detailsUrl: "#"
-        },
-        {
-            id: 7,
-            profileImage : ref("https://avatars.githubusercontent.com/u/52897817?v=4"),
-            username : ref('Alice'),
-            name: ref('李某'),
-            dateTime : ref('6/14/2024 10:34PM'),
-            goods: ref('手表'),
-            goodsImg : ref('https://flowbite.com/docs/images/products/apple-watch.png'),
-            message : ref('求助🙏我于今日在操场丢失一块Apple Watch🥲'),
-            phoneNumber : ref('13545678999'),
-            address: ref('操场'),
-            stuffState : false,
-            detailsUrl: "#"
-        },
-        {
-            id: 8,
-            profileImage : ref("https://avatars.githubusercontent.com/u/52897817?v=4"),
-            username : ref('Alice'),
-            name: ref('李某'),
-            dateTime : ref('6/14/2024 10:34PM'),
-            goods: ref('手表'),
-            goodsImg : ref('https://flowbite.com/docs/images/products/apple-watch.png'),
-            message : ref('求助🙏我于今日在操场丢失一块Apple Watch🥲'),
-            phoneNumber : ref('13545678999'),
-            address: ref('操场'),
-            stuffState : true,
-            detailsUrl: "#"
-        },
-        {
-            id: 9,
-            profileImage : ref("https://avatars.githubusercontent.com/u/52897817?v=4"),
-            username : ref('Alice'),
-            name: ref('李某'),
-            dateTime : ref('6/14/2024 10:34PM'),
-            goods: ref('手表'),
-            goodsImg : ref('https://flowbite.com/docs/images/products/apple-watch.png'),
-            message : ref('求助🙏我于今日在操场丢失一块Apple Watch🥲'),
-            phoneNumber : ref('13545678999'),
-            address: ref('操场'),
-            stuffState : true,
-            detailsUrl: "#"
-        },
-        {
-            id: 10,
-            profileImage : ref("https://avatars.githubusercontent.com/u/52897817?v=4"),
-            username : ref('Alice'),
-            name: ref('李某'),
-            dateTime : ref('6/14/2024 10:34PM'),
-            goods: ref('手表'),
-            goodsImg : ref('https://flowbite.com/docs/images/products/apple-watch.png'),
-            message : ref('求助🙏我于今日在操场丢失一块Apple Watch🥲'),
-            phoneNumber : ref('13545678999'),
-            address: ref('操场'),
-            stuffState : true,
-            detailsUrl: "#"
-        },
-      ]
-    )
-
+    const cards = ref([])
     // 当前页码
     const currentPage = ref(1);
     const itemsPerPage = 8; // 每页显示的卡片数量
@@ -258,9 +264,33 @@ export default defineComponent({
         currentPage.value++;
       }
     };
-    
-    
-    
+
+
+    // 使用 axios 从后端获取数据
+    onMounted(() => {
+      axios.get("/goods/list")
+          .then(response => {
+            // 假设后端返回的数据是 response.data.data.list
+            cards.value = response.data.data.list.map((item: BackendData) => ({
+              id: item.goodsId,
+              profileImage: item.userInfo.profileimage,
+              username: item.userInfo.username,
+              dateTime: item.datetime,
+              goodsImg: item.goodsimg,
+              message: item.message,
+              phoneNumber: item.phonenumber,
+              stuffState: item.stuffstate,
+              detailsUrl: `/details/${item.goodsId}` // 假设有一个详情页的路由，用商品 ID 作为参数
+            }));
+          })
+          .catch(error => {
+            console.error('Error fetching data:', error);
+          });
+    });
+    // console.log(cards.value)
+
+    const storedToken = localStorage.getItem('lftoken');
+    console.log("lftoken:",storedToken); // 输出 'your_access_token_here'
 
     return {
       // profileImage,

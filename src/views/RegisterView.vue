@@ -10,7 +10,11 @@
               <h1 class="text-xl text-center font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
                   创建用户
               </h1>
-              <form class="space-y-4 md:space-y-6" action="#">
+              <form class="space-y-4 md:space-y-6" @submit.prevent="handleRegister">
+                <div>
+                  <label for="username" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">用户名</label>
+                  <input type="text" name="username" id="username" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="username" required>
+                </div>
                   <div>
                       <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">你的邮箱</label>
                       <input type="email" name="email" id="email" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="name@company.com" required>
@@ -41,3 +45,62 @@
   </div>
 </section>
 </template>
+
+
+<script lang="ts">
+import { defineComponent, ref } from 'vue';
+import axios from '../axios';
+import {LoginRequest, LoginResponse, RegisterRequest} from '../types';
+import { useRoute, useRouter } from 'vue-router';
+
+export default defineComponent({
+  setup() {
+    const router = useRouter(); // 获取路由对象
+    const route = useRoute(); // 获取当前路由信息
+    // const username = ref<string>('')
+    // const account = ref<string>('');
+    // const email = ref<string>('');
+    // const password = ref<string>('');
+
+    const formData = ref({
+      username: '',
+      email: '',
+      password: '',
+      confirmPassword: ''
+    });
+
+    // console.log("usrname: ",username.value)
+    // console.log("account: ",account.value)
+    // console.log("email: ",email.value)
+    // console.log("password: ",password.value)
+
+    const handleRegister = async () => {
+      try {
+        // 这里做表单验证，例如确认密码是否一致等
+
+        // 发送注册请求
+        const response = await axios.post('/register/doRegister', {
+          username: formData.value.username,
+          email: formData.value.email,
+          password: formData.value.password
+        });
+
+        console.log('注册成功！', response.data);
+
+        // 可以根据后端返回的响应进行逻辑处理，例如跳转到登录页等
+      } catch (error) {
+        console.error('注册失败！', error);
+      }
+    };
+
+
+    return {
+      // account,
+      // email,
+      // password,
+      // handleLogin
+      handleRegister
+    };
+  }
+});
+</script>

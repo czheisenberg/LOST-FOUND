@@ -1,14 +1,15 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
 
-const Home = () => import('../views/HomeView.vue')
-const Register = () => import('../views/RegisterView.vue')
-const Login = () => import('../views/LoginView.vue')
-const Reset = () => import('../views/ResetPasswordView.vue')
-const Admin = () => import('../views/Admin/AdminView.vue')
+const Home = () => import('../views/HomeView.vue');
+const Register = () => import('../views/RegisterView.vue');
+const Login = () => import('../views/LoginView.vue');
+const Reset = () => import('../views/ResetPasswordView.vue');
+const Admin = () => import('../views/Admin/AdminView.vue');
 const UserCenter = () => import('../views/User/UserCenterView.vue');
 const Welcome = () => import('../views/User/Welcome/WelcomeView.vue');
 const UserSettings = () => import('../views/User/Settings/UserSettingsView.vue');
 const UserGoods = () => import('../views/User/goods/UserGoodsView.vue');
+const AdminLost = () => import('../views/Admin/AdminLostView.vue');
 
 const Notice = () => import('../views/NoticeView.vue');
 
@@ -42,6 +43,11 @@ const routes: Array<RouteRecordRaw> = [
     name: 'admin',
     component: Admin ,
     meta: {title: '管理员后台'}
+  },
+  {
+    path: '/admin/lost',
+    name: 'adminlost',
+    component: AdminLost
   },
   {
     path: '/user',
@@ -84,6 +90,20 @@ const routes: Array<RouteRecordRaw> = [
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes
+})
+
+// 排除路由列表
+const excludeRoutes = ['/'];
+
+// 路由拦截, before 前置拦截
+router.beforeEach((to, from,next)=>{
+  const token = localStorage.getItem("lftoken");
+  if(token || to.path ==="/login" || excludeRoutes.includes(to.path)){
+    next()
+  }else{
+    next("/login")
+  }
+
 })
 
 export default router
