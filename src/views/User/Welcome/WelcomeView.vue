@@ -66,7 +66,8 @@ export default defineComponent({
         try{
           const response = await axios.get('/userinfo/selfQuery');
           account.value = response.data.data.account
-          // console.log(response.data)
+          console.log(account.value)
+          console.log(response.data)
         }catch(err){
           console.log("err:", err)
         }
