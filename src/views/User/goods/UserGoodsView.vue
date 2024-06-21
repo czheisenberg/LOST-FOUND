@@ -172,7 +172,8 @@
         <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
         <span class="sr-only">Close menu</span>
     </button>
-    <form action="#">
+<!--  上传表单-->
+    <form>
         <div class="space-y-4">
             <div>
                 <label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">名称</label>
@@ -248,54 +249,115 @@
         <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
         <span class="sr-only">Close menu</span>
     </button>
-    <form action="#">
-        <div class="space-y-4">
-            <div>
-                <label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">名称</label>
-                <input type="text" name="title" id="name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="输入物品名称" required>
-            </div>
+  <form @submit.prevent="handleSubmit">
+    <div class="space-y-4">
+      <div>
+        <label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">名称</label>
+        <input
+            type="text"
+            name="goods"
+            id="name"
+            v-model="formData.goods"
+            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+            placeholder="输入物品名称"
+            required
+        />
+      </div>
 
-            <div>
-                <label for="phoneNumber" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">联系电话</label>
-                <input type="text" name="phoneNumber" id="phoneNumber" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="188888888888" required>
-            </div>
-            <div>
-                <label for="category-create" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">图片</label>
-                <!-- <select id="category-create" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
-                    <option selected>Select category</option>
-                    <option value="FL">Flowbite</option>
-                    <option value="RE">React</option>
-                    <option value="AN">Angular</option>
-                    <option value="VU">Vue</option>
-                </select> -->
-                
-                <!-- 上传之后返回 上传地址，缩略图更新地址 -->
-                <input class="block w-full text-sm text-gray-500 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" id="file_input" type="file">
+      <div>
+        <label for="phonenumber" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">联系电话</label>
+        <input
+            type="text"
+            name="phonenumber"
+            id="phonenumber"
+            v-model="formData.phonenumber"
+            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+            placeholder="188888888888"
+            required
+        />
+      </div>
 
-            </div>
-            <div>
-                <label for="description" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">详情描述</label>
-                <textarea id="description" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="在此输入事件描述"></textarea>
-            </div>
-            <div>
-                <label for="discount-create" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">状态</label>
-                <select id="discount-create" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
-                    <option selected>丢失</option>
-                    <option >发现</option>
-                </select>
-            </div>
-            <div class="bottom-0 left-0 flex justify-center w-full pb-4 space-x-4 md:px-4 md:absolute">
-                <button type="submit" class="text-white w-full justify-center bg-blue-500 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-blue-500 dark:focus:ring-primary-800">
-                    保存
-                </button>
-                <button type="button" data-drawer-dismiss="drawer-create-product-default" aria-controls="drawer-create-product-default" class="inline-flex w-full justify-center text-gray-500 items-center bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-primary-300 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600">
-                    <svg aria-hidden="true" class="w-5 h-5 -ml-1 sm:mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
-                    取消
-                </button>
-            </div>
-    
-        </div>
-    </form>
+      <div>
+        <label for="file_input" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">图片</label>
+        <input
+            class="block w-full text-sm text-gray-500 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
+            id="file_input"
+            type="file"
+            @change="handleFileChange"
+            required
+        />
+      </div>
+      <div>
+        <label for="address" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">地址</label>
+        <input
+            type="text"
+            name="address"
+            id="address"
+            v-model="formData.address"
+            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+            placeholder="地球"
+            required
+        />
+      </div>
+      <div>
+        <label for="description" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">详情描述</label>
+        <textarea
+            id="message"
+            v-model="formData.message"
+            rows="4"
+            class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+            placeholder="在此输入事件描述"
+            required
+        ></textarea>
+      </div>
+
+      <div>
+        <label for="stuffstate" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">状态</label>
+        <select
+            id="stuffstate"
+            v-model="formData.stuffstate"
+            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+            required
+        >
+          <option value="0">丢失</option>
+          <option value="1">发现</option>
+        </select>
+      </div>
+
+      <div class="bottom-0 left-0 flex justify-center w-full pb-4 space-x-4 md:px-4 md:absolute">
+        <button
+            type="submit"
+            class="text-white w-full justify-center bg-blue-500 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-blue-500 dark:focus:ring-primary-800"
+        >
+          保存
+        </button>
+        <button
+            type="button"
+            data-drawer-dismiss="drawer-create-product-default"
+            aria-controls="drawer-create-product-default"
+            class="inline-flex w-full justify-center text-gray-500 items-center bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-primary-300 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600"
+        >
+          <svg
+              aria-hidden="true"
+              class="w-5 h-5 -ml-1 sm:mr-1"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M6 18L18 6M6 6l12 12"
+            ></path>
+          </svg>
+          取消
+        </button>
+      </div>
+    </div>
+  </form>
+
 
 
     </div></main>
@@ -303,8 +365,23 @@
   </div>
 </template>
 <script lang="ts">
-import { defineComponent,ref,computed } from 'vue';
+import { defineComponent,ref,computed, onMounted } from 'vue';
+import axios from '../../../axios'
 import TheBackSidebar from '@/components/TheBackSidebar.vue';
+
+interface BackendData {
+  goodsId: number;
+  userInfo: {
+    profileimage: string;
+    username: string;
+  };
+  datetime: string;
+  goodsimg: string;
+  goods: string;
+  message: string;
+  phonenumber: string;
+  stuffstate: boolean;
+}
 
 export default defineComponent({
   name: 'UserGoodsView',
@@ -313,169 +390,199 @@ export default defineComponent({
   // TheBackContent
 },
 setup(){
-    const cards = ref(
-      [
-        {
-          // 以下这些信息从数据库中读取
-            id: 1,
-            profileImage : ref("https://avatars.githubusercontent.com/u/52897817?v=4"),
-            username : ref('Alice'),
-            name: ref('李某'),
-            dateTime : ref('6/14/2024 10:34PM'),
-            goods: ref('手表'),
-            goodsImg : ref('https://flowbite.com/docs/images/products/apple-watch.png'),
-            message : ref('求助🙏我于今日在操场丢失一块Apple Watch🥲'),
-            phoneNumber : ref('13545678999'),
-            address: ref('操场'),
+    // const cards = ref(
+    //   [
+    //     {
+    //       // 以下这些信息从数据库中读取
+    //         id: 1,
+    //         profileImage : ref("https://avatars.githubusercontent.com/u/52897817?v=4"),
+    //         username : ref('Alice'),
+    //         name: ref('李某'),
+    //         dateTime : ref('6/14/2024 10:34PM'),
+    //         goods: ref('手表'),
+    //         goodsImg : ref('https://flowbite.com/docs/images/products/apple-watch.png'),
+    //         message : ref('求助🙏我于今日在操场丢失一块Apple Watch🥲'),
+    //         phoneNumber : ref('13545678999'),
+    //         address: ref('操场'),
+    //
+    //       // 物品状态: flase 代表:丢失物品, true 代表发现物品
+    //         stuffState : false,
+    //       // 详细信息
+    //       detailsUrl: "#",
+    //
+    //     },
+    //     {
+    //         id: 2,
+    //         profileImage : ref("https://avatars.githubusercontent.com/u/52897817?v=4"),
+    //         username : ref('Alice'),
+    //         name: ref('李某'),
+    //         dateTime : ref('6/14/2024 10:34PM'),
+    //         goods: ref('手表'),
+    //         goodsImg : ref('https://flowbite.com/docs/images/products/apple-watch.png'),
+    //         message : ref('求助🙏我于今日在操场丢失一块Apple Watch🥲'),
+    //         phoneNumber : ref('13545678999'),
+    //         address: ref('操场'),
+    //         stuffState : true,
+    //         detailsUrl: "#"
+    //     },
+    //     {
+    //         id: 3,
+    //         profileImage : ref("https://avatars.githubusercontent.com/u/52897817?v=4"),
+    //         username : ref('Alice'),
+    //         name: ref('李某'),
+    //         dateTime : ref('6/14/2024 10:34PM'),
+    //         goods: ref('手表'),
+    //         goodsImg : ref('https://flowbite.com/docs/images/products/apple-watch.png'),
+    //         message : ref('求助🙏我于今日在操场丢失一块Apple Watch🥲'),
+    //         phoneNumber : ref('13545678999'),
+    //         address: ref('操场'),
+    //         stuffState : true,
+    //         detailsUrl: "#"
+    //     },
+    //     {
+    //         id: 4,
+    //         profileImage : ref("https://avatars.githubusercontent.com/u/52897817?v=4"),
+    //         username : ref('Alice'),
+    //         name: ref('李某'),
+    //         dateTime : ref('6/14/2024 10:34PM'),
+    //         goods: ref('手表'),
+    //         goodsImg : ref('https://flowbite.com/docs/images/products/apple-watch.png'),
+    //         message : ref('求助🙏我于今日在操场丢失一块Apple Watch🥲'),
+    //         phoneNumber : ref('13545678999'),
+    //         address: ref('操场'),
+    //         stuffState : true,
+    //         detailsUrl: "#"
+    //     },
+    //     {
+    //         id: 5,
+    //         profileImage : ref("https://avatars.githubusercontent.com/u/52897817?v=4"),
+    //         username : ref('Alice'),
+    //         name: ref('李某'),
+    //         dateTime : ref('6/14/2024 10:34PM'),
+    //         goods: ref('手表'),
+    //         goodsImg : ref('https://flowbite.com/docs/images/products/apple-watch.png'),
+    //         message : ref('求助🙏我于今日在操场丢失一块Apple Watch🥲'),
+    //         phoneNumber : ref('13545678999'),
+    //         address: ref('操场'),
+    //         stuffState : true,
+    //         detailsUrl: "#"
+    //     },
+    //     {
+    //         id: 6,
+    //         profileImage : ref("https://avatars.githubusercontent.com/u/52897817?v=4"),
+    //         username : ref('Alice'),
+    //         name: ref('李某'),
+    //         dateTime : ref('6/14/2024 10:34PM'),
+    //         goods: ref('手表'),
+    //         goodsImg : ref('https://flowbite.com/docs/images/products/apple-watch.png'),
+    //         message : ref('求助🙏我于今日在操场丢失一块Apple Watch🥲'),
+    //         phoneNumber : ref('13545678999'),
+    //         address: ref('操场'),
+    //         stuffState : false,
+    //         detailsUrl: "#"
+    //     },
+    //     {
+    //         id: 7,
+    //         profileImage : ref("https://avatars.githubusercontent.com/u/52897817?v=4"),
+    //         username : ref('Alice'),
+    //         name: ref('李某'),
+    //         dateTime : ref('6/14/2024 10:34PM'),
+    //         goods: ref('手表'),
+    //         goodsImg : ref('https://flowbite.com/docs/images/products/apple-watch.png'),
+    //         message : ref('求助🙏我于今日在操场丢失一块Apple Watch🥲'),
+    //         phoneNumber : ref('13545678999'),
+    //         address: ref('操场'),
+    //         stuffState : false,
+    //         detailsUrl: "#"
+    //     },
+    //     {
+    //         id: 8,
+    //         profileImage : ref("https://avatars.githubusercontent.com/u/52897817?v=4"),
+    //         username : ref('Alice'),
+    //         name: ref('李某'),
+    //         dateTime : ref('6/14/2024 10:34PM'),
+    //         goods: ref('手表'),
+    //         goodsImg : ref('https://flowbite.com/docs/images/products/apple-watch.png'),
+    //         message : ref('求助🙏我于今日在操场丢失一块Apple Watch🥲'),
+    //         phoneNumber : ref('13545678999'),
+    //         address: ref('操场'),
+    //         stuffState : true,
+    //         detailsUrl: "#"
+    //     },
+    //     {
+    //         id: 9,
+    //         profileImage : ref("https://avatars.githubusercontent.com/u/52897817?v=4"),
+    //         username : ref('Alice'),
+    //         name: ref('李某'),
+    //         dateTime : ref('6/14/2024 10:34PM'),
+    //         goods: ref('手表'),
+    //         goodsImg : ref('https://flowbite.com/docs/images/products/apple-watch.png'),
+    //         message : ref('求助🙏我于今日在操场丢失一块Apple Watch🥲'),
+    //         phoneNumber : ref('13545678999'),
+    //         address: ref('操场'),
+    //         stuffState : true,
+    //         detailsUrl: "#"
+    //     },
+    //     {
+    //         id: 10,
+    //         profileImage : ref("https://avatars.githubusercontent.com/u/52897817?v=4"),
+    //         username : ref('Alice'),
+    //         name: ref('李某'),
+    //         dateTime : ref('6/14/2024 10:34PM'),
+    //         goods: ref('手表'),
+    //         goodsImg : ref('https://flowbite.com/docs/images/products/apple-watch.png'),
+    //         message : ref('求助🙏我于今日在操场丢失一块Apple Watch🥲'),
+    //         phoneNumber : ref('13545678999'),
+    //         address: ref('操场'),
+    //         stuffState : true,
+    //         detailsUrl: "#"
+    //     },
+    //     {
+    //         id: 11,
+    //         profileImage : ref("https://avatars.githubusercontent.com/u/52897817?v=4"),
+    //         username : ref('Alice'),
+    //         name: ref('李某'),
+    //         dateTime : ref('6/14/2024 10:34PM'),
+    //         goods: ref('钥匙'),
+    //         goodsImg : ref('https://flowbite.com/docs/images/products/apple-watch.png'),
+    //         message : ref('求助🙏我于今日在操场丢失一块Apple Watch🥲'),
+    //         phoneNumber : ref('13545678999'),
+    //         address: ref('操场'),
+    //         stuffState : true,
+    //         detailsUrl: "#"
+    //     },
+    //   ]
+    // )
 
-          // 物品状态: flase 代表:丢失物品, true 代表发现物品
-            stuffState : false,
-          // 详细信息
-          detailsUrl: "#",
+  const cards = ref([])
 
-        },
-        {
-            id: 2,
-            profileImage : ref("https://avatars.githubusercontent.com/u/52897817?v=4"),
-            username : ref('Alice'),
-            name: ref('李某'),
-            dateTime : ref('6/14/2024 10:34PM'),
-            goods: ref('手表'),
-            goodsImg : ref('https://flowbite.com/docs/images/products/apple-watch.png'),
-            message : ref('求助🙏我于今日在操场丢失一块Apple Watch🥲'),
-            phoneNumber : ref('13545678999'),
-            address: ref('操场'),
-            stuffState : true,
-            detailsUrl: "#"
-        },
-        {
-            id: 3,
-            profileImage : ref("https://avatars.githubusercontent.com/u/52897817?v=4"),
-            username : ref('Alice'),
-            name: ref('李某'),
-            dateTime : ref('6/14/2024 10:34PM'),
-            goods: ref('手表'),
-            goodsImg : ref('https://flowbite.com/docs/images/products/apple-watch.png'),
-            message : ref('求助🙏我于今日在操场丢失一块Apple Watch🥲'),
-            phoneNumber : ref('13545678999'),
-            address: ref('操场'),
-            stuffState : true,
-            detailsUrl: "#"
-        },
-        {
-            id: 4,
-            profileImage : ref("https://avatars.githubusercontent.com/u/52897817?v=4"),
-            username : ref('Alice'),
-            name: ref('李某'),
-            dateTime : ref('6/14/2024 10:34PM'),
-            goods: ref('手表'),
-            goodsImg : ref('https://flowbite.com/docs/images/products/apple-watch.png'),
-            message : ref('求助🙏我于今日在操场丢失一块Apple Watch🥲'),
-            phoneNumber : ref('13545678999'),
-            address: ref('操场'),
-            stuffState : true,
-            detailsUrl: "#"
-        },
-        {
-            id: 5,
-            profileImage : ref("https://avatars.githubusercontent.com/u/52897817?v=4"),
-            username : ref('Alice'),
-            name: ref('李某'),
-            dateTime : ref('6/14/2024 10:34PM'),
-            goods: ref('手表'),
-            goodsImg : ref('https://flowbite.com/docs/images/products/apple-watch.png'),
-            message : ref('求助🙏我于今日在操场丢失一块Apple Watch🥲'),
-            phoneNumber : ref('13545678999'),
-            address: ref('操场'),
-            stuffState : true,
-            detailsUrl: "#"
-        },
-        {
-            id: 6,
-            profileImage : ref("https://avatars.githubusercontent.com/u/52897817?v=4"),
-            username : ref('Alice'),
-            name: ref('李某'),
-            dateTime : ref('6/14/2024 10:34PM'),
-            goods: ref('手表'),
-            goodsImg : ref('https://flowbite.com/docs/images/products/apple-watch.png'),
-            message : ref('求助🙏我于今日在操场丢失一块Apple Watch🥲'),
-            phoneNumber : ref('13545678999'),
-            address: ref('操场'),
-            stuffState : false,
-            detailsUrl: "#"
-        },
-        {
-            id: 7,
-            profileImage : ref("https://avatars.githubusercontent.com/u/52897817?v=4"),
-            username : ref('Alice'),
-            name: ref('李某'),
-            dateTime : ref('6/14/2024 10:34PM'),
-            goods: ref('手表'),
-            goodsImg : ref('https://flowbite.com/docs/images/products/apple-watch.png'),
-            message : ref('求助🙏我于今日在操场丢失一块Apple Watch🥲'),
-            phoneNumber : ref('13545678999'),
-            address: ref('操场'),
-            stuffState : false,
-            detailsUrl: "#"
-        },
-        {
-            id: 8,
-            profileImage : ref("https://avatars.githubusercontent.com/u/52897817?v=4"),
-            username : ref('Alice'),
-            name: ref('李某'),
-            dateTime : ref('6/14/2024 10:34PM'),
-            goods: ref('手表'),
-            goodsImg : ref('https://flowbite.com/docs/images/products/apple-watch.png'),
-            message : ref('求助🙏我于今日在操场丢失一块Apple Watch🥲'),
-            phoneNumber : ref('13545678999'),
-            address: ref('操场'),
-            stuffState : true,
-            detailsUrl: "#"
-        },
-        {
-            id: 9,
-            profileImage : ref("https://avatars.githubusercontent.com/u/52897817?v=4"),
-            username : ref('Alice'),
-            name: ref('李某'),
-            dateTime : ref('6/14/2024 10:34PM'),
-            goods: ref('手表'),
-            goodsImg : ref('https://flowbite.com/docs/images/products/apple-watch.png'),
-            message : ref('求助🙏我于今日在操场丢失一块Apple Watch🥲'),
-            phoneNumber : ref('13545678999'),
-            address: ref('操场'),
-            stuffState : true,
-            detailsUrl: "#"
-        },
-        {
-            id: 10,
-            profileImage : ref("https://avatars.githubusercontent.com/u/52897817?v=4"),
-            username : ref('Alice'),
-            name: ref('李某'),
-            dateTime : ref('6/14/2024 10:34PM'),
-            goods: ref('手表'),
-            goodsImg : ref('https://flowbite.com/docs/images/products/apple-watch.png'),
-            message : ref('求助🙏我于今日在操场丢失一块Apple Watch🥲'),
-            phoneNumber : ref('13545678999'),
-            address: ref('操场'),
-            stuffState : true,
-            detailsUrl: "#"
-        },
-        {
-            id: 11,
-            profileImage : ref("https://avatars.githubusercontent.com/u/52897817?v=4"),
-            username : ref('Alice'),
-            name: ref('李某'),
-            dateTime : ref('6/14/2024 10:34PM'),
-            goods: ref('钥匙'),
-            goodsImg : ref('https://flowbite.com/docs/images/products/apple-watch.png'),
-            message : ref('求助🙏我于今日在操场丢失一块Apple Watch🥲'),
-            phoneNumber : ref('13545678999'),
-            address: ref('操场'),
-            stuffState : true,
-            detailsUrl: "#"
-        },
-      ]
-    )
+
+  // 获取数据
+    const fetchData = async()=>{
+      try{
+        axios.get("/goods/list")
+            .then(response => {
+              // 假设后端返回的数据是 response.data.data.list
+              cards.value = response.data.data.list.map((item: BackendData) => ({
+                id: item.goodsId,
+                profileImage: item.userInfo.profileimage,
+                username: item.userInfo.username,
+                goods: item.goods,
+                dateTime: item.datetime,
+                goodsImg: item.goodsimg,
+                message: item.message,
+                phoneNumber: item.phonenumber,
+                stuffState: item.stuffstate,
+              }));
+            })
+            .catch(error => {
+              console.error('Error fetching data:', error);
+            });
+        // console.log(dataArray)
+      }catch(err){
+        console.log("err: ",err)
+      }
+    }
 
     // 当前页码
     const currentPage = ref(1);
@@ -504,13 +611,68 @@ setup(){
       }
     };
 
+
+
+  // 添加数据
+  // 定义表单数据结构
+  const formData = ref({
+    goods: '',
+    phonenumber: '',
+    address:'',
+    message: '',
+    stuffstate: '丢失',
+  });
+  // 用于存储选中的文件
+  const selectedFile = ref<File | null>(null);
+// 文件改变时的处理函数
+  const handleFileChange = (event: Event) => {
+    const target = event.target as HTMLInputElement;
+    if (target.files && target.files.length > 0) {
+      selectedFile.value = target.files[0];
+    } else {
+      selectedFile.value = null;
+    }
+  };
+  // 提交表单时的处理函数
+  const handleSubmit = async () => {
+    if (selectedFile.value) {
+      const uploadData = new FormData();
+      uploadData.append('goods', formData.value.goods);
+      uploadData.append('phonenumber', formData.value.phonenumber);
+      uploadData.append('address', formData.value.address);
+      uploadData.append('message', formData.value.message);
+      uploadData.append('stuffstate', formData.value.stuffstate);
+      uploadData.append('goodsimg', selectedFile.value);
+
+      try {
+        const response = await axios.post('/goods/add', uploadData, {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        });
+        console.log('上传成功:', response.data);
+      } catch (error) {
+        console.error('上传失败:', error);
+      }
+    } else {
+      console.log('请先选择一个文件');
+    }
+  };
+
+  onMounted(()=>{
+      fetchData()
+    })
+
     return{
         cards,
         currentPage,
         totalPages,
         paginatedCards,
         prevPage,
-        nextPage
+        nextPage,
+      handleFileChange,
+      formData,
+      handleSubmit
     }
 }
 
