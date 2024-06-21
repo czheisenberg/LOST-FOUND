@@ -59,14 +59,28 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: '/user',
     name: 'user',
-    component:UserCenter,
-  
+    component:Welcome,
+
   },
   {
     path: '/user/welcome',
     name: 'userwelcom',
     component:Welcome
   },
+
+  // {
+  //   path: '/user',
+  //   name: 'user',
+  //   component: UserCenter,
+  //   redirect: '/user/welcome', // 这里添加了 redirect 属性
+  //   children: [
+  //     {
+  //       path: 'welcome', // 注意：这里使用相对路径，即/user/welcome
+  //       name: 'userWelcome',
+  //       component: Welcome
+  //     }
+  //   ]
+  // },
   {
     path: '/user/settings',
     name: 'userSettings',
