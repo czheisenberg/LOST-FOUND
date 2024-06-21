@@ -36,12 +36,12 @@
                 </button>
                 <div v-if="isDropdownOpen" class="absolute right-0 mt-2 w-48 bg-white divide-y divide-gray-100 rounded shadow dark:bg-gray-700 dark:divide-gray-600">
                   <div class="px-4 py-3">
-                    <p class="text-sm text-gray-900 dark:text-white">{{ username }}</p>
+                    <p class="text-sm text-gray-900 dark:text-white">{{ account }}</p>
                     <p class="text-sm font-medium text-gray-900 truncate dark:text-gray-300">{{ email }}</p>
                   </div>
                   <ul class="py-1">
-                    <li><a href="/login" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white">登录</a></li>
-                    <li><a href="/user/settings" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white">用户后台</a></li>
+<!--                    <li><a href="/login" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white">登录</a></li>-->
+                    <li><a href="/user/settings" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white">账户设置</a></li>
                     <li> <router-link to="/logout" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white" role="menuitem">登出</router-link></li>
                   </ul>
                 </div>
@@ -88,70 +88,73 @@
   </aside>
 </template>
 
-<script lang="ts">
-import {defineComponent, onBeforeUnmount, onMounted, ref} from 'vue';
+<script lang="ts" setup>
+import { ref, onMounted, onBeforeUnmount } from 'vue';
+import axios from "@/axios";
 
-export default defineComponent({
-  name: 'THeBackSidebar',
 
-  setup(){
-    const isDarkMode = ref(false);
+const isDarkMode = ref(false);
+const isSidebarOpen = ref(false);
+const isDropdownOpen = ref(false);
+const button = ref<HTMLButtonElement | null>(null);
+const dropdown = ref<HTMLDivElement | null>(null);
 
-    const toggleDarkMode = () => {
-      isDarkMode.value = !isDarkMode.value;
-      if (isDarkMode.value) {
-        document.documentElement.classList.add('dark');
-      } else {
-        document.documentElement.classList.remove('dark');
-      }
-    };
-    // 折叠菜单状态
-    const isSidebarOpen = ref(false);
+// 用户数据
+const account = ref('')
+const email = ref('')
 
-    const toggleSidebar = () => {
-      isSidebarOpen.value = !isSidebarOpen.value;
-    };
+const fetchData = async()=>{
+  try{
+    const response = await axios.get('/userinfo/selfQuery');
+    account.value = response.data.data.account
+    email.value = response.data.data.email
+  }catch(err){
+    console.log("err:", err)
+  }
+}
 
-    // 登录下拉菜单状态
-    const isDropdownOpen = ref(false);
-    const button = ref<HTMLButtonElement | null>(null);
-    const dropdown = ref<HTMLDivElement | null>(null);
 
-    const toggleDropdown = () => {
-      isDropdownOpen.value = !isDropdownOpen.value;
-    };
+const toggleDarkMode = () => {
+  isDarkMode.value = !isDarkMode.value;
+  if (isDarkMode.value) {
+    document.documentElement.classList.add('dark');
+  } else {
+    document.documentElement.classList.remove('dark');
+  }
+};
 
-    const closeDropdown = () => {
-      isDropdownOpen.value = false;
-    };
+const toggleSidebar = () => {
+  isSidebarOpen.value = !isSidebarOpen.value;
+};
 
-    const handleOutsideClick = (event: MouseEvent) => {
-      if (dropdown.value && !dropdown.value.contains(event.target as Node) && button.value && !button.value.contains(event.target as Node)) {
-        isDropdownOpen.value = false;
-      }
-    };
+const toggleDropdown = () => {
+  isDropdownOpen.value = !isDropdownOpen.value;
+};
+
+const closeDropdown = () => {
+  isDropdownOpen.value = false;
+};
+
+const handleOutsideClick = (event: MouseEvent) => {
+  if (
+      dropdown.value &&
+      !dropdown.value.contains(event.target as Node) &&
+      button.value &&
+      !button.value.contains(event.target as Node)
+  ) {
+    isDropdownOpen.value = false;
+  }
+};
 
 // 添加事件监听器
-    onMounted(() => {
-      document.addEventListener('click', handleOutsideClick);
-    });
+onMounted(() => {
+  document.addEventListener('click', handleOutsideClick);
+  fetchData()
+});
 
 // 移除事件监听器
-    onBeforeUnmount(() => {
-      document.removeEventListener('click', handleOutsideClick);
-    });
-
-    return{
-      isSidebarOpen,
-      toggleSidebar,
-      isDarkMode,
-      toggleDarkMode,
-      closeDropdown,
-      isDropdownOpen,
-      toggleDropdown,
-
-    }
-  }
+onBeforeUnmount(() => {
+  document.removeEventListener('click', handleOutsideClick);
 });
 </script>
 <style>

@@ -45,7 +45,7 @@
             </button>
             <div v-if="isDropdownOpen" class="absolute right-0 mt-2 w-48 bg-white divide-y divide-gray-100 rounded shadow dark:bg-gray-700 dark:divide-gray-600">
               <div class="px-4 py-3">
-                <p class="text-sm text-gray-900 dark:text-white">{{ username }}</p>
+                <p class="text-sm text-gray-900 dark:text-white">{{ account }}</p>
                 <p class="text-sm font-medium text-gray-900 truncate dark:text-gray-300">{{ email }}</p>
               </div>
               <ul class="py-1">
@@ -74,10 +74,23 @@
 
 <script lang="ts" setup>
 import { ref, onMounted, onBeforeUnmount } from 'vue';
+import axios from "@/axios";
 
 // 用户数据
-const username = 'Alice';
-const email = 'alice@alice.com';
+const account = ref('')
+const email = ref('')
+
+const fetchData = async()=>{
+  try{
+    const response = await axios.get('/userinfo/selfQuery');
+    account.value = response.data.data.account
+    email.value = response.data.data.email
+  }catch(err){
+    console.log("err:", err)
+  }
+}
+
+
 
 // 折叠菜单状态
 const isOpen = ref(false);
@@ -116,6 +129,7 @@ const handleOutsideClick = (event: MouseEvent) => {
 // 添加事件监听器
 onMounted(() => {
   document.addEventListener('click', handleOutsideClick);
+  fetchData()
 });
 
 // 移除事件监听器
