@@ -368,6 +368,7 @@
 import { defineComponent,ref,computed, onMounted } from 'vue';
 import axios from '../../../axios'
 import TheBackSidebar from '@/components/TheBackSidebar.vue';
+import {  useRouter } from 'vue-router';
 
 interface BackendData {
   goodsId: number;
@@ -554,16 +555,28 @@ setup(){
     //   ]
     // )
 
+  const router = useRouter(); // 获取路由对象
+
   const cards = ref([])
 
+
+
+
+  // 获取当前登录用户的userId
+  const userId = ref('')
 
   // 获取数据
     const fetchData = async()=>{
       try{
-        axios.get("/goods/list")
+        const userIdResponse = await axios.get('/userinfo/selfQuery');
+        userId.value = userIdResponse.data.data.userId
+
+        axios.get(`/goods/list?userId=${userId.value}`)
             .then(response => {
               // 假设后端返回的数据是 response.data.data.list
+              // console.log("userId:",userId.value,"data:",response.data.data)
               cards.value = response.data.data.list.map((item: BackendData) => ({
+
                 id: item.goodsId,
                 profileImage: item.userInfo.profileimage,
                 username: item.userInfo.username,
@@ -651,6 +664,7 @@ setup(){
           },
         });
         console.log('上传成功:', response.data);
+        router.push("/user/goods")
       } catch (error) {
         console.error('上传失败:', error);
       }
@@ -660,7 +674,9 @@ setup(){
   };
 
   onMounted(()=>{
-      fetchData()
+    // currentUserId(),
+    fetchData()
+
     })
 
     return{
