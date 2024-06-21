@@ -324,6 +324,10 @@
         </select>
       </div>
 
+      <div class="text-center text-green-400">
+        {{ msg }}
+      </div>
+
       <div class="bottom-0 left-0 flex justify-center w-full pb-4 space-x-4 md:px-4 md:absolute">
         <button
             type="submit"
@@ -554,10 +558,9 @@ setup(){
     //     },
     //   ]
     // )
+    const cards = ref([])
 
-  const router = useRouter(); // 获取路由对象
-
-  const cards = ref([])
+    const router = useRouter()
 
 
 
@@ -647,6 +650,7 @@ setup(){
     }
   };
   // 提交表单时的处理函数
+  const msg = ref('')
   const handleSubmit = async () => {
     if (selectedFile.value) {
       const uploadData = new FormData();
@@ -657,19 +661,30 @@ setup(){
       uploadData.append('stuffstate', formData.value.stuffstate);
       uploadData.append('goodsimg', selectedFile.value);
 
-      try {
-        const response = await axios.post('/goods/add', uploadData, {
-          headers: {
-            'Content-Type': 'multipart/form-data',
-          },
-        });
-        console.log('上传成功:', response.data);
-        router.push("/user/goods")
-      } catch (error) {
-        console.error('上传失败:', error);
+      if(formData.value.phonenumber.length > 11 || formData.value.phonenumber.length < 0){
+        msg.value = '手机号格式错误'
+      }else{
+        try {
+          const response = await axios.post('/goods/add', uploadData, {
+            headers: {
+              'Content-Type': 'multipart/form-data',
+            },
+          });
+          msg.value = '上传成功'
+          // console.log('上传成功:', response.data);
+          // 刷新当前页面
+          router.go(0)
+        } catch (error) {
+          msg.value = String(error)
+          // console.error('上传失败:', error);
+        }
       }
+
+
+
     } else {
-      console.log('请先选择一个文件');
+      msg.value="请选择一张图片"
+      // console.log('请先选择一个文件');
     }
   };
 
@@ -688,7 +703,8 @@ setup(){
         nextPage,
       handleFileChange,
       formData,
-      handleSubmit
+      handleSubmit,
+      msg
     }
 }
 
