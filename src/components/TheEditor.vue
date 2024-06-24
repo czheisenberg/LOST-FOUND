@@ -4,7 +4,7 @@
   <div id="main-content" class="relative  h-full overflow-y-auto bg-gray-50 lg:ml-64 dark:bg-gray-900">
     <main>
       <div class="p-4 bg-white block sm:flex items-center justify-between border-b border-gray-200 lg:mt-1.5 dark:bg-gray-800 dark:border-gray-700">
-        <div class="w-full mb-1 mt-14 font-bold">
+        <div class="w-full mb-1 mt-10 font-bold">
           <nav class="flex mb-5" aria-label="Breadcrumb">
             <ol class="inline-flex items-center space-x-1 text-sm font-medium md:space-x-2">
               <li class="inline-flex items-center">

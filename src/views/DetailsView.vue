@@ -2,32 +2,30 @@
   <TheNavbar />
 
 <div class="container mx-auto mt-10 flex flex-wrap justify-center dark:bg-gray-800 shadow-md">
-  <!-- w-full sm:w-1/2 md:w-1/2 lg:w-1/3 xl:w-1/4 px-4 mb-4 -->
+<!--   w-full sm:w-1/2 md:w-1/2 lg:w-1/3 xl:w-1/4 px-4 mb-4-->
   <div
-    v-for="(dI, index) in detailsInformation"
-    :key="index"
     class="detailsInformation flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-6 p-4"
   >
     <!-- 文字信息 start -->
     <div class="w-full md:w-1/2 order-2 md:order-1 space-y-4 md:space-y-0">
       <!-- 个人基本信息 -->
-      <div class="flex items-center justify-between dark:text-white">
+      <div class="flex items-center  dark:text-white">
         <div class="flex items-center">
           <img
-            :src="dI.profileImage"
+            src="https://avatars.githubusercontent.com/u/52897817?v=4"
             alt=""
             class="w-10 h-10 rounded-full mr-2"
           />
-          <span>{{ dI.username }}</span>
+          <span> 假用户名 </span>
         </div>
         <div>
           <span
-            v-if="dI.stuffState"
+              v-if="cards.stuffstate"
             class="bg-green-300 text-blue-800 text-xs font-semibold px-2.5 py-0.5 rounded dark:bg-green-300 dark:text-blue-800 ms-3"
             >捡到物品</span
           >
           <span
-            v-else
+              v-else
             class="bg-red-300 text-blue-800 text-xs font-semibold px-2.5 py-0.5 rounded dark:bg-red-300 dark:text-blue-800 ms-3"
             >丢失物品</span
           >
@@ -35,26 +33,26 @@
       </div>
 
       <div class="text-sm dark:text-white">
-        <span><b>发布日期:</b> {{ dI.dateTime }}</span>
+        <span><b>发布日期: {{ cards.datetime }}</b> </span>
       </div>
       <!-- message start -->
 
       <div class="dark:text-white">
         <div class="font-bold">
           详细描述:
-          <div class="font-thin px-3">{{ dI.message }}</div>
+          <div class="font-thin px-3">{{ cards.message}}</div>
         </div>
         <div class="font-bold">
           物品位置:
-          <div class="font-thin px-3">{{ dI.address }}</div>
+          <div class="font-thin px-3"> {{ cards.address }}</div>
         </div>
         <div class="font-bold">
           姓名:
-          <div class="font-thin px-3">{{ dI.name }}</div>
+          <div class="font-thin px-3"> 假名字</div>
         </div>
 
         <div class="dark:text-white flex items-center justify-between">
-          <span><b>联系电话: </b>{{ dI.phoneNumber }}</span>
+          <span><b>联系电话: {{ cards.phonenumber}}</b></span>
         </div>
       </div>
       <!-- message end -->
@@ -63,7 +61,7 @@
 
     <!-- 图片 start -->
     <div class="w-full md:w-1/2 order-1 md:order-2">
-      <img :src="dI.goodsImg" alt="" class="w-full h-auto" />
+      <img  :src="cards.goodsimg" alt="" class="w-full h-auto" />
     </div>
     <!-- 图片 end -->
   </div>
@@ -120,29 +118,19 @@
 <script lang="ts">
 import { defineComponent, ref, reactive, onMounted } from "vue";
 import { useRoute } from "vue-router";
+import axios from '../axios';
 import TheFooter from "@/components/TheFooter.vue";
 import TheNavbar from "@/components/TheNavbar.vue";
+import {  useRouter } from 'vue-router';
 
-interface DetailInformation {
-  id: number;
-  profileImage: string;
-  username: string;
-  name: string;
-  dateTime: string;
-  goods: string;
-  goodsImg: string;
-  message: string;
-  address: string;
-  phoneNumber: string;
-  stuffState: boolean;
-  detailsUrl: string;
-}
 
 interface Message {
   username: string;
   content: string;
   date: string;
 }
+
+
 
 export default defineComponent({
   name: "DetailsView",
@@ -152,25 +140,28 @@ export default defineComponent({
   },
   setup() {
     const route = useRoute();
-    const id = route.params.id as string;
+    const goodsId = route.params.id as string;
 
-    const detailsInformation = ref<DetailInformation[]>([
-      {
-        id: 2,
-        profileImage: "https://avatars.githubusercontent.com/u/52897817?v=4",
-        username: "Alice",
-        name: "李某",
-        dateTime: "6/14/2024 10:34PM",
-        goods: "手表",
-        goodsImg: "https://flowbite.com/docs/images/products/apple-watch.png",
-        message: "求助🙏我于今日在操场丢失一块Apple Watch🥲",
-        address: "操场",
-        phoneNumber: "13545678999",
-        stuffState: true,
-        detailsUrl: "#",
-      },
-      // 更多示例数据...
-    ]);
+
+    console.log("router.params.id: ", goodsId)
+
+
+    const cards = ref([])
+
+    const detailData = async ()=>{
+      try{
+        const responseData = await axios.get(`/goods/list/${goodsId}`)
+        // console.log(responseData.data.data)
+        // console.log(responseData.data.data.address)
+        cards.value = responseData.data.data
+
+
+
+      }catch (e){
+        console.log("err: ", e)
+      }
+    }
+    console.log("cards data:", cards)
 
     const newMessage = reactive<Message>({
       username: '',
@@ -202,11 +193,12 @@ export default defineComponent({
       // 模拟从数据库获取数据
       // detailsInformation.value = getDetailsInformation();
       // messages.value = getInitialMessages();
+      detailData()
     });
 
     return {
-      id,
-      detailsInformation,
+      cards,
+      goodsId,
       newMessage,
       messages,
       submitMessage
