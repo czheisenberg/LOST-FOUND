@@ -97,7 +97,7 @@
                         </tr>
                     </thead>
                     <tbody class="bg-white divide-y divide-gray-200 dark:bg-gray-800 dark:divide-gray-700">
-                        
+
                         <tr v-for="card in paginatedCards" :key="card.id" class="hover:bg-gray-100 dark:hover:bg-gray-700">
                             <td class="w-4 p-4">
                                 <div class="flex items-center">
@@ -192,7 +192,7 @@
                     <option value="AN">Angular</option>
                     <option value="VU">Vue</option>
                 </select> -->
-                
+
                 <!-- 上传之后返回 上传地址，缩略图更新地址 -->
                 <input class="block w-full text-sm text-gray-500 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" id="file_input" type="file">
 
@@ -217,7 +217,7 @@
                     取消
                 </button>
             </div>
-    
+
         </div>
     </form>
 </div>
@@ -268,7 +268,7 @@
                     <option value="AN">Angular</option>
                     <option value="VU">Vue</option>
                 </select> -->
-                
+
                 <!-- 上传之后返回 上传地址，缩略图更新地址 -->
                 <input class="block w-full text-sm text-gray-500 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" id="file_input" type="file">
 
@@ -293,13 +293,13 @@
                     取消
                 </button>
             </div>
-    
+
         </div>
     </form>
 
 
     </div></main>
-    
+
   </div>
 </template>
 <script lang="ts">

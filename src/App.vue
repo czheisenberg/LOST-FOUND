@@ -1,5 +1,5 @@
 <template>
-  
+
   <div class="bg-white dark:bg-gray-800">
     <!-- <TheNavbar /> -->
     <main class="min-h-screen">
@@ -15,8 +15,10 @@
 
 <script lang="ts">
 
-import { defineComponent } from 'vue';
 
+import { defineComponent ,onMounted} from 'vue';
+
+import {initFlowbite} from "flowbite";
 // import TheFooter from '@/components/TheFooter.vue';
 // import TheNavbar from '@/components/TheNavbar.vue';
 
@@ -26,6 +28,14 @@ export default defineComponent({
     // TheNavbar,
     // TheFooter
   },
-  
+
+  setup(){
+    onMounted(()=>{
+      initFlowbite();
+    })
+  }
+
+
+
 });
 </script>
