@@ -32,20 +32,37 @@
 
       <div class="p-4 bg-white block sm:flex items-center justify-between border-b border-gray-200 lg:mt-1.5 dark:bg-gray-800 dark:border-gray-700">
         <div class="w-full">
-          <form class="space-y-4">
-            <div><label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">名称</label><input type="text" name="goods" id="name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="输入物品名称" required=""></div>
-            <div><label for="phonenumber" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">联系电话</label><input type="text" name="phonenumber" id="phonenumber" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="188888888888" required=""></div>
-            <div><label for="file_input" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">图片</label><input class="block w-full text-sm text-gray-500 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" id="file_input" type="file" required=""></div>
-            <div><label for="address" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">地址</label><input type="text" name="address" id="address" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="地球" required=""></div>
-            <div><label for="description" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">详情描述</label><textarea id="message" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="在此输入事件描述" required=""></textarea></div>
-            <div><label for="stuffstate" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">状态</label><select id="stuffstate" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" required=""><option value="0">丢失</option><option value="1">发现</option></select></div>
+          <form class="space-y-4" @submit.prevent="handleSubmit">
+            <div>
+              <label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">名称</label>
+              <input type="text" name="goods" id="name" v-model="formData.goods" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="输入物品名称" required=""></div>
+            <div>
+              <label for="phonenumber" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">联系电话</label>
+              <input type="text" name="phonenumber" id="phonenumber" v-model="formData.phonenumber" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="188888888888" required=""></div>
+            <div>
+              <label for="file_input" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">图片</label>
+              <input @change="handleFileChange"  class="block w-full text-sm text-gray-500 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" id="file_input" type="file" required=""></div>
+            <div>
+              <label for="address" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">地址</label>
+              <input type="text" name="address" id="address" v-model="formData.address" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="地球" required=""></div>
+            <div>
+              <label for="description" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">详情描述</label>
+              <textarea id="message" rows="4" v-model="formData.message" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="在此输入事件描述" required=""></textarea></div>
+            <div>
+              <label for="stuffstate" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">状态</label>
+              <select id="stuffstate" v-model="formData.stuffstate" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" required="">
+                <option value="0">丢失</option><option value="1">发现</option></select>
+            </div>
             <div>
               <label for="time" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">时间</label>
-              <input type="text" name="datetime" id="time" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="输入大致时间: ex: 2024/06/01 15:30:00" required="">
+              <input type="text" name="datetime" id="time" v-model="formData.datetime" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="输入大致时间: ex: 2024-06-21 17:00:24" required="">
+            </div>
+            <div>
+              {{ msg }}
             </div>
 
             <div>
-              <button type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">提交</button>
+              <button type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">提交</button>
               <button type="button" class="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900">取消</button>
             </div>
 
@@ -61,9 +78,77 @@
 <script lang="ts" setup>
 
 import TheBackSidebar from "@/components/TheBackSidebar.vue";
+import { ref } from 'vue';
+import axios from '../axios'
+import {  useRouter } from 'vue-router';
+
+
+const router = useRouter()
+
+
+// 添加数据
+// 定义表单数据结构
+const formData = ref({
+  goods: '',
+  phonenumber: '',
+  address:'',
+  message: '',
+  stuffstate: '丢失',
+  datetime: ''
+});
+// 用于存储选中的文件
+const selectedFile = ref<File | null>(null);
+// 文件改变时的处理函数
+const handleFileChange = (event: Event) => {
+  const target = event.target as HTMLInputElement;
+  if (target.files && target.files.length > 0) {
+    selectedFile.value = target.files[0];
+  } else {
+    selectedFile.value = null;
+  }
+};
+
+console.log(formData.value.goods)
+
+// 提交表单时的处理函数
+const msg = ref('')
+const handleSubmit = async () => {
+  if (selectedFile.value) {
+    const uploadData = new FormData();
+    uploadData.append('goods', formData.value.goods);
+    uploadData.append('phonenumber', formData.value.phonenumber);
+    uploadData.append('address', formData.value.address);
+    uploadData.append('message', formData.value.message);
+    uploadData.append('stuffstate', formData.value.stuffstate);
+    uploadData.append('datetime', formData.value.datetime)
+    uploadData.append('goodsimg', selectedFile.value);
+
+    if(formData.value.phonenumber.length > 11 || formData.value.phonenumber.length < 0){
+      msg.value = '手机号格式错误'
+    }else{
+      try {
+        const response = await axios.post('/goods/add', uploadData, {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        });
+        msg.value = '发布成功'
+        // console.log('上传成功:', response.data);
+        // 刷新当前页面
+        router.go(-1)
+      } catch (error) {
+        msg.value = String(error)
+        // console.error('上传失败:', error);
+      }
+    }
 
 
 
+  } else {
+    msg.value="请选择一张图片"
+    // console.log('请先选择一个文件');
+  }
+};
 
 
 </script>
