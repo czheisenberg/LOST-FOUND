@@ -12,11 +12,11 @@
       <div class="flex items-center  dark:text-white">
         <div class="flex items-center">
           <img
-            src="https://avatars.githubusercontent.com/u/52897817?v=4"
+            :src="profileImage"
             alt=""
             class="w-10 h-10 rounded-full mr-2"
           />
-          <span> 假用户名 </span>
+          <span> {{ username }} </span>
         </div>
         <div>
           <span
@@ -146,6 +146,8 @@ export default defineComponent({
 
 
     const cards = ref([])
+    const username = ref('')
+    const profileImage = ref('')
 
     const detailData = async ()=>{
       try{
@@ -153,14 +155,14 @@ export default defineComponent({
         // console.log(responseData.data.data)
         // console.log(responseData.data.data.address)
         cards.value = responseData.data.data
-
-
+        username.value = responseData.data.data.userInfo.username
+        profileImage.value = responseData.data.data.userInfo.profileimage
 
       }catch (e){
         console.log("err: ", e)
       }
     }
-    console.log("cards data:", cards)
+    // console.log("cards data:", cards)
 
     const newMessage = reactive<Message>({
       username: '',
@@ -197,6 +199,8 @@ export default defineComponent({
 
     return {
       cards,
+      username,
+      profileImage,
       goodsId,
       newMessage,
       messages,

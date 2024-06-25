@@ -280,7 +280,6 @@ export default defineComponent({
               message: item.message,
               phoneNumber: item.phonenumber,
               stuffState: item.stuffstate,
-              detailsUrl: `/details/${item.goodsId}` // 假设有一个详情页的路由，用商品 ID 作为参数
             }));
           })
           .catch(error => {
