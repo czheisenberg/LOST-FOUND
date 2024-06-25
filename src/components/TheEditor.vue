@@ -32,7 +32,7 @@
 
       <div class="p-4 bg-white block sm:flex items-center justify-between border-b border-gray-200 lg:mt-1.5 dark:bg-gray-800 dark:border-gray-700">
         <div class="w-full">
-          <form class="space-y-4">
+          <form class="space-y-4" @submit.prevent="handleUpdate">
               <div>
                 <label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">名称</label>
                 <input type="text" name="goods" id="name" v-model="cards.goods" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="输入物品名称" required=""></div>
@@ -42,7 +42,7 @@
               <div>
                 <label for="file_input" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">图片</label>
                 <img :src="cards.goodsimg" class="w-1/6 shadow" >
-                <input class="block w-full text-sm text-gray-500 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" id="file_input" type="file" required=""></div>
+                <input  @change="handleFileChange" class="block w-full text-sm text-gray-500 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" id="file_input" type="file" required=""></div>
               <div>
                 <label for="address" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">地址</label>
                 <input type="text" name="address" id="address" v-model="cards.address" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="地球" required=""></div>
@@ -60,9 +60,11 @@
                 <label for="time" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">时间</label>
                 <input type="text" name="datetime" id="time" v-model="cards.datetime" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="输入大致时间: ex: 2024/06/01 15:30:00" required="">
               </div>
-
               <div>
-                <button type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">提交</button>
+                {{ msg }}
+              </div>
+              <div>
+                <button type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">提交</button>
                 <button type="button" class="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900">取消</button>
               </div>
 
@@ -78,28 +80,27 @@
 <script lang="ts" setup>
 import {onMounted, ref} from 'vue'
 import TheBackSidebar from "@/components/TheBackSidebar.vue";
-import {useRoute} from "vue-router";
+import {useRoute, useRouter} from "vue-router";
 import axios from "@/axios";
 
 const route = useRoute()
+const router = useRouter()
 const goodsId = route.params.id
 console.log("goodsId: ", goodsId)
 const cards = ref([])
 
+// 获取已有数据
 const detailData = async ()=>{
   try{
     const responseData = await axios.get(`/goods/list/${goodsId}`)
-    // console.log(responseData.data.data)
-    // console.log(responseData.data.data.address)
     cards.value = responseData.data.data
-
-
-
   }catch (e){
     console.log("err: ", e)
   }
 }
-console.log("cards data:", cards)
+
+console.log("---------:",cards)
+
 
 onMounted(()=>{
   detailData()

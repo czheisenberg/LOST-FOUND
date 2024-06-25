@@ -54,7 +54,7 @@
                         </div>
                     </div>
                 </div>
-                <a href="/user/goods/add" id="createProductButton" class="text-white bg-blue-500 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-primary-600 dark:hover:bg-blue-500 focus:outline-none dark:focus:ring-primary-800" type="button" data-drawer-target="drawer-create-product-default" data-drawer-show="drawer-create-product-default" aria-controls="drawer-create-product-default" data-drawer-placement="right">
+                <a href="/user/goods/add" id="createProductButton" class="text-white bg-blue-500 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-primary-600 dark:hover:bg-blue-500 focus:outline-none dark:focus:ring-primary-800" type="button" >
                     新增信息
                 </a>
             </div>
@@ -131,10 +131,29 @@
                                     编辑
                                 </router-link>
 
-                                <button type="button" id="deleteProductButton" data-drawer-target="drawer-delete-product-default" data-drawer-show="drawer-delete-product-default" aria-controls="drawer-delete-product-default" data-drawer-placement="right" class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-red-700 rounded-lg hover:bg-red-800 focus:ring-4 focus:ring-red-300 dark:focus:ring-red-900">
-                                    <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd"></path></svg>
-                                    删除
-                                </button>
+<!--                                <button type="button"   class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-red-700 rounded-lg hover:bg-red-800 focus:ring-4 focus:ring-red-300 dark:focus:ring-red-900">-->
+<!--                                    <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd"></path></svg>-->
+<!--                                    删除-->
+<!--                                </button>-->
+
+
+                              <button
+                                  type="button"
+                                  @click="confirmDelete(card.id)"
+                                  class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-red-700 rounded-lg hover:bg-red-800 focus:ring-4 focus:ring-red-300 dark:focus:ring-red-900"
+                              >
+                                <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                  <path
+                                      fill-rule="evenodd"
+                                      d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z"
+                                      clip-rule="evenodd"
+                                  ></path>
+                                </svg>
+                                删除
+                              </button>
+
+
+
 
                             </td>
                         </tr>
@@ -176,6 +195,7 @@
 import { defineComponent,ref,computed, onMounted } from 'vue';
 import axios from '../../../axios'
 import TheBackSidebar from '@/components/TheBackSidebar.vue';
+// import TheDeleteButton from "@/components/TheDeleteButton.vue";
 import {  useRouter } from 'vue-router';
 
 
@@ -199,6 +219,7 @@ interface BackendData {
 export default defineComponent({
   name: 'UserGoodsView',
   components: {
+    // TheDeleteButton,
   TheBackSidebar,
   // TheBackContent
 },
@@ -370,9 +391,6 @@ setup(){
 
     const router = useRouter()
 
-
-
-
   // 获取当前登录用户的userId
   const userId = ref('')
 
@@ -397,6 +415,7 @@ setup(){
                 message: item.message,
                 phoneNumber: item.phonenumber,
                 stuffState: item.stuffstate,
+
               }));
             })
             .catch(error => {
@@ -436,68 +455,26 @@ setup(){
     };
 
 
-
-//   // 添加数据
-//   // 定义表单数据结构
-//   const formData = ref({
-//     goods: '',
-//     phonenumber: '',
-//     address:'',
-//     message: '',
-//     stuffstate: '丢失',
-//   });
-//   // 用于存储选中的文件
-//   const selectedFile = ref<File | null>(null);
-// // 文件改变时的处理函数
-//   const handleFileChange = (event: Event) => {
-//     const target = event.target as HTMLInputElement;
-//     if (target.files && target.files.length > 0) {
-//       selectedFile.value = target.files[0];
-//     } else {
-//       selectedFile.value = null;
-//     }
-//   };
-//   // 提交表单时的处理函数
-//   const msg = ref('')
-//   const handleSubmit = async () => {
-//     if (selectedFile.value) {
-//       const uploadData = new FormData();
-//       uploadData.append('goods', formData.value.goods);
-//       uploadData.append('phonenumber', formData.value.phonenumber);
-//       uploadData.append('address', formData.value.address);
-//       uploadData.append('message', formData.value.message);
-//       uploadData.append('stuffstate', formData.value.stuffstate);
-//       uploadData.append('goodsimg', selectedFile.value);
-//
-//       if(formData.value.phonenumber.length > 11 || formData.value.phonenumber.length < 0){
-//         msg.value = '手机号格式错误'
-//       }else{
-//         try {
-//           const response = await axios.post('/goods/add', uploadData, {
-//             headers: {
-//               'Content-Type': 'multipart/form-data',
-//             },
-//           });
-//           msg.value = '上传成功'
-//           // console.log('上传成功:', response.data);
-//           // 刷新当前页面
-//           router.go(0)
-//         } catch (error) {
-//           msg.value = String(error)
-//           // console.error('上传失败:', error);
-//         }
-//       }
-//
-//
-//
-//     } else {
-//       msg.value="请选择一张图片"
-//       // console.log('请先选择一个文件');
-//     }
-//   };
-
   // 单个删除
+  const confirmDelete = (id: number) => {
+    const userConfirmed = confirm('确定要删除吗？删除后将无法恢复！')
+    if (userConfirmed) {
+      deleteProduct(id)
+      alert('已删除！该项已被删除。')
+    }
+  }
 
+  const deleteProduct = async (id: number) => {
+    try {
+
+      const deleteResponse = await axios.delete(`/goods/delete?goodsId=${id}`)
+      if(deleteResponse.data.message === "ok"){
+        router.go(0)
+      }
+    } catch (e) {
+      console.log("del err:", e)
+    }
+  }
 
   onMounted(()=>{
     // currentUserId(),
@@ -516,6 +493,9 @@ setup(){
       // formData,
       // handleSubmit,
       // msg
+      confirmDelete,
+
+
     }
 }
 

@@ -134,8 +134,9 @@ const handleSubmit = async () => {
         });
         msg.value = '发布成功'
         // console.log('上传成功:', response.data);
-        // 刷新当前页面
-        router.go(-1)
+
+        // router.go(-1)
+        router.push('/user/goods')
       } catch (error) {
         msg.value = String(error)
         // console.error('上传失败:', error);
