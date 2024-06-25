@@ -121,7 +121,6 @@ import { useRoute } from "vue-router";
 import axios from '../axios';
 import TheFooter from "@/components/TheFooter.vue";
 import TheNavbar from "@/components/TheNavbar.vue";
-import {  useRouter } from 'vue-router';
 
 
 interface Message {

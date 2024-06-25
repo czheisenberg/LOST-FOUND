@@ -33,15 +33,32 @@
       <div class="p-4 bg-white block sm:flex items-center justify-between border-b border-gray-200 lg:mt-1.5 dark:bg-gray-800 dark:border-gray-700">
         <div class="w-full">
           <form class="space-y-4">
-              <div><label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">名称</label><input type="text" name="goods" id="name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="输入物品名称" required=""></div>
-              <div><label for="phonenumber" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">联系电话</label><input type="text" name="phonenumber" id="phonenumber" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="188888888888" required=""></div>
-              <div><label for="file_input" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">图片</label><input class="block w-full text-sm text-gray-500 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" id="file_input" type="file" required=""></div>
-              <div><label for="address" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">地址</label><input type="text" name="address" id="address" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="地球" required=""></div>
-              <div><label for="description" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">详情描述</label><textarea id="message" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="在此输入事件描述" required=""></textarea></div>
-              <div><label for="stuffstate" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">状态</label><select id="stuffstate" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" required=""><option value="0">丢失</option><option value="1">发现</option></select></div>
+              <div>
+                <label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">名称</label>
+                <input type="text" name="goods" id="name" v-model="cards.goods" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="输入物品名称" required=""></div>
+              <div>
+                <label for="phonenumber" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">联系电话</label>
+                <input type="text" name="phonenumber" id="phonenumber" v-model="cards.phonenumber" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="188888888888" required=""></div>
+              <div>
+                <label for="file_input" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">图片</label>
+                <img :src="cards.goodsimg" class="w-1/6 shadow" >
+                <input class="block w-full text-sm text-gray-500 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" id="file_input" type="file" required=""></div>
+              <div>
+                <label for="address" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">地址</label>
+                <input type="text" name="address" id="address" v-model="cards.address" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="地球" required=""></div>
+              <div>
+                <label for="description" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">详情描述</label>
+                <textarea id="message" rows="4" v-model="cards.message" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="在此输入事件描述" required=""></textarea></div>
+              <div>
+                <label for="stuffstate" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">状态</label>
+                <select id="stuffstate" v-model="cards.stuffstate"  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" required="">
+                  <option value="0">丢失</option>
+                  <option value="1">发现</option>
+                </select>
+              </div>
               <div>
                 <label for="time" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">时间</label>
-                <input type="text" name="datetime" id="time" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="输入大致时间: ex: 2024/06/01 15:30:00" required="">
+                <input type="text" name="datetime" id="time" v-model="cards.datetime" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="输入大致时间: ex: 2024/06/01 15:30:00" required="">
               </div>
 
               <div>
@@ -59,11 +76,34 @@
 </template>
 
 <script lang="ts" setup>
-
+import {onMounted, ref} from 'vue'
 import TheBackSidebar from "@/components/TheBackSidebar.vue";
+import {useRoute} from "vue-router";
+import axios from "@/axios";
+
+const route = useRoute()
+const goodsId = route.params.id
+console.log("goodsId: ", goodsId)
+const cards = ref([])
+
+const detailData = async ()=>{
+  try{
+    const responseData = await axios.get(`/goods/list/${goodsId}`)
+    // console.log(responseData.data.data)
+    // console.log(responseData.data.data.address)
+    cards.value = responseData.data.data
 
 
 
+  }catch (e){
+    console.log("err: ", e)
+  }
+}
+console.log("cards data:", cards)
+
+onMounted(()=>{
+  detailData()
+})
 
 
 </script>

@@ -92,7 +92,7 @@ const routes: Array<RouteRecordRaw> = [
     component:UserGoods
   },
   {
-    path: '/user/goods/editor',
+    path: '/user/goods/editor/:id',
     name: 'userGoodsEditor',
     component:() => import('@/components/TheEditor.vue')
   },
