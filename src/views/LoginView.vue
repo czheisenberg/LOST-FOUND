@@ -71,17 +71,17 @@ export default defineComponent({
 
       try {
         const response = await axios.post<LoginResponse>('/login/doLogin',   requestData);
-        console.log(requestData)
+        // console.log("--------",requestData)
         if (response.data.code === 200) {
           const { tokenName, tokenValue } = response.data.data;
           localStorage.setItem(tokenName, tokenValue);
           console.log('Login successful:', response.data);
 
-
-          // localStorage.setItem(tokenName, tokenValue)
-
-          // 跳转到其他页面，如：this.$router.push('/dashboard');
-          router.push('/user')
+          if(requestData.account === "admin"){
+            router.push('/admin')
+          }else{
+            router.push('/user')
+          }
         } else {
           console.error('Login failed:', response.data.msg);
           message.value = response.data.msg
