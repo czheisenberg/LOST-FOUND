@@ -74,7 +74,10 @@
                     </div>
                   </th>
                   <th scope="col" class="p-4 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400">
-                    用户名
+                    登录用户名
+                  </th>
+                  <th scope="col" class="p-4 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400">
+                    昵称
                   </th>
                   <th scope="col" class="p-4 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400">
                     头像
@@ -99,6 +102,10 @@
                       <input id="checkbox-194556" aria-describedby="checkbox-1" type="checkbox" class="w-4 h-4 border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-primary-300 dark:focus:ring-primary-600 dark:ring-offset-gray-800 dark:bg-gray-700 dark:border-gray-600">
                       <label for="checkbox-194556" class="sr-only">checkbox</label>
                     </div>
+                  </td>
+                  <td class="p-4 text-sm font-normal text-gray-500 whitespace-nowrap dark:text-gray-400">
+                    <div class="text-base font-semibold text-gray-900 dark:text-white">{{ card.account }}</div>
+                    <!-- <div class="text-sm font-normal text-gray-500 dark:text-gray-400">Html templates</div> -->
                   </td>
                   <td class="p-4 text-sm font-normal text-gray-500 whitespace-nowrap dark:text-gray-400">
                     <div class="text-base font-semibold text-gray-900 dark:text-white">{{ card.username }}</div>
