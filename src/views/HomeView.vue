@@ -288,8 +288,8 @@ export default defineComponent({
     });
     // console.log(cards.value)
 
-    const storedToken = localStorage.getItem('lftoken');
-    console.log("lftoken:",storedToken); // 输出 'your_access_token_here'
+    // const storedToken = localStorage.getItem('lftoken');
+    // console.log("lftoken:",storedToken); // 输出 'your_access_token_here'
 
     return {
       // profileImage,
