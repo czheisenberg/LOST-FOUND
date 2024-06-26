@@ -52,9 +52,19 @@ const routes: Array<RouteRecordRaw> = [
     meta: {title: '管理员后台'}
   },
   {
+    path: '/admin/goods/add',
+    name: 'adminGoodsAdd',
+    component:() => import('@/components/TheAdminAdd.vue')
+  },
+  {
     path: '/admin/lost',
     name: 'adminlost',
     component: AdminLost
+  },
+  {
+    path: '/admin/goods/editor/:id',
+    name: 'adminGoodsEditor',
+    component:() =>import('@/components/TheAdminEditor.vue')
   },
   {
     path: '/user',
