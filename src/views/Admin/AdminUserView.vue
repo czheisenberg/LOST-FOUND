@@ -137,10 +137,9 @@
 <!--                        删除-->
 <!--                    </button>-->
 
-
                     <button
                         type="button"
-
+                        @click="confirmDelete(card.user_id)"
                         class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-red-700 rounded-lg hover:bg-red-800 focus:ring-4 focus:ring-red-300 dark:focus:ring-red-900"
                     >
                       <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
@@ -198,8 +197,9 @@
 import TheAdminBackSidebar from "@/components/TheAdminBackSidebar.vue";
 import {computed, ref, onMounted} from "vue";
 import axios from '../../axios'
+import {  useRouter } from 'vue-router';
 
-
+const router = useRouter()
 const cards = ref([])
 
 
@@ -245,7 +245,7 @@ const userFetchData = async ()=>{
   const userResponseDate = await axios.get('/userManage/query')
   console.log("userResponseData ---------",userResponseDate.data.data.list)
   cards.value = userResponseDate.data.data.list.map((item: userData)=>({
-    user_id: item.user_id,
+    user_id: item.userId,
     account: item.account,
     username: item.username,
     profileImage: item.profileimage,
@@ -255,6 +255,30 @@ const userFetchData = async ()=>{
   }))
 }
 console.log("-----------", cards)
+
+
+
+// 单个删除
+const confirmDelete = (id: number) => {
+  const userConfirmed = confirm('确定要删除吗？删除后将无法恢复！')
+  if (userConfirmed) {
+    deleteProduct(id)
+    alert('已删除！该项已被删除。')
+  }
+}
+
+const deleteProduct = async (id: number) => {
+  try {
+
+    const deleteResponse = await axios.delete(`/userManage/delete?userId=${id}`)
+    if(deleteResponse.data.message === "ok"){
+      router.go(0)
+    }
+  } catch (e) {
+    console.log("del err:", e)
+  }
+}
+
 onMounted(()=>{
   userFetchData()
 })
