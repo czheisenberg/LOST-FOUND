@@ -61,8 +61,8 @@
     </div>
     <div class="md:hidden" :class="{'block': isOpen, 'hidden': !isOpen}">
       <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-        <a href="#" class="block text-gray-900 dark:text-white px-3 py-2 rounded-md text-base font-medium">首页</a>
-        <a href="#" class="block text-gray-900 dark:text-white px-3 py-2 rounded-md text-base font-medium">分类</a>
+        <a href="/" class="block text-gray-900 dark:text-white px-3 py-2 rounded-md text-base font-medium">首页</a>
+        <a href="/notice" class="block text-gray-900 dark:text-white px-3 py-2 rounded-md text-base font-medium">通知</a>
         <a href="#" class="block text-gray-900 dark:text-white px-3 py-2 rounded-md text-base font-medium">联系我们</a>
         <div class="relative">
           <input type="text" placeholder="搜索..." class="w-full px-4 py-2 mb-2 rounded-md border border-gray-300 focus:border-blue-500 focus:ring focus:ring-blue-200 focus:outline-none dark:bg-gray-700 dark:text-white"/>

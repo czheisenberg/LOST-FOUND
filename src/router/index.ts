@@ -72,6 +72,16 @@ const routes: Array<RouteRecordRaw> = [
     component:() => import('@/views/Admin/AdminUserView.vue')
   },
   {
+    path: '/admin/user/add',
+    name: 'adminUserAdd',
+    component:() => import('@/views/Admin/AdminUserAddView.vue')
+  },
+  {
+    path: '/admin/user/editor',
+    name: 'adminUserEditor',
+    component:() =>import("@/views/Admin/AdminUserSettings.vue")
+  },
+  {
     path: '/user',
     name: 'user',
     component:Welcome,
