@@ -58,7 +58,7 @@
 import { defineComponent, ref } from 'vue';
 import axios from '../axios';
 import { useRouter } from 'vue-router';
-import {RegisterRequest, LoginResponse, LoginRequest} from '../types';
+import {RegisterRequest} from '../types';
 
 export default defineComponent({
   setup() {
