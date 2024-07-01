@@ -221,18 +221,17 @@
             </ul>
           </li>
 
-<!--          <li>-->
-<!--            <router-link-->
-<!--                to="/logout"-->
-<!--                type="button"-->
-<!--                class="flex items-center w-full p-2 text-base text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-gray-700"-->
-<!--                ref="button">-->
-<!--              <svg t="1719384405963" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="5910" width="22" height="22"><path d="M468.2 466.9V108.7c0-24.7 20-44.8 44.8-44.8s44.8 20 44.8 44.8V467c0 24.7-20 44.8-44.8 44.8s-44.8-20.1-44.8-44.9z m253-351.7c-33.5-17.6-73.8 6-73.8 43.8 0 19.2 11.4 35.9 28.4 44.9C800.3 270 880.2 409.4 857.4 564.3 834.8 717.8 707 840.6 552.8 857.8 343 881.2 164.7 716.9 164.7 511.7c0-134.1 76.2-250.8 187.7-308.9 15.7-8.2 26.3-23.7 26.3-41.4v-4.1c0-37.1-39.5-60-72.4-42.8-157.8 82.3-260.5 255.8-238 450.6 23.6 203.8 189.5 369 393.4 391.6 270.3 30 499.2-180.7 499.2-445-0.1-172.2-97.2-321.6-239.7-396.5z" p-id="5911" fill="#8a8a8a"></path></svg>-->
-<!--              <span class="flex-1 ml-3 text-left whitespace-nowrap" sidebar-toggle-item="">退出</span>-->
+          <li>
+            <a
+                href="/logout"
+                class="flex items-center w-full p-2 text-base text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-gray-700"
+                ref="button">
+              <svg t="1719384405963" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="5910" width="22" height="22"><path d="M468.2 466.9V108.7c0-24.7 20-44.8 44.8-44.8s44.8 20 44.8 44.8V467c0 24.7-20 44.8-44.8 44.8s-44.8-20.1-44.8-44.9z m253-351.7c-33.5-17.6-73.8 6-73.8 43.8 0 19.2 11.4 35.9 28.4 44.9C800.3 270 880.2 409.4 857.4 564.3 834.8 717.8 707 840.6 552.8 857.8 343 881.2 164.7 716.9 164.7 511.7c0-134.1 76.2-250.8 187.7-308.9 15.7-8.2 26.3-23.7 26.3-41.4v-4.1c0-37.1-39.5-60-72.4-42.8-157.8 82.3-260.5 255.8-238 450.6 23.6 203.8 189.5 369 393.4 391.6 270.3 30 499.2-180.7 499.2-445-0.1-172.2-97.2-321.6-239.7-396.5z" p-id="5911" fill="#8a8a8a"></path></svg>
+              <span class="flex-1 ml-3 text-left whitespace-nowrap" sidebar-toggle-item="">退出</span>
 
-<!--            </router-link>-->
+            </a>
 
-<!--          </li>-->
+          </li>
         </ul>
 
       </div>
