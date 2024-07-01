@@ -171,7 +171,7 @@ const phoneNumber = ref('')
 const birthday = ref('')
 const userInfoFetchData = async()=>{
   const responseData = await axios.get('userinfo/selfQuery')
-  // console.log("responseData.data.data -----------",responseData.data.data)
+  console.log("responseData.data.data ++++++++++++++++++",responseData.data.data)
   userInfo.value = responseData.data.data
   username.value = responseData.data.data.username
   email.value = responseData.data.data.email
@@ -246,7 +246,7 @@ const handleSubmitInformation = async()=>{
       },
     });
     msg2.value = '更新成功'
-    console.log('response.data:', response.data);
+    console.log('----------------------response.data:', response.data);
 
     router.go(0)
   } catch (error) {

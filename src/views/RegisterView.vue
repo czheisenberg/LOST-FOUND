@@ -27,10 +27,10 @@
                       <label for="password" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">你的密码</label>
                       <input type="password" v-model="password" name="password" id="password" placeholder="••••••••" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
                   </div>
-                  <div>
-                      <label for="confirm-password" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">重复密码</label>
-                      <input type="password" name="confirm-password" id="confirm-password" placeholder="••••••••" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
-                  </div>
+<!--                  <div>-->
+<!--                      <label for="confirm-password" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">重复密码</label>-->
+<!--                      <input type="password" name="confirm-password" id="confirm-password" placeholder="••••••••" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>-->
+<!--                  </div>-->
                   <div class="flex items-start">
                       <div class="flex items-center h-5">
                         <input id="terms" aria-describedby="terms" type="checkbox" class="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-primary-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-primary-600 dark:ring-offset-gray-800" required>
@@ -44,7 +44,7 @@
                     已经有账户了？ <a href="/login" class="font-medium text-primary-600 hover:underline dark:text-primary-500">点击登录</a>
                   </p>
                   <p class="text-center text-red-500">
-                    {{message}}
+                    {{msg}}
                   </p>
               </form>
           </div>
@@ -54,53 +54,39 @@
 </template>
 
 
-<script lang="ts">
-import { defineComponent, ref } from 'vue';
+<script lang="ts" setup>
+import {ref } from 'vue';
 import axios from '../axios';
 import { useRouter } from 'vue-router';
-import {RegisterRequest, LoginResponse, LoginRequest} from '../types';
 
-export default defineComponent({
-  setup() {
     const router = useRouter(); // 获取路由对象
-    const message = ref('')
-    const account = ref<string>('');
-    const username = ref<string>('');
-    const password = ref<string>('');
-    const email = ref<string>('');
 
-    const handleRegister = async () => {
-      const requestData: RegisterRequest = {
-        account: account.value,
-        username: username.value,
-        password: password.value,
-        email: email.value
-      };
+    const account = ref('')
+    const username = ref('')
+    const email = ref('')
+    const password = ref('')
 
-      try {
-        const response = await axios.post('/register/doRegister',   requestData);
-        console.log(requestData)
-        if (response.data.code === 200) {
-          router.push('/login')
-        } else {
-          console.error('Register failed:', response.data.msg);
-          message.value = response.data.msg
-        }
-      } catch (error) {
-        console.error('Register failed:', error);
+    const msg = ref('')
+
+    const handleRegister = async ()=>{
+      const uploadData = new FormData()
+      uploadData.append('account', account.value)
+      uploadData.append('username', username.value)
+      uploadData.append('email', email.value)
+      uploadData.append('password', password.value)
+
+      try{
+        const responseData = await axios.post('/register/doRegister',uploadData,{
+          headers:{
+            'Content-Type':'multipart/form-data',
+          },
+        })
+
+        msg.value = '注册完成'
+        router.push('/login')
+      }catch (error){
+        msg.value = error.message
       }
-    };
 
-
-
-    return {
-      account,
-      username,
-      email,
-      password,
-      message,
-      handleRegister
-    };
-  }
-});
+}
 </script>
