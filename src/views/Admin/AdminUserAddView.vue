@@ -99,19 +99,6 @@ const phoneNumber = ref('')
 const birthday = ref('')
 const password = ref('')
 
-// 用于存储选中的文件
-const selectedFile = ref<File | null>(null);
-// 文件改变时的处理函数
-const handleFileChange = (event: Event) => {
-  const target = event.target as HTMLInputElement;
-  if (target.files && target.files.length > 0) {
-    selectedFile.value = target.files[0];
-  } else {
-    selectedFile.value = null;
-  }
-};
-
-
 const msg = ref('')
 const handleSubmit = async()=>{
     const uploadData = new FormData();
@@ -131,61 +118,21 @@ const handleSubmit = async()=>{
           'Content-Type':'multipart/form-data',
         },
       })
-      console.log(responseData.data)
+    if(responseData.data.message === "ok"){
+      // console.log(responseData.data)
       msg.value = "新增用户完成"
+
+      router.push('/admin/user')
+    }
+
   }catch (error){
       msg.value = error.message
   }
 }
 
-// 提交表单时的处理函数
-// const msg = ref('')
-// const handleSubmit = async () => {
-//   if (selectedFile.value) {
-//     const uploadData = new FormData();
-//     uploadData.append('goods', formData.value.goods);
-//     uploadData.append('phonenumber', formData.value.phonenumber);
-//     uploadData.append('address', formData.value.address);
-//     uploadData.append('message', formData.value.message);
-//     uploadData.append('stuffstate', formData.value.stuffstate);
-//     uploadData.append('datetime', formData.value.datetime)
-//     uploadData.append('goodsimg', selectedFile.value);
-//
-//     if(formData.value.phonenumber.length > 11 || formData.value.phonenumber.length < 0){
-//       msg.value = '手机号格式错误'
-//     }else{
-//       try {
-//         const response = await axios.post('/goods/add', uploadData, {
-//           headers: {
-//             'Content-Type': 'multipart/form-data',
-//           },
-//         });
-//         msg.value = '发布成功'
-//         // console.log('上传成功:', response.data);
-//
-//         // router.go(-1)
-//         router.push('/user/goods')
-//       } catch (error) {
-//         msg.value = String(error)
-//         // console.error('上传失败:', error);
-//       }
-//     }
-//
-//
-//
-//   } else {
-//     msg.value="请选择一张图片"
-//     // console.log('请先选择一个文件');
-//   }
-// };
-
 
 </script>
 
 <style>
-/* 自定义选中状态样式 */
-.router-link-active {
-  background-color: var(--tw-bg-opacity);
-  background-color: rgba(213, 221, 235, 0.4); /* Custom light gray color */
-}
+
 </style>
