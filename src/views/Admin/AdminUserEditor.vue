@@ -32,7 +32,7 @@
 
       <div class="p-4 bg-white block sm:flex items-center justify-between border-b border-gray-200 lg:mt-1.5 dark:bg-gray-800 dark:border-gray-700">
         <div class="w-full">
-          <form class="space-y-4" @submit.prevent="handleSubmit">
+          <form class="space-y-4" @submit.prevent="handleUpdateSubmit">
             <div>
               <label for="account" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">用户名</label>
               <input type="text" name="account" id="account" v-model="account" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="username" required=""></div>
@@ -41,7 +41,7 @@
               <input type="text" name="username" id="username" v-model="username" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="nice name" required=""></div>
             <div>
               <label for="file_input" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">头像</label>
-              <img :src="profileImage" />
+              <img :src="profileImage" class="w-1/12" />
               <input @change="handleFileChange"  class="block w-full text-sm text-gray-500 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" id="file_input" type="file" required=""></div>
             <div>
               <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">邮箱</label>
@@ -58,13 +58,12 @@
               <label for="password" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">密码</label>
                 <input type="password" name="password" id="password" v-model="password" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="******" required="">
             </div>
-            <div class="text-red-500">
-              {{ msg }}
-            </div>
-
             <div>
               <button type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">提交</button>
-              <button type="button" class="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900">取消</button>
+              <a href="/admin/user" type="button" class="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900">取消</a>
+            </div>
+            <div class="text-red-500">
+              {{ msg }}
             </div>
 
           </form>
@@ -73,18 +72,21 @@
 
 
     </main>
-  </div>>
+  </div>
 </template>
 
 <script lang="ts" setup>
 
 import TheAdminBackSidebar from "@/components/TheAdminBackSidebar.vue";
-import { ref } from 'vue';
+import {onMounted, ref} from 'vue';
 import axios from '../../axios'
-import {  useRouter } from 'vue-router';
+import {  useRouter, useRoute } from 'vue-router';
 
 
 const router = useRouter()
+const route = useRoute()
+const userId = route.params.id
+// console.log(userId)
 
 // 用于存储选中的文件
 const selectedFile = ref<File | null>(null);
@@ -106,6 +108,52 @@ const phoneNumber = ref('')
 const birthday = ref('')
 const password = ref('')
 const msg = ref('')
+
+// 获取已有数据，编辑页面进行渲染
+const userInfomationFetchData = async ()=>{
+  const responseData = await axios.get('userManage/query/' + userId)
+  // console.log("从后端按userId查询的数据:", responseData.data)
+  account.value = responseData.data.data.account
+  username.value = responseData.data.data.username
+  profileImage.value = responseData.data.data.profileimage
+  email.value = responseData.data.data.email
+  phoneNumber.value = responseData.data.data.phonenumber
+  birthday.value = responseData.data.data.birthday
+  password.value = responseData.data.data.password
+}
+
+// 编辑用户数据
+const handleUpdateSubmit = async ()=>{
+  if(selectedFile.value){
+    const uploadData = new FormData()
+    uploadData.append('userId', userId)
+    uploadData.append('account', account.value)
+    uploadData.append('username', username.value)
+    uploadData.append('profileimage',selectedFile.value)
+    uploadData.append('email', email.value)
+    uploadData.append('phonenumber', phoneNumber.value)
+    uploadData.append('birthday', birthday.value)
+    uploadData.append('password', password.value)
+
+    try{
+      const responseData = await axios.put('/userManage/update', uploadData,{
+        headers:{
+          'Content-Type':'multipart/form-data',
+        },
+      })
+      msg.value = '用户信息更新成功!'
+      // console.log("用户信息更新返回数据: ",responseData.data)
+      router.push('/admin/user')
+    }catch(error){
+      msg.value = error.message
+    }
+  }
+}
+
+onMounted(()=>{
+  userInfomationFetchData()
+})
+
 
 </script>
 

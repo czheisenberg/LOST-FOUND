@@ -77,7 +77,7 @@ const routes: Array<RouteRecordRaw> = [
     component:() => import('@/views/Admin/AdminUserAddView.vue')
   },
   {
-    path: '/admin/user/editor',
+    path: '/admin/user/editor/:id',
     name: 'adminUserEditor',
     component:() =>import("@/views/Admin/AdminUserEditor.vue")
   },
