@@ -66,49 +66,8 @@
     <!-- 图片 end -->
   </div>
 </div>
-<!-- 留言板 start -->
-<div class="container mx-auto mt-10 p-4 dark:bg-gray-800 shadow-md">
-  <h2 class="text-2xl font-bold dark:text-white mb-4">留言板</h2>
-  <form @submit.prevent="submitMessage" class="mb-6">
-    <div class="mb-4">
-      <label for="username" class="block text-sm font-medium dark:text-white">用户名</label>
-      <input
-        type="text"
-        id="username"
-        v-model="newMessage.username"
-        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm dark:bg-gray-700 dark:text-white"
-        required
-      />
-    </div>
-    <div class="mb-4">
-      <label for="message" class="block text-sm font-medium dark:text-white">留言</label>
-      <textarea
-        id="message"
-        v-model="newMessage.content"
-        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm dark:bg-gray-700 dark:text-white"
-        rows="3"
-        required
-      ></textarea>
-    </div>
-    <button
-      type="submit"
-      class="px-4 py-2 bg-blue-600 text-white rounded-md shadow-sm hover:bg-blue-700"
-    >
-      提交留言
-    </button>
-  </form>
-  <div>
-    <h3 class="text-xl font-bold dark:text-white mb-4">留言列表</h3>
-    <div v-for="(message, index) in messages" :key="index" class="mb-4 p-4 rounded-md dark:bg-gray-700 shadow">
-      <div class="flex items-center justify-between mb-2">
-        <span class="font-semibold dark:text-white">{{ message.username }}</span>
-        <span class="text-xs text-gray-500">{{ message.date }}</span>
-      </div>
-      <p class="dark:text-white">{{ message.content }}</p>
-    </div>
-  </div>
-</div>
-<!-- 留言板 end -->
+
+  <TheMessageBoard/>
 
 
 
@@ -121,19 +80,16 @@ import { useRoute } from "vue-router";
 import axios from '../axios';
 import TheFooter from "@/components/TheFooter.vue";
 import TheNavbar from "@/components/TheNavbar.vue";
+import TheMessageBoard from "@/components/TheMessageBoard.vue";
 
 
-interface Message {
-  username: string;
-  content: string;
-  date: string;
-}
 
 
 
 export default defineComponent({
   name: "DetailsView",
   components: {
+    TheMessageBoard,
     TheNavbar,
     TheFooter,
   },
@@ -164,31 +120,7 @@ export default defineComponent({
     }
     // console.log("cards data:", cards)
 
-    const newMessage = reactive<Message>({
-      username: '',
-      content: '',
-      date: ''
-    });
 
-    const messages = ref<Message[]>([
-      {
-        username: '留言用户A',
-        content: '这是一个留言。',
-        date: '2023-06-19'
-      },
-      // 更多留言...
-    ]);
-
-    const submitMessage = () => {
-      const date = new Date().toISOString().split('T')[0];
-      messages.value.push({
-        username: newMessage.username,
-        content: newMessage.content,
-        date: date
-      });
-      newMessage.username = '';
-      newMessage.content = '';
-    };
 
     onMounted(() => {
       // 模拟从数据库获取数据
@@ -202,9 +134,6 @@ export default defineComponent({
       username,
       profileImage,
       goodsId,
-      newMessage,
-      messages,
-      submitMessage
     };
   },
 });
