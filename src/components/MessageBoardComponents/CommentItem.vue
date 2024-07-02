@@ -21,14 +21,18 @@
   </p>
 </template>
 
-<script lang="ts" >
-//单个留言组件
-export default {
-  props: {
-    user: String,
-    avatar: String,
-    time: String,
-    content: String
-  }
-}
+<!--<script lang="ts" >-->
+<!--//单个留言组件-->
+<!--export default {-->
+<!--  props: {-->
+<!--    user: String,-->
+<!--    avatar: String,-->
+<!--    time: String,-->
+<!--    content: String-->
+<!--  }-->
+<!--}-->
+<!--</script>-->
+<script lang="ts" setup>
+import {defineProps} from 'vue'
+defineProps(["user", "avatar", "time", "content"]);
 </script>

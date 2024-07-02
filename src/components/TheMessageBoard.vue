@@ -3,7 +3,7 @@
   <div class="container mx-auto mt-10 p-4 dark:bg-gray-800 shadow-md">
     <h2 class="text-3xl my-6">评论</h2>
     <!--留言表单容器组件-->
-    <CommentBox/>
+    <CommentBox @submit="addNewComment"/>
     <!--分割线组件-->
     <DividerHorizontal/>
     <div v-for="(comment) in comments" :key="comment.id">
@@ -45,8 +45,8 @@ import {ref} from "vue";
 const face1 = ref('http://img-resource-198239.oss-cn-beijing.aliyuncs.com/images/c1c74ec5-3962-42b0-88ca-1a3e39eeb40f.jpg?Expires=1719907066&OSSAccessKeyId=LTAI5tQ6W9iAHKuWgLruyjwT&Signature=mWcyyCEQDLb2nPWLE%2FG7w41iMWY%3D')
 const face2 = ref('https://avatars.githubusercontent.com/u/52897817?v=4')
 const face3 = ref('http://img-resource-198239.oss-cn-beijing.aliyuncs.com/images/a7a69b93-128f-47b1-ad18-d8ad59808772.jpg?Expires=1719908331&OSSAccessKeyId=LTAI5tQ6W9iAHKuWgLruyjwT&Signature=vaRH3OdWy1OTiekpSQIMzYXg8CA%3D')
-
-const comments = [
+const face4 = ref('')
+const comments = ref([
   {
     id: 1,
     user: "梦落轻寻",
@@ -72,5 +72,22 @@ const comments = [
       },
     ],
   },
-];
+]);
+
+
+let rid = ref(4);
+
+const constructNewComment = (content) => {
+  return {
+    id: rid.value++,
+    user: "当前用户",
+    avatar: face4.value,
+    content,
+    time: "1秒前",
+  };
+};
+const addNewComment = (content) => {
+  const newComment = constructNewComment(content);
+  comments.value.push(newComment);
+};
 </script>
