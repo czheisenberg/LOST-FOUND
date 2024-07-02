@@ -215,29 +215,80 @@
                 </div>
               </div>
 
-
-              <div class="max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
-                <svg class="w-[48px] h-[48px] text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
-                  <path fill-rule="evenodd" d="M12 4a4 4 0 1 0 0 8 4 4 0 0 0 0-8Zm-2 9a4 4 0 0 0-4 4v1a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2v-1a4 4 0 0 0-4-4h-4Z" clip-rule="evenodd"/>
+              <!--              用户数量-->
+              <div
+                  class=" max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+                <svg class="w-[48px] h-[48px] text-blue-500 dark:text-white" aria-hidden="true"
+                     xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+                  <path fill-rule="evenodd"
+                        d="M12 4a4 4 0 1 0 0 8 4 4 0 0 0 0-8Zm-2 9a4 4 0 0 0-4 4v1a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2v-1a4 4 0 0 0-4-4h-4Z"
+                        clip-rule="evenodd"/>
                 </svg>
                 <h5 class="mb-2 text-2xl font-semibold tracking-tight text-gray-900 dark:text-white">用户数量</h5>
-                <p class="mb-3 font-normal text-gray-500 dark:text-gray-400">当前系统已注册用户数量: 100</p>
+                <p class="mb-3 font-normal text-gray-500 dark:text-gray-400">当前系统已注册用户数量: {{ userCount }}</p>
               </div>
-
-              <div class="max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
-                <svg class="w-[48px] h-[48px] text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
-                  <path fill-rule="evenodd" d="M12 4a4 4 0 1 0 0 8 4 4 0 0 0 0-8Zm-2 9a4 4 0 0 0-4 4v1a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2v-1a4 4 0 0 0-4-4h-4Z" clip-rule="evenodd"/>
+              <!--            管理员数量-->
+              <div
+                  class=" max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+                <svg class="text-yellow-500 w-[48px] h-[48px] dark:text-white" aria-hidden="true"
+                     xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                  <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M8 8v8m0-8h8M8 8H6a2 2 0 1 1 2-2v2Zm0 8h8m-8 0H6a2 2 0 1 0 2 2v-2Zm8 0V8m0 8h2a2 2 0 1 1-2 2v-2Zm0-8h2a2 2 0 1 0-2-2v2Z"/>
                 </svg>
-                <h5 class="mb-2 text-2xl font-semibold tracking-tight text-gray-900 dark:text-white">管理员数量</h5>
-                <p class="mb-3 font-normal text-gray-500 dark:text-gray-400">当前系统已注册管理员数量: 100</p>
+
+                <h5 class="mb-2 text-2xl font-semibold tracking-tight text-gray-900 dark:text-white">总访问量</h5>
+                <p class="mb-3 font-normal text-gray-500 dark:text-gray-400">当前系统总访问量:
+                  {{ visTotalCount }}</p>
               </div>
 
+              <!--              丢失物品数量-->
+              <div
+                  class=" max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+                <svg class="text-red-500 w-[48px] h-[48px] text-gray-800 dark:text-white" aria-hidden="true"
+                     xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                  <path stroke="currentColor" stroke-linecap="round" stroke-width="2"
+                        d="m6 6 12 12m3-6a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
+                </svg>
 
+                <h5 class="mb-2 text-2xl font-semibold tracking-tight text-gray-900 dark:text-white">丢失物品数量</h5>
+                <p class="mb-3 font-normal text-gray-500 dark:text-gray-400">当前系统已丢失物品数量: {{ lostCount }}</p>
+              </div>
+              <!--            捡到数量-->
+              <div
+                  class=" max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+                <svg class="text-green-500 w-[48px] h-[48px] dark:text-white" aria-hidden="true"
+                     xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+                  <path fill-rule="evenodd"
+                        d="M20 10H4v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8ZM9 13v-1h6v1a1 1 0 0 1-1 1h-4a1 1 0 0 1-1-1Z"
+                        clip-rule="evenodd"/>
+                  <path d="M2 6a2 2 0 0 1 2-2h16a2 2 0 1 1 0 4H4a2 2 0 0 1-2-2Z"/>
+                </svg>
+
+                <h5 class="mb-2 text-2xl font-semibold tracking-tight text-gray-900 dark:text-white">捡到数量</h5>
+                <p class="mb-3 font-normal text-gray-500 dark:text-gray-400">当前系统已捡到数量: {{ pickedUpCount }}</p>
+              </div>
+
+              <div class="col-span-2 w-full max-h-sm bg-white rounded-lg shadow dark:bg-gray-800 p-4 md:p-6">
+                <div class="flex justify-between">
+                  <div>
+                    <h5 class="leading-none text-3xl font-bold text-gray-900 dark:text-white pb-2">Cpu</h5>
+                    <p class="text-base font-normal text-gray-500 dark:text-gray-400">Cpu 使用率</p>
+                  </div>
+                </div>
+                <div id="performance_cpu_chart"></div>
+              </div>
+
+              <div class="col-span-2 w-full max-h-sm bg-white rounded-lg shadow dark:bg-gray-800 p-4 md:p-6">
+                <div class="flex justify-between">
+                  <div>
+                    <h5 class="leading-none text-3xl font-bold text-gray-900 dark:text-white pb-2">内存</h5>
+                    <p class="text-base font-normal text-gray-500 dark:text-gray-400">内存使用情况</p>
+                  </div>
+                </div>
+                <div id="performance_mem_chart"></div>
+              </div>
             </div>
-
-
           </div>
-
         </div>
       </div>
 
@@ -264,7 +315,56 @@ function getDeviceType(): string {
   }
 }
 
-import {defineComponent, onMounted, Ref, ref} from 'vue';
+function serverPerformHandler(memUsedArray: Ref, cpuUsedArray: Ref, timeRecord: Ref,
+                              performanceCpuChart: ApexCharts, performanceMemChart: ApexCharts) {
+  // 服务器性能监控
+  try {
+    // 内存
+    axios.get('/actuator/metrics/jvm.memory.used').then((res) => {
+      // memUsed.value = response.data.measurements.value
+      if (memUsedArray.value.length > 60) {
+        memUsedArray.value.shift()
+      }
+
+      memUsedArray.value.push(res.data.measurements[0].value / 1024 / 1024)
+      console.log(memUsedArray.value)
+    })
+
+    // CPU 使用率
+    axios.get('/actuator/metrics/system.cpu.usage').then((res) => {
+      // memUsed.value = response.data.measurements.value
+      if (cpuUsedArray.value.length > 60) {
+        cpuUsedArray.value.shift()
+      }
+      cpuUsedArray.value.push(res.data.measurements[0].value * 100)
+      console.log(cpuUsedArray.value)
+    })
+
+
+    // 更新图表
+    performanceMemChart.updateSeries([{
+      name: "Memory Used",
+      data: memUsedArray.value,
+      color: "#1A56DB",
+    },
+
+
+    ])
+
+    performanceCpuChart.updateSeries([{
+      name: "CPU Used",
+      data: cpuUsedArray.value,
+      color: "#7E3BF2",
+    },
+    ])
+
+  } catch (err) {
+    console.log("err:", err)
+  }
+}
+
+
+import {defineComponent, onBeforeUnmount, onMounted, Ref, ref} from 'vue';
 import TheAdminBackSidebar from '@/components/TheAdminBackSidebar.vue';
 import axios from "@/axios";
 // import TheBackContent from '@/components/TheBackContent.vue';
@@ -301,6 +401,20 @@ export default defineComponent({
 
     // 用户数量
     const userCount = ref(0)
+    // 管理员数量
+    const visTotalCount = ref(0)
+    // 丢失物品数量
+    const lostCount = ref(0)
+    // 捡到物品数量
+    const pickedUpCount = ref(0)
+
+
+    // 内存使用量
+    const memUsed = ref([])
+    // CPU使用率
+    const cpuUsed = ref([])
+    // 时间记录
+    const timeRecord = ref([])
 
     const apiOptions = {
       chart: {
@@ -434,9 +548,134 @@ export default defineComponent({
         show: false,
       },
     }
+    const performanceCpuOptions = {
+      series: [],
+      chart: {
+        // height: "150%",
+        maxWidth: "100%",
+        type: "area",
+        fontFamily: "Inter, sans-serif",
+        dropShadow: {
+          enabled: false,
+        },
+        toolbar: {
+          show: false,
+        },
+      },
+      tooltip: {
+        enabled: true,
+        x: {
+          show: false,
+        },
+      },
+      legend: {
+        show: false
+      },
+      fill: {
+        type: "gradient",
+        gradient: {
+          opacityFrom: 0.55,
+          opacityTo: 0,
+          shade: "#1C64F2",
+          gradientToColors: ["#1C64F2"],
+        },
+      },
+      dataLabels: {
+        enabled: false,
+      },
+      stroke: {
+        width: 6,
+      },
+      grid: {
+        show: false,
+        strokeDashArray: 4,
+        padding: {
+          left: 2,
+          right: 2,
+          top: 0
+        },
+      },
+      xaxis: {
+        categories: [],
+        show: false
+      },
+      yaxis: {
+        show: true,
+        labels: {
+          formatter: function (value: number) {
+            return value.toFixed(2) + ' %';
+          }
+        }
+      },
+    }
+
+    const performanceMemOptions = {
+      series: [],
+      chart: {
+        // height: "150%",
+        maxWidth: "100%",
+        type: "area",
+        fontFamily: "Inter, sans-serif",
+        dropShadow: {
+          enabled: false,
+        },
+        toolbar: {
+          show: false,
+        },
+      },
+      tooltip: {
+        enabled: true,
+        x: {
+          show: false,
+        },
+      },
+      legend: {
+        show: false
+      },
+      fill: {
+        type: "gradient",
+        gradient: {
+          opacityFrom: 0.55,
+          opacityTo: 0,
+          shade: "#1C64F2",
+          gradientToColors: ["#1C64F2"],
+        },
+      },
+      dataLabels: {
+        enabled: false,
+      },
+      stroke: {
+        width: 6,
+      },
+      grid: {
+        show: false,
+        strokeDashArray: 4,
+        padding: {
+          left: 2,
+          right: 2,
+          top: 0
+        },
+      },
+      xaxis: {
+        categories: [],
+        show: false
+      },
+      yaxis: {
+        show: true,
+        labels: {
+          formatter: function (value: number) {
+            return value.toFixed(2) + ' MB';
+          }
+        }
+      },
+    }
 
     let apiChart: ApexCharts;
     let loginChart: ApexCharts;
+    let performanceCpuChart: ApexCharts;
+    let performanceMemChart: ApexCharts;
+
+    let timer: number;
 
     const fetchData = async () => {
       try {
@@ -492,7 +731,7 @@ export default defineComponent({
           apiTotalVis.value += item
         })
 
-        let rate = (apiVisitArray.value[6] - apiVisitArray.value[5]) / (apiVisitArray.value[5] == 0 ? 1 : apiVisitArray.value[1]);
+        let rate = (apiVisitArray.value[6] - apiVisitArray.value[5]) / (apiVisitArray.value[5] == 0 ? 1 : apiVisitArray.value[1]) * 100
 
         // 减少
         if (rate < 0) {
@@ -518,7 +757,7 @@ export default defineComponent({
           loginTotalVis.value += item
         })
 
-        rate = (loginVisitArray.value[6] - loginVisitArray.value[5]) / (loginVisitArray.value[5] == 0 ? 1 : loginVisitArray.value[1])
+        rate = (loginVisitArray.value[6] - loginVisitArray.value[5]) / (loginVisitArray.value[5] == 0 ? 1 : loginVisitArray.value[1]) * 100
 
         // 减少
         if (rate < 0) {
@@ -536,15 +775,36 @@ export default defineComponent({
         console.log("err:", err)
       }
 
-
       try {
         // 用户数量查询
-        const response = await axios.get('/userManage/query')
+        let response = await axios.get('/userManage/query')
         userCount.value = response.data.data.total
+
+        // 总访问量查询
+        response = await axios.get('/log/apiCount')
+        visTotalCount.value = response.data.data
+
+        // 丢失物品数量查询
+        response = await axios.get('/goods/list', {
+          params:
+              {
+                stuffState: false
+              }
+        })
+        lostCount.value = response.data.data.total
+
+        // 捡到物品数量查询
+        response = await axios.get('/goods/list', {
+          params:
+              {
+                stuffState: true
+              }
+        })
+        pickedUpCount.value = response.data.data.total
+
       } catch (err) {
         console.log("err:", err)
       }
-
 
     }
 
@@ -552,8 +812,17 @@ export default defineComponent({
       fetchData();
       apiChart = new ApexCharts(document.querySelector("#api_chart"), apiOptions);
       loginChart = new ApexCharts(document.querySelector("#login_chart"), loginOptions);
+      performanceCpuChart = new ApexCharts(document.querySelector("#performance_cpu_chart"), performanceCpuOptions);
+      performanceMemChart = new ApexCharts(document.querySelector("#performance_mem_chart"), performanceMemOptions);
       apiChart.render();
       loginChart.render();
+      performanceCpuChart.render();
+      performanceMemChart.render();
+      timer = setInterval(serverPerformHandler, 1000 * 3, memUsed, cpuUsed, timeRecord, performanceCpuChart, performanceMemChart)
+    })
+
+    onBeforeUnmount(() => {
+      clearInterval(timer)
     })
 
     return {
@@ -565,7 +834,10 @@ export default defineComponent({
       loginIncrRate,
       loginTendency,
       userCount,
-      avatar
+      avatar,
+      visTotalCount,
+      lostCount,
+      pickedUpCount
     }
   }
 
