@@ -327,7 +327,16 @@ function serverPerformHandler(memUsedArray: Ref, cpuUsedArray: Ref, timeRecord: 
       }
 
       memUsedArray.value.push(res.data.measurements[0].value / 1024 / 1024)
-      console.log(memUsedArray.value)
+
+      // 更新图表
+      performanceMemChart.updateSeries([{
+        name: "Memory Used",
+        data: memUsedArray.value,
+        color: "#1A56DB",
+      },
+      ])
+    }).catch(error => {
+      console.log(error)
     })
 
     // CPU 使用率
@@ -337,26 +346,16 @@ function serverPerformHandler(memUsedArray: Ref, cpuUsedArray: Ref, timeRecord: 
         cpuUsedArray.value.shift()
       }
       cpuUsedArray.value.push(res.data.measurements[0].value * 100)
-      console.log(cpuUsedArray.value)
+
+      performanceCpuChart.updateSeries([{
+        name: "CPU Used",
+        data: cpuUsedArray.value,
+        color: "#7E3BF2",
+      },
+      ])
+    }).catch(error => {
+      console.log(error)
     })
-
-
-    // 更新图表
-    performanceMemChart.updateSeries([{
-      name: "Memory Used",
-      data: memUsedArray.value,
-      color: "#1A56DB",
-    },
-
-
-    ])
-
-    performanceCpuChart.updateSeries([{
-      name: "CPU Used",
-      data: cpuUsedArray.value,
-      color: "#7E3BF2",
-    },
-    ])
 
   } catch (err) {
     console.log("err:", err)
@@ -731,16 +730,18 @@ export default defineComponent({
           apiTotalVis.value += item
         })
 
-        let rate = (apiVisitArray.value[6] - apiVisitArray.value[5]) / (apiVisitArray.value[5] == 0 ? 1 : apiVisitArray.value[1]) * 100
+        let rate = (apiVisitArray.value[6] - apiVisitArray.value[5]) / (apiVisitArray.value[5] == 0 ? 1 : apiVisitArray.value[5]) * 100
 
         // 减少
         if (rate < 0) {
-          apiIncrRate.value = -rate
+          apiIncrRate.value = Number((-rate).toFixed(2))
           apiTendency.value = false
         } else {
-          apiIncrRate.value = rate
+          apiIncrRate.value = Number(rate.toFixed(2))
           apiTendency.value = true
         }
+
+        console.log(`rate=${rate}`)
 
 
         // 登录次数更新
@@ -757,14 +758,14 @@ export default defineComponent({
           loginTotalVis.value += item
         })
 
-        rate = (loginVisitArray.value[6] - loginVisitArray.value[5]) / (loginVisitArray.value[5] == 0 ? 1 : loginVisitArray.value[1]) * 100
+        rate = (loginVisitArray.value[6] - loginVisitArray.value[5]) / (loginVisitArray.value[5] == 0 ? 1 : loginVisitArray.value[5]) * 100
 
         // 减少
         if (rate < 0) {
-          loginIncrRate.value = -rate
+          loginIncrRate.value = Number((-rate).toFixed(2))
           loginTendency.value = false
         } else {
-          loginIncrRate.value = rate
+          loginIncrRate.value = Number(rate.toFixed(2))
           loginTendency.value = true
         }
 
