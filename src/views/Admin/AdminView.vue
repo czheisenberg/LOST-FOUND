@@ -38,8 +38,8 @@
                 </li>
               </ol>
             </nav>
-
-            <div class="grid grid-cols-4 gap-4">
+<!--            grid grid-cols-4 gap-4-->
+            <div class="gap-4 lg:grid lg:grid-cols-4 md:grid md:grid-cols-4 sm:grid sm:grid-cols-1 xs:grid xs:grid-cols-1 ">
 
               <div
                   class="col-span-4 w-full bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
