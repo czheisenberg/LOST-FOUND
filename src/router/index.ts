@@ -1,5 +1,7 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
 import axios from "../axios";
+import AdminInformView from "@/views/Admin/AdminInformView.vue";
+import AdminLogView from "@/views/Admin/AdminLogView.vue";
 
 const Home = () => import('../views/HomeView.vue');
 const Register = () => import('../views/RegisterView.vue');
@@ -49,8 +51,31 @@ const routes: Array<RouteRecordRaw> = [
     path: '/admin',
     name: 'admin',
     component: Admin ,
-    meta: {title: '管理员后台'}
+    meta: {title: '管理员后台'},
+
   },
+  {
+    path: '/admin/log',
+    name: 'adminLog',
+    component: AdminLogView
+  },
+  // {
+  //   path: '/admin',
+  //   name: 'admin',
+  //   component: Admin ,
+  //   children: [
+  //     {
+  //       path: '/inform',
+  //       component: AdminInformView
+  //     },
+  //     {
+  //       path: '/log',
+  //       component: AdminLogView
+  //
+  //     }
+  //   ],
+  //   meta: {title: '管理员后台'}
+  // },
   {
     path: '/admin/goods/add',
     name: 'adminGoodsAdd',
