@@ -14,7 +14,7 @@
             <!-- 折叠按钮 end -->
           </div>
           <div class="flex-shrink-0 flex items-center">
-            <router-link to="/" class="text-xl font-bold text-gray-900 dark:text-white">LOST & FOUND</router-link>
+            <p class="text-xl font-bold text-gray-900 dark:text-white">LOST & FOUND</p>
           </div>
         </div>
         <div class="hidden md:flex md:items-center md:space-x-4 flex-grow">
