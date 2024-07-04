@@ -32,7 +32,7 @@
           <div class="relative" @click="toggleDropdown" v-click-outside="closeDropdown">
             <button type="button" class="flex text-sm bg-gray-800 rounded-full focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600" aria-expanded="false">
               <span class="sr-only">Open user menu</span>
-              <img class="w-8 h-8 rounded-full" src="https://avatars.githubusercontent.com/u/52897817?v=4" alt="user photo">
+              <img class="w-8 h-8 rounded-full" :src="profileimage" alt="user photo">
             </button>
             <div v-if="isDropdownOpen" class="absolute right-0 mt-2 w-48 bg-white divide-y divide-gray-100 rounded shadow dark:bg-gray-700 dark:divide-gray-600">
               <div class="px-4 py-3">
@@ -236,7 +236,7 @@
 
       </div>
     </div>
-  </div>    
+  </div>
 </aside>
 </template>
 
@@ -247,12 +247,14 @@ import axios from "@/axios";
 // 用户数据
 const account = ref('')
 const email = ref('')
+const profileimage = ref('')
 
 const fetchData = async()=>{
   try{
     const response = await axios.get('/userinfo/selfQuery');
-    account.value = response.data.data.account
+    account.value = response.data.data.username
     email.value = response.data.data.email
+    profileimage.value = response.data.data.profileimage
   }catch(err){
     console.log("err:", err)
   }

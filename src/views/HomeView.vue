@@ -56,7 +56,7 @@
     </div>
     <!-- 翻页 end -->
   </div>
-  <TheFooter/>
+<!--  <TheFooter/>-->
 </template>
 
 
@@ -82,11 +82,10 @@ interface BackendData {
 export default defineComponent({
   name: 'HomeView',
   components: {
-    TheNavbar,
-    TheFooter
+    TheNavbar
   },
   setup() {
-   
+
     // const cards = ref(
     //   [
     //     {
@@ -241,7 +240,7 @@ export default defineComponent({
     // 当前页码
     const currentPage = ref(1);
     const itemsPerPage = 8; // 每页显示的卡片数量
-      
+
     // 总页数
     const totalPages = computed(() => {
       return Math.ceil(cards.value.length / itemsPerPage);
@@ -299,8 +298,8 @@ export default defineComponent({
       // message,
       // phoneNumber,
       // StuffState,
-      
-      
+
+
       cards,
       currentPage,
       totalPages,
