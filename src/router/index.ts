@@ -14,6 +14,7 @@ const Welcome = () => import('../views/User/Welcome/WelcomeView.vue');
 const UserSettings = () => import('../views/User/Settings/UserSettingsView.vue');
 const UserGoods = () => import('../views/User/goods/UserGoodsView.vue');
 const AdminLost = () => import('../views/Admin/AdminLostView.vue');
+const adminNotice = () => import('../views/Admin/AdminNoticeView.vue');
 
 const Notice = () => import('../views/NoticeView.vue');
 
@@ -110,6 +111,16 @@ const routes: Array<RouteRecordRaw> = [
     path: '/admin/setting',
     name: 'adminSetting',
     component:() => import('@/views/Admin/SettingsView.vue')
+  },
+  {
+    path: '/admin/notice',
+    name: 'adminNotice',
+    component:adminNotice
+  },
+  {
+    path: '/admin/notice/add',
+    name: 'adminNoticeAdd',
+    component:() => import('@/views/Admin/AdminNoticeAddView.vue'),
   },
   {
     path: '/user',
