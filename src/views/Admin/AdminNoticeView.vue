@@ -224,7 +224,7 @@ const router = useRouter()
 const fetchData = async()=>{
   try{
     const responseData = await axios.get("/userManage/queryCondition")
-    // console.log(responseData.data.data)
+    console.log(responseData.data.data)
     cards.value = responseData.data.data.map((item: NoticeData)=>({
       id: item.id,
       username: item.username,
