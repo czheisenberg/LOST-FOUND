@@ -147,6 +147,16 @@ const routes: Array<RouteRecordRaw> = [
     component:()=>import('../views/test.vue')
   },
   {
+    path: '/imgSearch',
+    name: 'imgSearch',
+    component:()=>import('../views/ImageSearchView.vue')
+  },
+  {
+    path: '/imgView',
+    name: 'imgView',
+    component:()=>import('../views/ImgResView.vue')
+  },
+  {
     path: '/permissionError',
     name: 'permissionError',
     component:()=>import('../views/PermissionError.vue')

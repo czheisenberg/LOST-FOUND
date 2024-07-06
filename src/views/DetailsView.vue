@@ -60,8 +60,8 @@
     <!-- 文字信息 end -->
 
     <!-- 图片 start -->
-    <div class="w-full md:w-1/2 order-1 md:order-2">
-      <img  :src="cards.goodsimg" alt="" class="w-full h-auto" />
+    <div class="w-full max-w-sm md:w-1/2 order-1 md:order-2">
+      <img  :src="cards.goodsimg" alt="" class="w-full h-auto object-contain" />
     </div>
     <!-- 图片 end -->
   </div>
