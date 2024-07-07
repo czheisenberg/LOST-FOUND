@@ -21,7 +21,7 @@
                     <button @click="toggleDarkMode"  class="bg-gray-200 dark:bg-gray-600 p-2 rounded-full ml-4">
                         <svg v-if="isDarkMode" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v2.25m6.364.386-1.591 1.591M21 12h-2.25m-.386 6.364-1.591-1.591M12 18.75V21m-4.773-4.227-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0Z" />
-                        </svg>  
+                        </svg>
                         <svg v-else xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M21.752 15.002A9.72 9.72 0 0 1 18 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 0 0 3 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 0 0 9.002-5.998Z" />
                         </svg>
@@ -32,7 +32,7 @@
               <div class="relative" @click="toggleDropdown" v-click-outside="closeDropdown">
                 <button type="button" class="flex text-sm bg-gray-800 rounded-full focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600" aria-expanded="false">
                   <span class="sr-only">Open user menu</span>
-                  <img class="w-8 h-8 rounded-full" src="https://avatars.githubusercontent.com/u/52897817?v=4" alt="user photo">
+                  <img class="w-8 h-8 rounded-full" :src="profileimage" alt="user photo">
                 </button>
                 <div v-if="isDropdownOpen" class="absolute right-0 mt-2 w-48 bg-white divide-y divide-gray-100 rounded shadow dark:bg-gray-700 dark:divide-gray-600">
                   <div class="px-4 py-3">
@@ -102,12 +102,14 @@ const dropdown = ref<HTMLDivElement | null>(null);
 // 用户数据
 const account = ref('')
 const email = ref('')
+const profileimage = ref('')
 
 const fetchData = async()=>{
   try{
     const response = await axios.get('/userinfo/selfQuery');
-    account.value = response.data.data.account
+    account.value = response.data.data.username
     email.value = response.data.data.email
+    profileimage.value = response.data.data.profileimage
   }catch(err){
     console.log("err:", err)
   }

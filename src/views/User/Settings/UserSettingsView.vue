@@ -4,7 +4,7 @@
 
 <div id="main-content" class="relative  h-full overflow-y-auto  lg:ml-64 dark:bg-gray-900">
 <main>
-    
+
 <div class="grid grid-cols-1 px-4 pt-6 xl:grid-cols-3 xl:gap-4 dark:bg-gray-900">
 <div class="mb-4 col-span-full xl:mb-2 mt-10">
   <nav class="flex mb-5" aria-label="Breadcrumb">
@@ -170,13 +170,17 @@ const email = ref('')
 const phoneNumber = ref('')
 const birthday = ref('')
 const userInfoFetchData = async()=>{
-  const responseData = await axios.get('userinfo/selfQuery')
-  console.log("responseData.data.data ++++++++++++++++++",responseData.data.data)
-  userInfo.value = responseData.data.data
-  username.value = responseData.data.data.username
-  email.value = responseData.data.data.email
-  phoneNumber.value = responseData.data.data.phonenumber
-  birthday.value = dayjs(responseData.data.data.birthday).format('YYYY-MM-DD')
+  try {
+    const responseData = await axios.get('userinfo/selfQuery')
+    console.log("responseData.data.data ++++++++++++++++++",responseData.data.data)
+    userInfo.value = responseData.data.data
+    username.value = responseData.data.data.username
+    email.value = responseData.data.data.email
+    phoneNumber.value = responseData.data.data.phonenumber
+    birthday.value = dayjs(responseData.data.data.birthday).format('YYYY-MM-DD')
+  } catch (error) {
+    console.log(error)
+  }
 }
 
 // 更新信息

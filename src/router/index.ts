@@ -186,29 +186,36 @@ const routes: Array<RouteRecordRaw> = [
     path: '/test',
     name: 'test',
     component:()=>import('../views/test.vue')
+  },
+  {
+    path: '/imgSearch',
+    name: 'imgSearch',
+    component:()=>import('../views/ImageSearchView.vue')
+  },
+  {
+    path: '/imgView',
+    name: 'imgView',
+    component:()=>import('../views/ImgResView.vue')
+  },
+  {
+    path: '/permissionError',
+    name: 'permissionError',
+    component:()=>import('../views/PermissionError.vue')
+  },
+  {
+    path: '/notFoundError',
+    name: 'NotFoundError',
+    component:()=>import('../views/NotFoundError.vue')
+  },
+  {
+    path: '/:catchAll(.*)',    // 此处需特别注意至于最底部
+    redirect: '/notFoundError'
   }
 ]
 
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes
-})
-
-// 排除路由列表
-const excludeRoutes = ['/','/register'];
-
-// 路由拦截, before 前置拦截
-router.beforeEach((to, from,next)=>{
-  const token = localStorage.getItem("lftoken");
-  if(token || to.path ==="/login" || excludeRoutes.includes(to.path)){
-    next()
-  }else{
-    next("/login")
-  }
-
-
-
-
 })
 
 export default router

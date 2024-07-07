@@ -22,6 +22,8 @@ import {initFlowbite} from "flowbite";
 // import TheFooter from '@/components/TheFooter.vue';
 // import TheNavbar from '@/components/TheNavbar.vue';
 
+
+
 export default defineComponent({
   name: 'app',
   components: {
