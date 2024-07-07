@@ -1,6 +1,6 @@
-import AutoImport from 'unplugin-auto-import/vite'
-import Components from 'unplugin-vue-components/vite'
-import { UndrawUiResolver } from 'undraw-ui/es/resolvers'
+// import AutoImport from 'unplugin-auto-import/vite'
+// import Components from 'unplugin-vue-components/vite'
+// import { UndrawUiResolver } from 'undraw-ui/es/resolvers'
 
 const { defineConfig } = require('@vue/cli-service')
 module.exports = defineConfig({
@@ -14,9 +14,9 @@ module.exports = defineConfig({
       },
     },
   },
-  plugins: [
-    Components({
-      resolvers: [UndrawUiResolver]
-    }),
-  ],
+  // plugins: [
+  //   Components({
+  //     resolvers: [UndrawUiResolver]
+  //   }),
+  // ],
 })
