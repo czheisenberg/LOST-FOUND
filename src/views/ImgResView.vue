@@ -2,9 +2,16 @@
 
 import TheNavbar from "@/components/TheNavbar.vue";
 import {defineComponent, onMounted} from "vue";
+import router from "@/router";
 
 export default defineComponent({
   components: {TheNavbar},
+
+  methods: {
+    returnImgSearch() {
+      router.push("imgSearch")
+    }
+  },
 
   mounted() {
     this.goodsRes = JSON.parse(this.$route.query.goodsRes as string);
@@ -29,14 +36,25 @@ export default defineComponent({
 
   <main class="flex flex-col max-h-screen">
     <TheNavbar/>
-    <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white text-center p-3">相似物品搜索结果</h5>
-    <div class="flex justify-stretch items-start">
 
-      <div class=" bg-gray-100 dark:bg-gray-700 ">
+    <div class="flex flex-row justify-between items-center p-3 bg-white shadow-md">
+      <button type="button" @click="returnImgSearch" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm p-2.5 text-center inline-flex items-center me-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+        <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+          <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m15 19-7-7 7-7"/>
+        </svg>
+        <span class="sr-only">Icon description</span>
+      </button>
+      <h5 class=" text-2xl font-bold tracking-tight text-gray-900 dark:text-white content-center">相似物品搜索结果</h5>
+      <span/>
+    </div>
+
+    <div class="flex flex-row justify-stretch items-start p-3">
+
+      <div class="bg-gray-100 dark:bg-gray-700 h-full rounded-lg">
         <img :src="fileUrl" class="max-w-full max-h-full object-contain scale-75"/>
       </div>
 
-      <div class="grid grid-cols-2 p-4 w-full">
+      <div class="grid grid-cols-2 w-full">
         <!-- 循环渲染当前页的卡片 -->
         <div v-for="(card, index) in goodsRes" :key="index"
              class="w-full h-full px-4 mb-4">
@@ -53,7 +71,7 @@ export default defineComponent({
             </div>
             <!-- 商品图片 -->
             <a>
-              <img class="bg-gray-100 dark:bg-gray-700 object-contain w-full max-w-md h-64 max-h-64 rounded-t-lg"
+              <img class="bg-gray-100 dark:bg-gray-700 object-contain w-full h-64 rounded-t-lg"
                    :src="card.goodsimg" alt="Product Image"/>
             </a>
             <div class="p-4">
