@@ -18,15 +18,7 @@ async function getAllComments() {
     const comments = new Map();
     // 原始评论数据
     result?.results?.forEach((page) => {
-        comments.set(page.id, {
-            id: page.id,
-            user: page.properties.user.rich_text[0].text.content,
-            time: getRelativeTimeDesc(page.properties.time.created_time),
-            content: page.properties.content.rich_text[0].text.content,
-            avatar: page.properties.avatar.url,
-            replies: page.properties.replies.relation,
-            replyTo: page.properties.replyTo?.relation[0]?.id,
-        });
+        comments.set(page.id, transformPageObject(page));
     });
 
     // 组装回复，把关系 id 替换为实际评论
@@ -49,7 +41,7 @@ async function addComment({ content, replyTo = "" }) {
         user_id: NOTION_CURR_USER_ID,
     });
 
-    notion.request({
+    const page = await notion.request({
         method: "POST",
         path: "pages",
         body: {
@@ -98,7 +90,10 @@ async function addComment({ content, replyTo = "" }) {
             },
         },
     });
+
+    return transformPageObject(page);
 }
+
 
 app.get("/comments", async (req, res) => {
     try {
@@ -112,8 +107,8 @@ app.get("/comments", async (req, res) => {
 
 app.post("/comments", async (req, res) => {
     try {
-        await addComment(req.body);
-        res.sendStatus(201);
+        const newPage =  await addComment(req.body);
+        res.status(201).json(newPage);
     } catch (error) {
         console.log(error);
         res.sendStatus(500);
@@ -153,4 +148,17 @@ function getRelativeTimeDesc(time) {
     } else {
         return `${Math.ceil(relativeTime / yearInMs)} 年前`;
     }
+}
+
+// app.js
+function transformPageObject(page) {
+    return {
+        id: page.id,
+        user: page.properties.user.rich_text[0].text.content,
+        time: getRelativeTimeDesc(page.properties.time.created_time),
+        content: page.properties.content.rich_text[0].text.content,
+        avatar: page.properties.avatar.url,
+        replies: page.properties.replies.relation,
+        replyTo: page.properties.replyTo?.relation[0]?.id,
+    };
 }

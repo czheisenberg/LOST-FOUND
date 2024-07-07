@@ -82,7 +82,7 @@ async function getAllComments() {
 // };
 
 const addNewComment = async (content, replyTo) => {
-  await fetch(`/api/comments`, {
+  const res =  await fetch(`/api/comments`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -93,11 +93,18 @@ const addNewComment = async (content, replyTo) => {
     }),
   });
 
+  const newComment = await res.json();
+  if (!replyTo) {
+    comments.value.unshift(newComment);
+  } else {
+    comments.value.find((c) => c.id === replyTo).replies.unshift(newComment);
+  }
+
   // 新增完评论后，自动获取新的评论列表
   // Notion API 有延迟，在添加完 page 之后，需要过一会才能获取到新的评论列表
-  setTimeout(async () => {
-    await getAllComments();
-  }, 1000);
+  // setTimeout(async () => {
+  //   await getAllComments();
+  // }, 1000);
 };
 
 onMounted(()=>{
