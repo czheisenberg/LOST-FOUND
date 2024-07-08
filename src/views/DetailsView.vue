@@ -67,8 +67,9 @@
   </div>
 </div>
 
-  <TheMessageBoard/>
-
+<!--  <TheMessageBoard/>-->
+<!--<TheUndrawUiComment :goodsId="goodsId"/>-->
+  <TheComment :goodsId="goodsId"/>
 
 
   <TheFooter />
@@ -81,6 +82,8 @@ import axios from '../axios';
 import TheFooter from "@/components/TheFooter.vue";
 import TheNavbar from "@/components/TheNavbar.vue";
 import TheMessageBoard from "@/components/TheMessageBoard.vue";
+import TheUndrawUiComment from "@/components/TheUndrawUiComment.vue";
+import TheComment from "@/components/TheComment.vue";
 
 
 
@@ -89,7 +92,9 @@ import TheMessageBoard from "@/components/TheMessageBoard.vue";
 export default defineComponent({
   name: "DetailsView",
   components: {
-    TheMessageBoard,
+    TheComment,
+    // TheUndrawUiComment,
+    // TheMessageBoard,
     TheNavbar,
     TheFooter,
   },

@@ -49,65 +49,65 @@ const face3 = ref('http://img-resource-198239.oss-cn-beijing.aliyuncs.com/images
 const face4 = ref('')
 const comments = ref([]);
 
-async function getAllComments() {
-  const res = await fetch("/api/comments");
-  comments.value = await res.json();
-}
+// async function getAllComments() {
+//   const res = await fetch("/api/comments");
+//   comments.value = await res.json();
+// }
 
 
-// let rid = ref(4);
-//
-// const constructNewComment = (content) => {
-//   return {
-//     id: rid.value++,
-//     user: "当前用户",
-//     avatar: face4.value,
-//     content,
-//     time: "1秒前",
-//   };
-// };
-// const addNewComment = (content) => {
-//   const newComment = constructNewComment(content);
-//   comments.value.push(newComment);
-// };
-//
-// const addReply = (content, id) => {
-//   const reply = constructNewComment(content);
-//   let comment = comments.value.find((comment) => comment.id === id);
-//   if (comment.replies) {
-//     comment.replies.push(reply);
-//   } else {
-//     comment.replies = [reply];
-//   }
-// };
+let rid = ref(4);
 
-const addNewComment = async (content, replyTo) => {
-  const res =  await fetch(`/api/comments`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      content,
-      ...(replyTo && { replyTo }),
-    }),
-  });
+const constructNewComment = (content) => {
+  return {
+    id: rid.value++,
+    user: "当前用户",
+    avatar: face4.value,
+    content,
+    time: "1秒前",
+  };
+};
+const addNewComment = (content) => {
+  const newComment = constructNewComment(content);
+  comments.value.push(newComment);
+};
 
-  const newComment = await res.json();
-  if (!replyTo) {
-    comments.value.unshift(newComment);
+const addReply = (content, id) => {
+  const reply = constructNewComment(content);
+  let comment = comments.value.find((comment) => comment.id === id);
+  if (comment.replies) {
+    comment.replies.push(reply);
   } else {
-    comments.value.find((c) => c.id === replyTo).replies.unshift(newComment);
+    comment.replies = [reply];
   }
+};
+
+// const addNewComment = async (content, replyTo) => {
+//   const res =  await fetch(`/api/comments`, {
+//     method: "POST",
+//     headers: {
+//       "Content-Type": "application/json",
+//     },
+//     body: JSON.stringify({
+//       content,
+//       ...(replyTo && { replyTo }),
+//     }),
+//   });
+
+  // const newComment = await res.json();
+  // if (!replyTo) {
+  //   comments.value.unshift(newComment);
+  // } else {
+  //   comments.value.find((c) => c.id === replyTo).replies.unshift(newComment);
+  // }
 
   // 新增完评论后，自动获取新的评论列表
   // Notion API 有延迟，在添加完 page 之后，需要过一会才能获取到新的评论列表
   // setTimeout(async () => {
   //   await getAllComments();
   // }, 1000);
-};
+// };
 
-onMounted(()=>{
-  getAllComments();
-})
+// onMounted(()=>{
+//   getAllComments();
+// })
 </script>

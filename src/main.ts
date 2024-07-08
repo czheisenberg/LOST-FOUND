@@ -5,7 +5,10 @@ import router from './router'
 import './style.css'
 import ElementPlus from 'element-plus'
 import 'element-plus/dist/index.css'
+import UndrawUi from 'undraw-ui'
+import 'undraw-ui/dist/style.css'
 import { createPinia } from "pinia";
+
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const defaultImage = require('@/assets/default.svg');
@@ -33,4 +36,5 @@ const pinia=createPinia();
 app.use(pinia);
 app.use(router);
 app.use(ElementPlus);
+app.use(UndrawUi)
 app.mount('#app');
