@@ -91,18 +91,18 @@
                     class="flex items-center p-2 text-base text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-gray-700"
                     active-class="router-link-active"
                     exact-active-class="router-link-exact-active">
-                  失物管理
+                  物品管理
                 </router-link>
               </li>
-              <li>
-                <router-link
-                    :to="{path: '/admin'}"
-                    class="flex items-center p-2 text-base text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-gray-700"
-                    active-class="router-link-active"
-                    exact-active-class="router-link-exact-active">
-                  招领管理
-                </router-link>
-              </li>
+<!--              <li>-->
+<!--                <router-link-->
+<!--                    :to="{path: '/admin'}"-->
+<!--                    class="flex items-center p-2 text-base text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-gray-700"-->
+<!--                    active-class="router-link-active"-->
+<!--                    exact-active-class="router-link-exact-active">-->
+<!--                  招领管理-->
+<!--                </router-link>-->
+<!--              </li>-->
             </ul>
           </li>
 
