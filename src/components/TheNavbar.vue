@@ -26,7 +26,7 @@
           <router-link to="/notice" class="text-gray-900 dark:text-white px-3 py-2 rounded-md text-sm font-medium">
             通知
           </router-link>
-          <a href="#" class="text-gray-900 dark:text-white px-3 py-2 rounded-md text-sm font-medium">联系我们</a>
+          <router-link to="/imgSearch" class="text-gray-900 dark:text-white px-3 py-2 rounded-md text-sm font-medium">以图搜图</router-link>
           <div class="relative flex-grow">
             <input type="text" placeholder="搜索..."
                    class="w-full px-4 py-2 rounded-md border border-gray-300 focus:border-blue-500 focus:ring focus:ring-blue-200 focus:outline-none dark:bg-gray-700 dark:text-white"/>
@@ -88,7 +88,7 @@
         <a href="/" class="block text-gray-900 dark:text-white px-3 py-2 rounded-md text-base font-medium">首页</a>
         <a href="/notice"
            class="block text-gray-900 dark:text-white px-3 py-2 rounded-md text-base font-medium">通知</a>
-        <a href="#" class="block text-gray-900 dark:text-white px-3 py-2 rounded-md text-base font-medium">联系我们</a>
+        <router-link to="/imgSearch" class="text-gray-900 dark:text-white px-3 py-2 rounded-md text-sm font-medium">以图搜图</router-link>
         <div class="relative">
           <input type="text" placeholder="搜索..."
                  class="w-full px-4 py-2 mb-2 rounded-md border border-gray-300 focus:border-blue-500 focus:ring focus:ring-blue-200 focus:outline-none dark:bg-gray-700 dark:text-white"/>
