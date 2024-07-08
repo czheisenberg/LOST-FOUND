@@ -188,6 +188,11 @@ const routes: Array<RouteRecordRaw> = [
     component:()=>import('../views/test.vue')
   },
   {
+    path: '/test2',
+    name: 'test2',
+    component:()=>import('../views/test2.vue')
+  },
+  {
     path: '/imgSearch',
     name: 'imgSearch',
     component:()=>import('../views/ImageSearchView.vue')
