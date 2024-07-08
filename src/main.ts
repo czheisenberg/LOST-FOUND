@@ -5,6 +5,7 @@ import router from './router'
 import './style.css'
 import ElementPlus from 'element-plus'
 import 'element-plus/dist/index.css'
+import zhCn from 'element-plus/es/locale/lang/zh-cn'
 import UndrawUi from 'undraw-ui'
 import 'undraw-ui/dist/style.css'
 import { createPinia } from "pinia";
@@ -35,6 +36,8 @@ const pinia=createPinia();
 
 app.use(pinia);
 app.use(router);
-app.use(ElementPlus);
+app.use(ElementPlus,{
+    locale: zhCn
+});
 app.use(UndrawUi)
 app.mount('#app');
