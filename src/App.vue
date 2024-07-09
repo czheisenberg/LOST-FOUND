@@ -1,10 +1,10 @@
 <template>
   <div class="bg-white dark:bg-gray-800">
     <vue-particles color="#cca4e3"
-                   :particleOpacity="0.6"
+                   :particleOpacity="0.5"
                    :particlesNumber="100"
                    shapeType="polygon"
-                   :particleSize="4"
+                   :particleSize="3"
                    linesColor="#dedede"
                    :linesWidth="1"
                    :lineLinked="true"
