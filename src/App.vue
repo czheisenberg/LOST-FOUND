@@ -1,20 +1,20 @@
 <template>
   <div class="bg-white dark:bg-gray-800">
-    <vue-particles color="#dedede"
-                   :particleOpacity="0.7"
-                   :particlesNumber="80"
-                   shapeType="circle"
+    <vue-particles color="#cca4e3"
+                   :particleOpacity="0.6"
+                   :particlesNumber="100"
+                   shapeType="polygon"
                    :particleSize="4"
                    linesColor="#dedede"
                    :linesWidth="1"
                    :lineLinked="true"
-                   :lineOpacity="0.4"
+                   :lineOpacity="0.5"
                    :linesDistance="150"
-                   :moveSpeed="3"
+                   :moveSpeed="6"
                    :hoverEffect="true"
-                   hoverMode="grab"
+                   hoverMode="bubble"
                    :clickEffect="true"
-                   clickMode="push"
+                   clickMode="remove"
                    class="particles-bg"></vue-particles>
     <!-- <TheNavbar /> -->
     <main class="min-h-screen">
