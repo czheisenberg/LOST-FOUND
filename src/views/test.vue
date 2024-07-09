@@ -1,282 +1,270 @@
 <template>
-  <section class="bg-white dark:bg-gray-900 py-8 lg:py-16 antialiased">
-    <div class="max-w-2xl mx-auto px-4">
-      <div class="flex justify-between items-center mb-6">
-        <h2 class="text-lg lg:text-2xl font-bold text-gray-900 dark:text-white">留言</h2>
+  <div
+      class="flex-1 space-y-6 overflow-y-auto rounded-xl bg-slate-200 p-4 text-sm leading-6 text-slate-900 shadow-sm dark:bg-slate-900 dark:text-slate-300 sm:text-base sm:leading-7"
+  >
+    <div class="flex items-start">
+      <img
+          class="mr-2 h-8 w-8 rounded-full"
+          src="https://dummyimage.com/128x128/363536/ffffff&text=J"
+      />
+      <div
+          class="flex rounded-b-xl rounded-tr-xl bg-slate-50 p-4 dark:bg-slate-800 sm:max-w-md md:max-w-2xl"
+      >
+        <p>Explain quantum computing in simple terms</p>
       </div>
-      <form class="mb-6" @submit.prevent="addContent">
-        <div class="py-2 px-4 mb-4 bg-white rounded-lg rounded-t-lg border border-gray-200 dark:bg-gray-800 dark:border-gray-700">
-          <label for="comment" class="sr-only">Your comment</label>
-          <textarea v-model="content" id="comment" rows="6"
-                    class="px-0 w-full text-sm text-gray-900 border-0 focus:ring-0 focus:outline-none dark:text-white dark:placeholder-gray-400 dark:bg-gray-800"
-                    placeholder="输入评论..." required>
-
-          </textarea>
-        </div>
-        <button type="submit"
-                class="inline-flex items-center py-2.5 px-4 text-xs font-medium text-center text-white bg-blue-700 rounded-lg focus:ring-4 focus:ring-primary-200 dark:focus:ring-primary-900 hover:bg-primary-800">
-          发表评论
-        </button>
-      </form>
-      <article class="p-6 text-base bg-white rounded-lg dark:bg-gray-900" v-for="comment in comments" :key="comment.commentId" >
-        <footer class="flex justify-between items-center mb-2">
-          <div class="flex items-center">
-            <p class="inline-flex items-center mr-3 text-sm text-gray-900 dark:text-white font-semibold"><img
-                class="mr-2 w-6 h-6 rounded-full"
-                :src=comment.userInfoSimRsp.profileimage
-                alt="Michael Gough">{{ comment.userInfoSimRsp.username }}</p>
-            <p class="text-sm text-gray-600 dark:text-gray-400"><time pubdate datetime="2022-02-08"
-                                                                      title="February 8th, 2022">{{ comment.updateTime }}</time></p>
-          </div>
-          <button id="dropdownComment1Button" data-dropdown-toggle="dropdownComment1"
-                  class="inline-flex items-center p-2 text-sm font-medium text-center text-gray-500 dark:text-gray-400 bg-white rounded-lg hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-50 dark:bg-gray-900 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
-                  type="button">
-            <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 3">
-              <path d="M2 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Zm6.041 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM14 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Z"/>
-            </svg>
-            <span class="sr-only">Comment settings</span>
-          </button>
-          <!-- Dropdown menu -->
-          <div id="dropdownComment1"
-               class="hidden z-10 w-36 bg-white rounded divide-y divide-gray-100 shadow dark:bg-gray-700 dark:divide-gray-600">
-            <ul class="py-1 text-sm text-gray-700 dark:text-gray-200"
-                aria-labelledby="dropdownMenuIconHorizontalButton">
-              <li>
-                <a href="#"
-                   class="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">编辑</a>
-              </li>
-              <li>
-                <a href="#"
-                   class="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">删除</a>
-              </li>
-              <li>
-                <a href="#"
-                   class="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">举报</a>
-              </li>
-            </ul>
-          </div>
-        </footer>
-        <p class="text-gray-500 dark:text-gray-400">{{ comment.content }}</p>
-        <div class="flex items-center mt-4 space-x-4">
-          <button type="button"
-                  class="flex items-center text-sm text-gray-500 hover:underline dark:text-gray-400 font-medium">
-            <svg class="mr-1.5 w-3.5 h-3.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 18">
-              <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 5h5M5 8h2m6-3h2m-5 3h6m2-7H2a1 1 0 0 0-1 1v9a1 1 0 0 0 1 1h3v5l5-5h8a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1Z"/>
-            </svg>
-            回复
-          </button>
-        </div>
-      </article>
-      <article class="p-6 mb-3 ml-6 lg:ml-12 text-base bg-white rounded-lg dark:bg-gray-900">
-        <footer class="flex justify-between items-center mb-2">
-          <div class="flex items-center">
-            <p class="inline-flex items-center mr-3 text-sm text-gray-900 dark:text-white font-semibold"><img
-                class="mr-2 w-6 h-6 rounded-full"
-                src="https://flowbite.com/docs/images/people/profile-picture-5.jpg"
-                alt="Jese Leos">Jese Leos</p>
-            <p class="text-sm text-gray-600 dark:text-gray-400"><time pubdate datetime="2022-02-12"
-                                                                      title="February 12th, 2022">Feb. 12, 2022</time></p>
-          </div>
-          <button id="dropdownComment2Button" data-dropdown-toggle="dropdownComment2"
-                  class="inline-flex items-center p-2 text-sm font-medium text-center text-gray-500 dark:text-gray-40 bg-white rounded-lg hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-50 dark:bg-gray-900 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
-                  type="button">
-            <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 3">
-              <path d="M2 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Zm6.041 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM14 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Z"/>
-            </svg>
-            <span class="sr-only">Comment settings</span>
-          </button>
-          <!-- Dropdown menu -->
-          <div id="dropdownComment2"
-               class="hidden z-10 w-36 bg-white rounded divide-y divide-gray-100 shadow dark:bg-gray-700 dark:divide-gray-600">
-            <ul class="py-1 text-sm text-gray-700 dark:text-gray-200"
-                aria-labelledby="dropdownMenuIconHorizontalButton">
-              <li>
-                <a href="#"
-                   class="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">编辑</a>
-              </li>
-              <li>
-                <a href="#"
-                   class="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">删除</a>
-              </li>
-              <li>
-                <a href="#"
-                   class="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">举报</a>
-              </li>
-            </ul>
-          </div>
-        </footer>
-        <p class="text-gray-500 dark:text-gray-400">Much appreciated! Glad you liked it ☺️</p>
-        <div class="flex items-center mt-4 space-x-4">
-          <button type="button"
-                  class="flex items-center text-sm text-gray-500 hover:underline dark:text-gray-400 font-medium">
-            <svg class="mr-1.5 w-3.5 h-3.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 18">
-              <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 5h5M5 8h2m6-3h2m-5 3h6m2-7H2a1 1 0 0 0-1 1v9a1 1 0 0 0 1 1h3v5l5-5h8a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1Z"/>
-            </svg>
-            回复
-          </button>
-        </div>
-      </article>
-<!--      <article class="p-6 mb-3 text-base bg-white border-t border-gray-200 dark:border-gray-700 dark:bg-gray-900">-->
-<!--        <footer class="flex justify-between items-center mb-2">-->
-<!--          <div class="flex items-center">-->
-<!--            <p class="inline-flex items-center mr-3 text-sm text-gray-900 dark:text-white font-semibold"><img-->
-<!--                class="mr-2 w-6 h-6 rounded-full"-->
-<!--                src="https://flowbite.com/docs/images/people/profile-picture-3.jpg"-->
-<!--                alt="Bonnie Green">Bonnie Green</p>-->
-<!--            <p class="text-sm text-gray-600 dark:text-gray-400"><time pubdate datetime="2022-03-12"-->
-<!--                                                                      title="March 12th, 2022">Mar. 12, 2022</time></p>-->
-<!--          </div>-->
-<!--          <button id="dropdownComment3Button" data-dropdown-toggle="dropdownComment3"-->
-<!--                  class="inline-flex items-center p-2 text-sm font-medium text-center text-gray-500 dark:text-gray-40 bg-white rounded-lg hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-50 dark:bg-gray-900 dark:hover:bg-gray-700 dark:focus:ring-gray-600"-->
-<!--                  type="button">-->
-<!--            <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 3">-->
-<!--              <path d="M2 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Zm6.041 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM14 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Z"/>-->
-<!--            </svg>-->
-<!--            <span class="sr-only">Comment settings</span>-->
-<!--          </button>-->
-<!--          &lt;!&ndash; Dropdown menu &ndash;&gt;-->
-<!--          <div id="dropdownComment3"-->
-<!--               class="hidden z-10 w-36 bg-white rounded divide-y divide-gray-100 shadow dark:bg-gray-700 dark:divide-gray-600">-->
-<!--            <ul class="py-1 text-sm text-gray-700 dark:text-gray-200"-->
-<!--                aria-labelledby="dropdownMenuIconHorizontalButton">-->
-<!--              <li>-->
-<!--                <a href="#"-->
-<!--                   class="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">编辑</a>-->
-<!--              </li>-->
-<!--              <li>-->
-<!--                <a href="#"-->
-<!--                   class="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">删除</a>-->
-<!--              </li>-->
-<!--              <li>-->
-<!--                <a href="#"-->
-<!--                   class="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">举报</a>-->
-<!--              </li>-->
-<!--            </ul>-->
-<!--          </div>-->
-<!--        </footer>-->
-<!--        <p class="text-gray-500 dark:text-gray-400">The article covers the essentials, challenges, myths and stages the UX designer should consider while creating the design strategy.</p>-->
-<!--        <div class="flex items-center mt-4 space-x-4">-->
-<!--          <button type="button"-->
-<!--                  class="flex items-center text-sm text-gray-500 hover:underline dark:text-gray-400 font-medium">-->
-<!--            <svg class="mr-1.5 w-3.5 h-3.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 18">-->
-<!--              <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 5h5M5 8h2m6-3h2m-5 3h6m2-7H2a1 1 0 0 0-1 1v9a1 1 0 0 0 1 1h3v5l5-5h8a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1Z"/>-->
-<!--            </svg>-->
-<!--            回复-->
-<!--          </button>-->
-<!--        </div>-->
-<!--      </article>-->
-<!--      <article class="p-6 text-base bg-white border-t border-gray-200 dark:border-gray-700 dark:bg-gray-900">-->
-<!--        <footer class="flex justify-between items-center mb-2">-->
-<!--          <div class="flex items-center">-->
-<!--            <p class="inline-flex items-center mr-3 text-sm text-gray-900 dark:text-white font-semibold"><img-->
-<!--                class="mr-2 w-6 h-6 rounded-full"-->
-<!--                src="https://flowbite.com/docs/images/people/profile-picture-4.jpg"-->
-<!--                alt="Helene Engels">Helene Engels</p>-->
-<!--            <p class="text-sm text-gray-600 dark:text-gray-400"><time pubdate datetime="2022-06-23"-->
-<!--                                                                      title="June 23rd, 2022">Jun. 23, 2022</time></p>-->
-<!--          </div>-->
-<!--          <button id="dropdownComment4Button" data-dropdown-toggle="dropdownComment4"-->
-<!--                  class="inline-flex items-center p-2 text-sm font-medium text-center text-gray-500 dark:text-gray-40 bg-white rounded-lg hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-50 dark:bg-gray-900 dark:hover:bg-gray-700 dark:focus:ring-gray-600"-->
-<!--                  type="button">-->
-<!--            <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 3">-->
-<!--              <path d="M2 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Zm6.041 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM14 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Z"/>-->
-<!--            </svg>-->
-<!--          </button>-->
-<!--          &lt;!&ndash; Dropdown menu &ndash;&gt;-->
-<!--          <div id="dropdownComment4"-->
-<!--               class="hidden z-10 w-36 bg-white rounded divide-y divide-gray-100 shadow dark:bg-gray-700 dark:divide-gray-600">-->
-<!--            <ul class="py-1 text-sm text-gray-700 dark:text-gray-200"-->
-<!--                aria-labelledby="dropdownMenuIconHorizontalButton">-->
-<!--              <li>-->
-<!--                <a href="#"-->
-<!--                   class="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">编辑</a>-->
-<!--              </li>-->
-<!--              <li>-->
-<!--                <a href="#"-->
-<!--                   class="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">删除</a>-->
-<!--              </li>-->
-<!--              <li>-->
-<!--                <a href="#"-->
-<!--                   class="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">举报</a>-->
-<!--              </li>-->
-<!--            </ul>-->
-<!--          </div>-->
-<!--        </footer>-->
-<!--        <p class="text-gray-500 dark:text-gray-400">Thanks for sharing this. I do came from the Backend development and explored some of the tools to design my Side Projects.</p>-->
-<!--        <div class="flex items-center mt-4 space-x-4">-->
-<!--          <button type="button"-->
-<!--                  class="flex items-center text-sm text-gray-500 hover:underline dark:text-gray-400 font-medium">-->
-<!--            <svg class="mr-1.5 w-3.5 h-3.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 18">-->
-<!--              <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 5h5M5 8h2m6-3h2m-5 3h6m2-7H2a1 1 0 0 0-1 1v9a1 1 0 0 0 1 1h3v5l5-5h8a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1Z"/>-->
-<!--            </svg>-->
-<!--            回复-->
-<!--          </button>-->
-<!--        </div>-->
-<!--      </article>-->
     </div>
-  </section>
+    <div class="flex flex-row-reverse items-start">
+      <img
+          class="ml-2 h-8 w-8 rounded-full"
+          src="https://dummyimage.com/128x128/354ea1/ffffff&text=G"
+      />
 
+      <div
+          class="flex min-h-[85px] rounded-b-xl rounded-tl-xl bg-slate-50 p-4 dark:bg-slate-800 sm:min-h-0 sm:max-w-md md:max-w-2xl"
+      >
+        <p>
+          Certainly! Quantum computing is a new type of computing that relies on
+          the principles of quantum physics. Traditional computers, like the one
+          you might be using right now, use bits to store and process information.
+          These bits can represent either a 0 or a 1. In contrast, quantum
+          computers use quantum bits, or qubits.<br /><br />
+          Unlike bits, qubits can represent not only a 0 or a 1 but also a
+          superposition of both states simultaneously. This means that a qubit can
+          be in multiple states at once, which allows quantum computers to perform
+          certain calculations much faster and more efficiently
+        </p>
+      </div>
+      <div
+          class="mr-2 mt-1 flex flex-col-reverse gap-2 text-slate-500 sm:flex-row"
+      >
+        <button class="hover:text-blue-600" type="button">
+          <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-5 w-5"
+              viewBox="0 0 24 24"
+              stroke-width="2"
+              stroke="currentColor"
+              fill="none"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+          >
+            <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+            <path
+                d="M8 8m0 2a2 2 0 0 1 2 -2h8a2 2 0 0 1 2 2v8a2 2 0 0 1 -2 2h-8a2 2 0 0 1 -2 -2z"
+            ></path>
+            <path
+                d="M16 8v-2a2 2 0 0 0 -2 -2h-8a2 2 0 0 0 -2 2v8a2 2 0 0 0 2 2h2"
+            ></path>
+          </svg>
+        </button>
+        <button class="hover:text-blue-600" type="button">
+          <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-5 w-5"
+              viewBox="0 0 24 24"
+              stroke-width="2"
+              stroke="currentColor"
+              fill="none"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+          >
+            <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+            <path
+                d="M7 13v-8a1 1 0 0 0 -1 -1h-2a1 1 0 0 0 -1 1v7a1 1 0 0 0 1 1h3a4 4 0 0 1 4 4v1a2 2 0 0 0 4 0v-5h3a2 2 0 0 0 2 -2l-1 -5a2 3 0 0 0 -2 -2h-7a3 3 0 0 0 -3 3"
+            ></path>
+          </svg>
+        </button>
+        <button class="hover:text-blue-600">
+          <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-5 w-5"
+              viewBox="0 0 24 24"
+              stroke-width="2"
+              stroke="currentColor"
+              fill="none"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+          >
+            <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+            <path
+                d="M7 11v8a1 1 0 0 1 -1 1h-2a1 1 0 0 1 -1 -1v-7a1 1 0 0 1 1 -1h3a4 4 0 0 0 4 -4v-1a2 2 0 0 1 4 0v5h3a2 2 0 0 1 2 2l-1 5a2 3 0 0 1 -2 2h-7a3 3 0 0 1 -3 -3"
+            ></path>
+          </svg>
+        </button>
+      </div>
+    </div>
+    <div class="flex items-start">
+      <img
+          class="mr-2 h-8 w-8 rounded-full"
+          src="https://dummyimage.com/128x128/363536/ffffff&text=J"
+      />
+      <div
+          class="flex rounded-b-xl rounded-tr-xl bg-slate-50 p-4 dark:bg-slate-800 sm:max-w-md md:max-w-2xl"
+      >
+        <p>What are three great applications of quantum computing?</p>
+      </div>
+    </div>
+    <div class="flex flex-row-reverse items-start">
+      <img
+          class="ml-2 h-8 w-8 rounded-full"
+          src="https://dummyimage.com/128x128/354ea1/ffffff&text=G"
+      />
+      <div
+          class="flex min-h-[85px] rounded-b-xl rounded-tl-xl bg-slate-50 p-4 dark:bg-slate-800 sm:min-h-0 sm:max-w-md md:max-w-2xl"
+      >
+        <p>
+          Three great applications of quantum computing are: Optimization of
+          complex problems, Drug Discovery and Cryptography.
+        </p>
+      </div>
+      <div
+          class="mr-2 mt-1 flex flex-col-reverse gap-2 text-slate-500 sm:flex-row"
+      >
+        <button class="hover:text-blue-600" type="button">
+          <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-5 w-5"
+              viewBox="0 0 24 24"
+              stroke-width="2"
+              stroke="currentColor"
+              fill="none"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+          >
+            <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+            <path
+                d="M8 8m0 2a2 2 0 0 1 2 -2h8a2 2 0 0 1 2 2v8a2 2 0 0 1 -2 2h-8a2 2 0 0 1 -2 -2z"
+            ></path>
+            <path
+                d="M16 8v-2a2 2 0 0 0 -2 -2h-8a2 2 0 0 0 -2 2v8a2 2 0 0 0 2 2h2"
+            ></path>
+          </svg>
+        </button>
+        <button class="hover:text-blue-600" type="button">
+          <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-5 w-5"
+              viewBox="0 0 24 24"
+              stroke-width="2"
+              stroke="currentColor"
+              fill="none"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+          >
+            <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+            <path
+                d="M7 13v-8a1 1 0 0 0 -1 -1h-2a1 1 0 0 0 -1 1v7a1 1 0 0 0 1 1h3a4 4 0 0 1 4 4v1a2 2 0 0 0 4 0v-5h3a2 2 0 0 0 2 -2l-1 -5a2 3 0 0 0 -2 -2h-7a3 3 0 0 0 -3 3"
+            ></path>
+          </svg>
+        </button>
+        <button class="hover:text-blue-600">
+          <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-5 w-5"
+              viewBox="0 0 24 24"
+              stroke-width="2"
+              stroke="currentColor"
+              fill="none"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+          >
+            <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+            <path
+                d="M7 11v8a1 1 0 0 1 -1 1h-2a1 1 0 0 1 -1 -1v-7a1 1 0 0 1 1 -1h3a4 4 0 0 0 4 -4v-1a2 2 0 0 1 4 0v5h3a2 2 0 0 1 2 2l-1 5a2 3 0 0 1 -2 2h-7a3 3 0 0 1 -3 -3"
+            ></path>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </div>
+<test2/>
+<!--  <div class="p-4 max-w-lg mx-auto">-->
+<!--    <div class="chat-window border rounded p-4 mb-4 h-80 overflow-y-scroll">-->
+<!--      <div v-for="msg in messages" :key="msg.id" :class="['message', msg.type === 'sent' ? 'bg-green-200 self-end ml-auto' : 'bg-gray-200']">-->
+<!--        {{ msg.content }}-->
+<!--      </div>-->
+<!--    </div>-->
+<!--    <div class="flex space-x-2">-->
+<!--      <input v-model="messageToSend" type="text" @keyup.enter="send" class="flex-1 p-2 border rounded" />-->
+<!--      <button @click="send" class="px-4 py-2 bg-blue-500 text-white rounded">发送消息</button>-->
+<!--      <button @click="closeWebSocket" class="px-4 py-2 bg-red-500 text-white rounded">关闭连接</button>-->
+<!--    </div>-->
+<!--  </div>-->
 </template>
 
-
 <script lang="ts" setup>
-import {onMounted, ref} from 'vue'
-import axios from '@/axios'
+import { ref, onMounted, onBeforeUnmount } from 'vue';
+import test2 from '@/views/test2.vue'
 
-
-const comments = ref([
-  {
-    commentId: '',
-    content: '',
-    updateTime: '',
-    userInfoSimRsp:{
-      profileimage: '',
-      userId: '',
-      username: '',
-    },
-    childList:{
-      commentId: '',
-      content: '',
-      updateTime: '',
-      userInfoSimRsp:{
-        profileimage: '',
-        userId: '',
-        username: '',
-      }
-    }
-  }
-])
-
-const commentsFetchData = async()=>{
-  const responseData = await axios.get("/comment/query/1003365697922928640");
-  console.log(responseData.data.data);
-  comments.value = responseData.data.data
+interface Message {
+  id: string;
+  content: string;
+  type: 'sent' | 'received';
 }
 
-// console.log("comments.value: ", comments.value)
-// commentsFetchData();
+const websocket = ref<WebSocket | null>(null);
+const clientId = Math.random().toString(36).substr(2);
+const messageToSend = ref('');
+const messages = ref<Message[]>([]);
 
+const addMessage = (content: string, type: 'sent' | 'received') => {
+  messages.value.push({ id: Math.random().toString(36).substr(2), content, type });
+};
 
-const content = ref('');
-const addContent =  async ()=>{
-  const upateData = new FormData();
-  upateData.append('goodsId', '1003365697922928640')
-  upateData.append('content', content.value)
-
-  try{
-    const responseData = await axios.post("/comment/add", upateData,{
-      headers: {
-        'Content-Type': 'multipart/form-data',
-      },
-    });
-    console.log("add content responseData: ", responseData.data)
-  }catch(error){
-    console.log("add content error: ", error)
+const send = () => {
+  if (websocket.value && websocket.value.readyState === WebSocket.OPEN) {
+    websocket.value.send(messageToSend.value);
+    addMessage(messageToSend.value, 'sent');
+    messageToSend.value = '';
   }
+};
 
-}
+const closeWebSocket = () => {
+  if (websocket.value) {
+    websocket.value.close();
+  }
+};
 
-onMounted(()=>{
-  commentsFetchData()
-})
+onMounted(() => {
+  if ('WebSocket' in window) {
+    websocket.value = new WebSocket(`ws://localhost:8081/ws/${clientId}`);
+
+    websocket.value.onerror = () => {
+      addMessage("连接错误", 'received');
+    };
+
+    websocket.value.onopen = () => {
+      // addMessage("连接成功", 'received');
+    };
+
+    websocket.value.onmessage = (event) => {
+      addMessage(event.data, 'received');
+    };
+
+    websocket.value.onclose = () => {
+      addMessage("连接关闭", 'received');
+    };
+  } else {
+    alert('当前浏览器不支持 WebSocket');
+  }
+});
+
+onBeforeUnmount(() => {
+  if (websocket.value) {
+    websocket.value.close();
+  }
+});
 </script>
+
+<style scoped>
+.chat-window {
+  display: flex;
+  flex-direction: column;
+}
+.message {
+  margin: 0.5rem 0;
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  max-width: 70%;
+}
+</style>
