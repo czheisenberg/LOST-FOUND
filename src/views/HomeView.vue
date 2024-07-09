@@ -16,14 +16,14 @@
           <span class="text-xs text-black dark:text-white">{{ card.dateTime }}</span>
         </div>
         <!-- 商品图片 -->
-        <a :href="card.detailsUrl">
-          <img class="object-cover w-full h-56 rounded-t-lg" :src="card.goodsImg" alt="Product Image" />
-        </a>
+
+        <img class="object-cover w-full h-56 rounded-t-lg" :src="card.goodsImg" alt="Product Image" />
+
         <div class="p-4">
           <!-- 物品描述 -->
-          <a :href="card.detailsUrl">
-            <h5 class="text-xl font-semibold tracking-tight text-gray-900 dark:text-white">{{ card.message }}</h5>
-          </a>
+          <!--  slice(0,15)字符串长度截取    -->
+          <h5 class="text-xl font-semibold tracking-tight text-gray-900 dark:text-white">{{ card.message.slice(0,14) }}……</h5>
+
           <!-- 物品状态判断 -->
           <div class="mt-2.5 mb-5">
             <span v-if="card.stuffState" class="bg-green-300 text-blue-800 text-xs font-semibold px-2.5 py-0.5 rounded dark:bg-green-300 dark:text-blue-800 ms-3">捡到物品</span>
