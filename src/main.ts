@@ -10,6 +10,8 @@ import UndrawUi from 'undraw-ui'
 import 'undraw-ui/dist/style.css'
 import { createPinia } from "pinia";
 
+import VueParticles from 'vue-particles';
+
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const defaultImage = require('@/assets/default.svg');
@@ -33,7 +35,7 @@ app.config.errorHandler = (err, vm, info) => {
 
 // createApp(App).use(router).mount('#app')
 const pinia=createPinia();
-
+app.use(VueParticles)
 app.use(pinia);
 app.use(router);
 app.use(ElementPlus,{
