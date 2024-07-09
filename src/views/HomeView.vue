@@ -1,5 +1,6 @@
 <template>
   <TheNavbar/>
+<!--  <h2>{{ searchQuery }}</h2>-->
   <div class="container mx-auto mt-4 flex flex-wrap dark:bg-gray-800">
     <!-- 循环渲染当前页的卡片 -->
     <div v-for="(card, index) in paginatedCards" :key="index" class="w-full sm:w-1/2 md:w-1/2 lg:w-1/3 xl:w-1/4 px-4 mb-4">
@@ -15,14 +16,14 @@
           <span class="text-xs text-black dark:text-white">{{ card.dateTime }}</span>
         </div>
         <!-- 商品图片 -->
-        <a :href="card.detailsUrl">
-          <img class="object-cover w-full h-56 rounded-t-lg" :src="card.goodsImg" alt="Product Image" />
-        </a>
+
+        <img class="object-cover w-full h-56 rounded-t-lg" :src="card.goodsImg" alt="Product Image" />
+
         <div class="p-4">
           <!-- 物品描述 -->
-          <a :href="card.detailsUrl">
-            <h5 class="text-xl font-semibold tracking-tight text-gray-900 dark:text-white">{{ card.message }}</h5>
-          </a>
+          <!--  slice(0,15)字符串长度截取    -->
+          <h5 class="text-xl font-semibold tracking-tight text-gray-900 dark:text-white">{{ card.message.slice(0,14) }}……</h5>
+
           <!-- 物品状态判断 -->
           <div class="mt-2.5 mb-5">
             <span v-if="card.stuffState" class="bg-green-300 text-blue-800 text-xs font-semibold px-2.5 py-0.5 rounded dark:bg-green-300 dark:text-blue-800 ms-3">捡到物品</span>
@@ -60,9 +61,10 @@
 </template>
 
 
-<script lang="ts">
-import { defineComponent, computed, ref, onMounted } from 'vue';
+<script lang="ts" setup>
+import { computed, ref, onMounted ,watch} from 'vue';
 import axios from '../axios';
+import { useRoute, useRouter } from 'vue-router';
 import TheFooter from '@/components/TheFooter.vue';
 import TheNavbar from '@/components/TheNavbar.vue';
 
@@ -79,235 +81,230 @@ interface BackendData {
   stuffstate: boolean;
 }
 
-export default defineComponent({
-  name: 'HomeView',
-  components: {
-    TheNavbar
-  },
-  setup() {
+// console.log("------",searchQuery.value)
+// const cards = ref(
+//   [
+//     {
+//       // 以下这些信息从数据库中读取
+//         id: 1,
+//         profileImage : ref("https://avatars.githubusercontent.com/u/52897817?v=4"),
+//         username : ref('Alice'),
+//         name: ref('李某'),
+//         dateTime : ref('6/14/2024 10:34PM'),
+//         goods: ref('手表'),
+//         goodsImg : ref('https://flowbite.com/docs/images/products/apple-watch.png'),
+//         message : ref('求助🙏我于今日在操场丢失一块Apple Watch🥲'),
+//         phoneNumber : ref('13545678999'),
+//         address: ref('操场'),
+//
+//       // 物品状态: flase 代表:丢失物品, true 代表发现物品
+//         stuffState : false,
+//       // 详细信息
+//       detailsUrl: "#",
+//
+//     },
+//     {
+//         id: 2,
+//         profileImage : ref("https://avatars.githubusercontent.com/u/52897817?v=4"),
+//         username : ref('Alice'),
+//         name: ref('李某'),
+//         dateTime : ref('6/14/2024 10:34PM'),
+//         goods: ref('手表'),
+//         goodsImg : ref('https://flowbite.com/docs/images/products/apple-watch.png'),
+//         message : ref('求助🙏我于今日在操场丢失一块Apple Watch🥲'),
+//         phoneNumber : ref('13545678999'),
+//         address: ref('操场'),
+//         stuffState : true,
+//         detailsUrl: "#"
+//     },
+//     {
+//         id: 3,
+//         profileImage : ref("https://avatars.githubusercontent.com/u/52897817?v=4"),
+//         username : ref('Alice'),
+//         name: ref('李某'),
+//         dateTime : ref('6/14/2024 10:34PM'),
+//         goods: ref('手表'),
+//         goodsImg : ref('https://flowbite.com/docs/images/products/apple-watch.png'),
+//         message : ref('求助🙏我于今日在操场丢失一块Apple Watch🥲'),
+//         phoneNumber : ref('13545678999'),
+//         address: ref('操场'),
+//         stuffState : true,
+//         detailsUrl: "#"
+//     },
+//     {
+//         id: 4,
+//         profileImage : ref("https://avatars.githubusercontent.com/u/52897817?v=4"),
+//         username : ref('Alice'),
+//         name: ref('李某'),
+//         dateTime : ref('6/14/2024 10:34PM'),
+//         goods: ref('手表'),
+//         goodsImg : ref('https://flowbite.com/docs/images/products/apple-watch.png'),
+//         message : ref('求助🙏我于今日在操场丢失一块Apple Watch🥲'),
+//         phoneNumber : ref('13545678999'),
+//         address: ref('操场'),
+//         stuffState : true,
+//         detailsUrl: "#"
+//     },
+//     {
+//         id: 5,
+//         profileImage : ref("https://avatars.githubusercontent.com/u/52897817?v=4"),
+//         username : ref('Alice'),
+//         name: ref('李某'),
+//         dateTime : ref('6/14/2024 10:34PM'),
+//         goods: ref('手表'),
+//         goodsImg : ref('https://flowbite.com/docs/images/products/apple-watch.png'),
+//         message : ref('求助🙏我于今日在操场丢失一块Apple Watch🥲'),
+//         phoneNumber : ref('13545678999'),
+//         address: ref('操场'),
+//         stuffState : true,
+//         detailsUrl: "#"
+//     },
+//     {
+//         id: 6,
+//         profileImage : ref("https://avatars.githubusercontent.com/u/52897817?v=4"),
+//         username : ref('Alice'),
+//         name: ref('李某'),
+//         dateTime : ref('6/14/2024 10:34PM'),
+//         goods: ref('手表'),
+//         goodsImg : ref('https://flowbite.com/docs/images/products/apple-watch.png'),
+//         message : ref('求助🙏我于今日在操场丢失一块Apple Watch🥲'),
+//         phoneNumber : ref('13545678999'),
+//         address: ref('操场'),
+//         stuffState : false,
+//         detailsUrl: "#"
+//     },
+//     {
+//         id: 7,
+//         profileImage : ref("https://avatars.githubusercontent.com/u/52897817?v=4"),
+//         username : ref('Alice'),
+//         name: ref('李某'),
+//         dateTime : ref('6/14/2024 10:34PM'),
+//         goods: ref('手表'),
+//         goodsImg : ref('https://flowbite.com/docs/images/products/apple-watch.png'),
+//         message : ref('求助🙏我于今日在操场丢失一块Apple Watch🥲'),
+//         phoneNumber : ref('13545678999'),
+//         address: ref('操场'),
+//         stuffState : false,
+//         detailsUrl: "#"
+//     },
+//     {
+//         id: 8,
+//         profileImage : ref("https://avatars.githubusercontent.com/u/52897817?v=4"),
+//         username : ref('Alice'),
+//         name: ref('李某'),
+//         dateTime : ref('6/14/2024 10:34PM'),
+//         goods: ref('手表'),
+//         goodsImg : ref('https://flowbite.com/docs/images/products/apple-watch.png'),
+//         message : ref('求助🙏我于今日在操场丢失一块Apple Watch🥲'),
+//         phoneNumber : ref('13545678999'),
+//         address: ref('操场'),
+//         stuffState : true,
+//         detailsUrl: "#"
+//     },
+//     {
+//         id: 9,
+//         profileImage : ref("https://avatars.githubusercontent.com/u/52897817?v=4"),
+//         username : ref('Alice'),
+//         name: ref('李某'),
+//         dateTime : ref('6/14/2024 10:34PM'),
+//         goods: ref('手表'),
+//         goodsImg : ref('https://flowbite.com/docs/images/products/apple-watch.png'),
+//         message : ref('求助🙏我于今日在操场丢失一块Apple Watch🥲'),
+//         phoneNumber : ref('13545678999'),
+//         address: ref('操场'),
+//         stuffState : true,
+//         detailsUrl: "#"
+//     },
+//     {
+//         id: 10,
+//         profileImage : ref("https://avatars.githubusercontent.com/u/52897817?v=4"),
+//         username : ref('Alice'),
+//         name: ref('李某'),
+//         dateTime : ref('6/14/2024 10:34PM'),
+//         goods: ref('手表'),
+//         goodsImg : ref('https://flowbite.com/docs/images/products/apple-watch.png'),
+//         message : ref('求助🙏我于今日在操场丢失一块Apple Watch🥲'),
+//         phoneNumber : ref('13545678999'),
+//         address: ref('操场'),
+//         stuffState : true,
+//         detailsUrl: "#"
+//     },
+//   ]
+// )
 
-    // const cards = ref(
-    //   [
-    //     {
-    //       // 以下这些信息从数据库中读取
-    //         id: 1,
-    //         profileImage : ref("https://avatars.githubusercontent.com/u/52897817?v=4"),
-    //         username : ref('Alice'),
-    //         name: ref('李某'),
-    //         dateTime : ref('6/14/2024 10:34PM'),
-    //         goods: ref('手表'),
-    //         goodsImg : ref('https://flowbite.com/docs/images/products/apple-watch.png'),
-    //         message : ref('求助🙏我于今日在操场丢失一块Apple Watch🥲'),
-    //         phoneNumber : ref('13545678999'),
-    //         address: ref('操场'),
-    //
-    //       // 物品状态: flase 代表:丢失物品, true 代表发现物品
-    //         stuffState : false,
-    //       // 详细信息
-    //       detailsUrl: "#",
-    //
-    //     },
-    //     {
-    //         id: 2,
-    //         profileImage : ref("https://avatars.githubusercontent.com/u/52897817?v=4"),
-    //         username : ref('Alice'),
-    //         name: ref('李某'),
-    //         dateTime : ref('6/14/2024 10:34PM'),
-    //         goods: ref('手表'),
-    //         goodsImg : ref('https://flowbite.com/docs/images/products/apple-watch.png'),
-    //         message : ref('求助🙏我于今日在操场丢失一块Apple Watch🥲'),
-    //         phoneNumber : ref('13545678999'),
-    //         address: ref('操场'),
-    //         stuffState : true,
-    //         detailsUrl: "#"
-    //     },
-    //     {
-    //         id: 3,
-    //         profileImage : ref("https://avatars.githubusercontent.com/u/52897817?v=4"),
-    //         username : ref('Alice'),
-    //         name: ref('李某'),
-    //         dateTime : ref('6/14/2024 10:34PM'),
-    //         goods: ref('手表'),
-    //         goodsImg : ref('https://flowbite.com/docs/images/products/apple-watch.png'),
-    //         message : ref('求助🙏我于今日在操场丢失一块Apple Watch🥲'),
-    //         phoneNumber : ref('13545678999'),
-    //         address: ref('操场'),
-    //         stuffState : true,
-    //         detailsUrl: "#"
-    //     },
-    //     {
-    //         id: 4,
-    //         profileImage : ref("https://avatars.githubusercontent.com/u/52897817?v=4"),
-    //         username : ref('Alice'),
-    //         name: ref('李某'),
-    //         dateTime : ref('6/14/2024 10:34PM'),
-    //         goods: ref('手表'),
-    //         goodsImg : ref('https://flowbite.com/docs/images/products/apple-watch.png'),
-    //         message : ref('求助🙏我于今日在操场丢失一块Apple Watch🥲'),
-    //         phoneNumber : ref('13545678999'),
-    //         address: ref('操场'),
-    //         stuffState : true,
-    //         detailsUrl: "#"
-    //     },
-    //     {
-    //         id: 5,
-    //         profileImage : ref("https://avatars.githubusercontent.com/u/52897817?v=4"),
-    //         username : ref('Alice'),
-    //         name: ref('李某'),
-    //         dateTime : ref('6/14/2024 10:34PM'),
-    //         goods: ref('手表'),
-    //         goodsImg : ref('https://flowbite.com/docs/images/products/apple-watch.png'),
-    //         message : ref('求助🙏我于今日在操场丢失一块Apple Watch🥲'),
-    //         phoneNumber : ref('13545678999'),
-    //         address: ref('操场'),
-    //         stuffState : true,
-    //         detailsUrl: "#"
-    //     },
-    //     {
-    //         id: 6,
-    //         profileImage : ref("https://avatars.githubusercontent.com/u/52897817?v=4"),
-    //         username : ref('Alice'),
-    //         name: ref('李某'),
-    //         dateTime : ref('6/14/2024 10:34PM'),
-    //         goods: ref('手表'),
-    //         goodsImg : ref('https://flowbite.com/docs/images/products/apple-watch.png'),
-    //         message : ref('求助🙏我于今日在操场丢失一块Apple Watch🥲'),
-    //         phoneNumber : ref('13545678999'),
-    //         address: ref('操场'),
-    //         stuffState : false,
-    //         detailsUrl: "#"
-    //     },
-    //     {
-    //         id: 7,
-    //         profileImage : ref("https://avatars.githubusercontent.com/u/52897817?v=4"),
-    //         username : ref('Alice'),
-    //         name: ref('李某'),
-    //         dateTime : ref('6/14/2024 10:34PM'),
-    //         goods: ref('手表'),
-    //         goodsImg : ref('https://flowbite.com/docs/images/products/apple-watch.png'),
-    //         message : ref('求助🙏我于今日在操场丢失一块Apple Watch🥲'),
-    //         phoneNumber : ref('13545678999'),
-    //         address: ref('操场'),
-    //         stuffState : false,
-    //         detailsUrl: "#"
-    //     },
-    //     {
-    //         id: 8,
-    //         profileImage : ref("https://avatars.githubusercontent.com/u/52897817?v=4"),
-    //         username : ref('Alice'),
-    //         name: ref('李某'),
-    //         dateTime : ref('6/14/2024 10:34PM'),
-    //         goods: ref('手表'),
-    //         goodsImg : ref('https://flowbite.com/docs/images/products/apple-watch.png'),
-    //         message : ref('求助🙏我于今日在操场丢失一块Apple Watch🥲'),
-    //         phoneNumber : ref('13545678999'),
-    //         address: ref('操场'),
-    //         stuffState : true,
-    //         detailsUrl: "#"
-    //     },
-    //     {
-    //         id: 9,
-    //         profileImage : ref("https://avatars.githubusercontent.com/u/52897817?v=4"),
-    //         username : ref('Alice'),
-    //         name: ref('李某'),
-    //         dateTime : ref('6/14/2024 10:34PM'),
-    //         goods: ref('手表'),
-    //         goodsImg : ref('https://flowbite.com/docs/images/products/apple-watch.png'),
-    //         message : ref('求助🙏我于今日在操场丢失一块Apple Watch🥲'),
-    //         phoneNumber : ref('13545678999'),
-    //         address: ref('操场'),
-    //         stuffState : true,
-    //         detailsUrl: "#"
-    //     },
-    //     {
-    //         id: 10,
-    //         profileImage : ref("https://avatars.githubusercontent.com/u/52897817?v=4"),
-    //         username : ref('Alice'),
-    //         name: ref('李某'),
-    //         dateTime : ref('6/14/2024 10:34PM'),
-    //         goods: ref('手表'),
-    //         goodsImg : ref('https://flowbite.com/docs/images/products/apple-watch.png'),
-    //         message : ref('求助🙏我于今日在操场丢失一块Apple Watch🥲'),
-    //         phoneNumber : ref('13545678999'),
-    //         address: ref('操场'),
-    //         stuffState : true,
-    //         detailsUrl: "#"
-    //     },
-    //   ]
-    // )
+const cards = ref([])
+// 当前页码
+const currentPage = ref(1);
+const itemsPerPage = 8; // 每页显示的卡片数量
 
-    const cards = ref([])
-    // 当前页码
-    const currentPage = ref(1);
-    const itemsPerPage = 8; // 每页显示的卡片数量
-
-    // 总页数
-    const totalPages = computed(() => {
-      return Math.ceil(cards.value.length / itemsPerPage);
-    });
-
-    const paginatedCards = computed(() => {
-      const start = (currentPage.value - 1) * itemsPerPage;
-      const end = start + itemsPerPage;
-      return cards.value.slice(start, end);
-    });
-
-    const prevPage = () => {
-      if (currentPage.value > 1) {
-        currentPage.value--;
-      }
-    };
-
-    const nextPage = () => {
-      if (currentPage.value < totalPages.value) {
-        currentPage.value++;
-      }
-    };
-
-
-    // 使用 axios 从后端获取数据
-    onMounted(() => {
-      axios.get("/goods/list")
-          .then(response => {
-            // 假设后端返回的数据是 response.data.data.list
-            cards.value = response.data.data.list.map((item: BackendData) => ({
-              id: item.goodsId,
-              profileImage: item.userInfo.profileimage,
-              username: item.userInfo.username,
-              dateTime: item.datetime,
-              goodsImg: item.goodsimg,
-              message: item.message,
-              phoneNumber: item.phonenumber,
-              stuffState: item.stuffstate,
-            }));
-          })
-          .catch(error => {
-            console.error('Error fetching data:', error);
-          });
-    });
-    // console.log(cards.value)
-
-    // const storedToken = localStorage.getItem('lftoken');
-    // console.log("lftoken:",storedToken); // 输出 'your_access_token_here'
-
-    return {
-      // profileImage,
-      // username,
-      // dateTime,
-      // goodsImg,
-      // message,
-      // phoneNumber,
-      // StuffState,
-
-
-      cards,
-      currentPage,
-      totalPages,
-      paginatedCards,
-      prevPage,
-      nextPage
-    };
-  }
+// 总页数
+const totalPages = computed(() => {
+  return Math.ceil(cards.value.length / itemsPerPage);
 });
 
+const paginatedCards = computed(() => {
+  const start = (currentPage.value - 1) * itemsPerPage;
+  const end = start + itemsPerPage;
+  return cards.value.slice(start, end);
+});
+
+const prevPage = () => {
+  if (currentPage.value > 1) {
+    currentPage.value--;
+  }
+};
+
+const nextPage = () => {
+  if (currentPage.value < totalPages.value) {
+    currentPage.value++;
+  }
+};
+
+const route = useRoute()
+const router = useRouter()
+const searchQuery = ref(route.query.search?.toString() || '');
+const isLoading = ref(false);
+
+const fetchData = async()=>{
+  // if (!searchQuery.value) return;
+  isLoading.value = true;
+  try{
+    const url = searchQuery.value
+        ? `/goods/list?info=${searchQuery.value}`
+        : '/goods/list';
+    axios.get(url)
+        .then(response => {
+          // console.log("responseData: ", response.data.data)
+          cards.value = response.data.data.list.map((item: BackendData) => ({
+            id: item.goodsId,
+            profileImage: item.userInfo.profileimage,
+            username: item.userInfo.username,
+            dateTime: item.datetime,
+            goodsImg: item.goodsimg,
+            message: item.message,
+            phoneNumber: item.phonenumber,
+            stuffState: item.stuffstate,
+          }));
+        })
+        .catch(error => {
+          console.error('Error fetching data:', error);
+        });
+  }catch(error){
+    console.log('error', error)
+  }finally {
+    isLoading.value = false;
+  }
+
+}
+
+onMounted(() => {
+  fetchData();
+});
+
+// watch监听路由变化
+watch(() => route.query.search, (newQuery) => {
+  searchQuery.value = newQuery ? newQuery.toString() : '';
+  fetchData();
+});
+// console.log(cards.value)
 </script>

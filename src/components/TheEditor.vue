@@ -58,7 +58,17 @@
               </div>
               <div>
                 <label for="time" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">时间</label>
-                <input type="text" name="datetime" id="time" v-model="dateTime" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="输入大致时间: ex: 2024/06/01 15:30:00" required="">
+<!--                <input type="text" name="datetime" id="time" v-model="dateTime" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="输入大致时间: ex: 2024/06/01 15:30:00" required="">-->
+                <div class="demo-date-picker">
+                  <div class="block">
+                    <el-date-picker
+                        v-model="dateTime"
+                        type="datetime"
+                        placeholder="选择一个日期"
+                        @change="handleDateChange"
+                    />
+                  </div>
+                </div>
               </div>
               <div>
                 {{ msg }}
@@ -82,6 +92,7 @@ import {onMounted, ref} from 'vue'
 import TheBackSidebar from "@/components/TheBackSidebar.vue";
 import {useRoute, useRouter} from "vue-router";
 import axios from "@/axios";
+import dayjs from "dayjs";
 
 const route = useRoute()
 const router = useRouter()
@@ -124,6 +135,15 @@ const handleFileChange = (event: Event) => {
     selectedFile.value = null;
   }
 };
+
+// 获取日期时间选择器
+const currentDate = ref('')
+const handleDateChange = (value) => {
+  currentDate.value = dayjs(value).format("YYYY-MM-DD HH:mm:ss")
+
+  // console.log('选定的日期是:', value)
+  console.log(currentDate.value)
+}
 // 更新数据
 const msg = ref('')
 const handleUpdate = async()=>{
@@ -136,7 +156,7 @@ const handleUpdate = async()=>{
     uploadData.append('address', address.value)
     uploadData.append('message', message.value)
     uploadData.append('stuffstate', stuffState.value)
-    uploadData.append('datetime', dateTime.value)
+    uploadData.append('datetime', currentDate.value)
 
     console.log("从前端获取的值: ", goods.value, phoneNumber.value, goodsImage.value, message.value, stuffState.value,dateTime.value)
 
@@ -148,6 +168,7 @@ const handleUpdate = async()=>{
       })
       msg.value = '更新成功'
       console.log('responseData : ', responseData.data)
+      router.go(-1)
 
 
     }catch (e){

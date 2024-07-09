@@ -17,7 +17,7 @@
             <!-- 折叠按钮 end -->
           </div>
           <div class="flex-shrink-0 flex items-center">
-            <p class="text-xl font-bold text-gray-900 dark:text-white">LOST & FOUND</p>
+            <a href="/" class="text-xl font-bold text-gray-900 dark:text-white">LOST & FOUND</a>
           </div>
         </div>
         <div class="hidden md:flex md:items-center md:space-x-4 flex-grow">
@@ -26,10 +26,16 @@
           <router-link to="/notice" class="text-gray-900 dark:text-white px-3 py-2 rounded-md text-sm font-medium">
             通知
           </router-link>
-          <a href="#" class="text-gray-900 dark:text-white px-3 py-2 rounded-md text-sm font-medium">联系我们</a>
-          <div class="relative flex-grow">
-            <input type="text" placeholder="搜索..."
+          <router-link to="/imgSearch" class="text-gray-900 dark:text-white px-3 py-2 rounded-md text-sm font-medium">以图搜图</router-link>
+          <div class="relative flex-grow flex items-center space-x-3">
+            <input type="text" placeholder="关键词搜索：钥匙 | 水卡 | 雨伞 ……"
+                   v-model="searchQuery"
                    class="w-full px-4 py-2 rounded-md border border-gray-300 focus:border-blue-500 focus:ring focus:ring-blue-200 focus:outline-none dark:bg-gray-700 dark:text-white"/>
+            <button @click="handleSearch">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
+              </svg>
+            </button>
           </div>
         </div>
         <div class="flex items-center space-x-4">
@@ -88,10 +94,20 @@
         <a href="/" class="block text-gray-900 dark:text-white px-3 py-2 rounded-md text-base font-medium">首页</a>
         <a href="/notice"
            class="block text-gray-900 dark:text-white px-3 py-2 rounded-md text-base font-medium">通知</a>
-        <a href="#" class="block text-gray-900 dark:text-white px-3 py-2 rounded-md text-base font-medium">联系我们</a>
-        <div class="relative">
-          <input type="text" placeholder="搜索..."
-                 class="w-full px-4 py-2 mb-2 rounded-md border border-gray-300 focus:border-blue-500 focus:ring focus:ring-blue-200 focus:outline-none dark:bg-gray-700 dark:text-white"/>
+        <router-link to="/imgSearch" class="text-gray-900 dark:text-white px-3 py-2 rounded-md text-sm font-medium">以图搜图</router-link>
+<!--        <div class="relative">-->
+<!--          <input type="text" placeholder="搜索..."-->
+<!--                 class="w-full px-4 py-2 mb-2 rounded-md border border-gray-300 focus:border-blue-500 focus:ring focus:ring-blue-200 focus:outline-none dark:bg-gray-700 dark:text-white"/>-->
+<!--        </div>-->
+        <div class="relative flex-grow space-x-3">
+          <input type="text" placeholder="关键词搜索：钥匙 | 水卡 | 雨伞 ……"
+                 v-model="searchQuery"
+                 class="w-full px-4 py-2 rounded-md border border-gray-300 focus:border-blue-500 focus:ring focus:ring-blue-200 focus:outline-none dark:bg-gray-700 dark:text-white"/>
+          <button @click="handleSearch">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+              <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
+            </svg>
+          </button>
         </div>
       </div>
     </div>
@@ -100,6 +116,7 @@
 
 <script lang="ts" setup>
 import {ref, onMounted, onBeforeUnmount} from 'vue';
+import { useRouter } from 'vue-router';
 import axios from "@/axios";
 
 // 用户数据
@@ -122,6 +139,16 @@ const fetchData = async () => {
   }
 }
 
+// router
+const router = useRouter()
+
+// 搜索数据
+const searchQuery = ref('')
+const handleSearch = () =>{
+  if (searchQuery.value.trim() !== '') {
+    router.push({ path: '/', query: { search: searchQuery.value } });
+  }
+}
 
 // 折叠菜单状态
 const isOpen = ref(false);
@@ -164,7 +191,7 @@ const handleOutsideClick = (event: MouseEvent) => {
 // 添加事件监听器
 onMounted(() => {
   document.addEventListener('click', handleOutsideClick);
-  fetchData()
+  fetchData();
 });
 
 // 移除事件监听器
