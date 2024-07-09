@@ -58,6 +58,7 @@
     <!-- 翻页 end -->
   </div>
 <!--  <TheFooter/>-->
+  <ChatBot/>
 </template>
 
 
@@ -67,6 +68,7 @@ import axios from '../axios';
 import { useRoute, useRouter } from 'vue-router';
 import TheFooter from '@/components/TheFooter.vue';
 import TheNavbar from '@/components/TheNavbar.vue';
+import ChatBot from "@/components/ChatBot.vue";
 
 interface BackendData {
   goodsId: number;

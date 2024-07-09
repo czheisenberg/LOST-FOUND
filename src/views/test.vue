@@ -1,282 +1,49 @@
 <template>
-  <section class="bg-white dark:bg-gray-900 py-8 lg:py-16 antialiased">
-    <div class="max-w-2xl mx-auto px-4">
-      <div class="flex justify-between items-center mb-6">
-        <h2 class="text-lg lg:text-2xl font-bold text-gray-900 dark:text-white">留言</h2>
+  <div class="min-h-screen bg-gray-100 flex flex-col items-center justify-center">
+    <div class="bg-white shadow-lg rounded-lg p-8 w-full max-w-3xl">
+      <div class="text-center">
+        <h1 class="text-4xl font-bold text-gray-800 mb-4">欢迎, {{ username }}!</h1>
+        <p class="text-lg text-gray-600 mb-6">很高兴见到你！探索你的主页，找到你需要的一切。</p>
+        <img :src="profileImage" alt="Profile Picture" class="w-24 h-24 rounded-full mx-auto mb-4" />
       </div>
-      <form class="mb-6" @submit.prevent="addContent">
-        <div class="py-2 px-4 mb-4 bg-white rounded-lg rounded-t-lg border border-gray-200 dark:bg-gray-800 dark:border-gray-700">
-          <label for="comment" class="sr-only">Your comment</label>
-          <textarea v-model="content" id="comment" rows="6"
-                    class="px-0 w-full text-sm text-gray-900 border-0 focus:ring-0 focus:outline-none dark:text-white dark:placeholder-gray-400 dark:bg-gray-800"
-                    placeholder="输入评论..." required>
-
-          </textarea>
+      <div class="flex justify-center space-x-4 mb-6">
+        <button class="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 transition duration-300">查看个人资料</button>
+        <button class="bg-green-500 text-white py-2 px-4 rounded-md hover:bg-green-600 transition duration-300">开始新任务</button>
+      </div>
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div class="bg-blue-100 p-4 rounded-lg text-center shadow-sm">
+          <h2 class="text-xl font-semibold text-gray-700 mb-2">我的任务</h2>
+          <p class="text-gray-600">查看和管理你的任务列表。</p>
+          <button class="mt-3 bg-blue-500 text-white py-1 px-3 rounded-md hover:bg-blue-600 transition duration-300">查看任务</button>
         </div>
-        <button type="submit"
-                class="inline-flex items-center py-2.5 px-4 text-xs font-medium text-center text-white bg-blue-700 rounded-lg focus:ring-4 focus:ring-primary-200 dark:focus:ring-primary-900 hover:bg-primary-800">
-          发表评论
-        </button>
-      </form>
-      <article class="p-6 text-base bg-white rounded-lg dark:bg-gray-900" v-for="comment in comments" :key="comment.commentId" >
-        <footer class="flex justify-between items-center mb-2">
-          <div class="flex items-center">
-            <p class="inline-flex items-center mr-3 text-sm text-gray-900 dark:text-white font-semibold"><img
-                class="mr-2 w-6 h-6 rounded-full"
-                :src=comment.userInfoSimRsp.profileimage
-                alt="Michael Gough">{{ comment.userInfoSimRsp.username }}</p>
-            <p class="text-sm text-gray-600 dark:text-gray-400"><time pubdate datetime="2022-02-08"
-                                                                      title="February 8th, 2022">{{ comment.updateTime }}</time></p>
-          </div>
-          <button id="dropdownComment1Button" data-dropdown-toggle="dropdownComment1"
-                  class="inline-flex items-center p-2 text-sm font-medium text-center text-gray-500 dark:text-gray-400 bg-white rounded-lg hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-50 dark:bg-gray-900 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
-                  type="button">
-            <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 3">
-              <path d="M2 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Zm6.041 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM14 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Z"/>
-            </svg>
-            <span class="sr-only">Comment settings</span>
-          </button>
-          <!-- Dropdown menu -->
-          <div id="dropdownComment1"
-               class="hidden z-10 w-36 bg-white rounded divide-y divide-gray-100 shadow dark:bg-gray-700 dark:divide-gray-600">
-            <ul class="py-1 text-sm text-gray-700 dark:text-gray-200"
-                aria-labelledby="dropdownMenuIconHorizontalButton">
-              <li>
-                <a href="#"
-                   class="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">编辑</a>
-              </li>
-              <li>
-                <a href="#"
-                   class="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">删除</a>
-              </li>
-              <li>
-                <a href="#"
-                   class="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">举报</a>
-              </li>
-            </ul>
-          </div>
-        </footer>
-        <p class="text-gray-500 dark:text-gray-400">{{ comment.content }}</p>
-        <div class="flex items-center mt-4 space-x-4">
-          <button type="button"
-                  class="flex items-center text-sm text-gray-500 hover:underline dark:text-gray-400 font-medium">
-            <svg class="mr-1.5 w-3.5 h-3.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 18">
-              <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 5h5M5 8h2m6-3h2m-5 3h6m2-7H2a1 1 0 0 0-1 1v9a1 1 0 0 0 1 1h3v5l5-5h8a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1Z"/>
-            </svg>
-            回复
-          </button>
+        <div class="bg-green-100 p-4 rounded-lg text-center shadow-sm">
+          <h2 class="text-xl font-semibold text-gray-700 mb-2">通知</h2>
+          <p class="text-gray-600">查看最新的通知和提醒。</p>
+          <button class="mt-3 bg-green-500 text-white py-1 px-3 rounded-md hover:bg-green-600 transition duration-300">查看通知</button>
         </div>
-      </article>
-      <article class="p-6 mb-3 ml-6 lg:ml-12 text-base bg-white rounded-lg dark:bg-gray-900">
-        <footer class="flex justify-between items-center mb-2">
-          <div class="flex items-center">
-            <p class="inline-flex items-center mr-3 text-sm text-gray-900 dark:text-white font-semibold"><img
-                class="mr-2 w-6 h-6 rounded-full"
-                src="https://flowbite.com/docs/images/people/profile-picture-5.jpg"
-                alt="Jese Leos">Jese Leos</p>
-            <p class="text-sm text-gray-600 dark:text-gray-400"><time pubdate datetime="2022-02-12"
-                                                                      title="February 12th, 2022">Feb. 12, 2022</time></p>
-          </div>
-          <button id="dropdownComment2Button" data-dropdown-toggle="dropdownComment2"
-                  class="inline-flex items-center p-2 text-sm font-medium text-center text-gray-500 dark:text-gray-40 bg-white rounded-lg hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-50 dark:bg-gray-900 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
-                  type="button">
-            <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 3">
-              <path d="M2 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Zm6.041 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM14 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Z"/>
-            </svg>
-            <span class="sr-only">Comment settings</span>
-          </button>
-          <!-- Dropdown menu -->
-          <div id="dropdownComment2"
-               class="hidden z-10 w-36 bg-white rounded divide-y divide-gray-100 shadow dark:bg-gray-700 dark:divide-gray-600">
-            <ul class="py-1 text-sm text-gray-700 dark:text-gray-200"
-                aria-labelledby="dropdownMenuIconHorizontalButton">
-              <li>
-                <a href="#"
-                   class="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">编辑</a>
-              </li>
-              <li>
-                <a href="#"
-                   class="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">删除</a>
-              </li>
-              <li>
-                <a href="#"
-                   class="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">举报</a>
-              </li>
-            </ul>
-          </div>
-        </footer>
-        <p class="text-gray-500 dark:text-gray-400">Much appreciated! Glad you liked it ☺️</p>
-        <div class="flex items-center mt-4 space-x-4">
-          <button type="button"
-                  class="flex items-center text-sm text-gray-500 hover:underline dark:text-gray-400 font-medium">
-            <svg class="mr-1.5 w-3.5 h-3.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 18">
-              <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 5h5M5 8h2m6-3h2m-5 3h6m2-7H2a1 1 0 0 0-1 1v9a1 1 0 0 0 1 1h3v5l5-5h8a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1Z"/>
-            </svg>
-            回复
-          </button>
+        <div class="bg-yellow-100 p-4 rounded-lg text-center shadow-sm">
+          <h2 class="text-xl font-semibold text-gray-700 mb-2">设置</h2>
+          <p class="text-gray-600">管理你的账户设置。</p>
+          <button class="mt-3 bg-yellow-500 text-white py-1 px-3 rounded-md hover:bg-yellow-600 transition duration-300">管理设置</button>
         </div>
-      </article>
-<!--      <article class="p-6 mb-3 text-base bg-white border-t border-gray-200 dark:border-gray-700 dark:bg-gray-900">-->
-<!--        <footer class="flex justify-between items-center mb-2">-->
-<!--          <div class="flex items-center">-->
-<!--            <p class="inline-flex items-center mr-3 text-sm text-gray-900 dark:text-white font-semibold"><img-->
-<!--                class="mr-2 w-6 h-6 rounded-full"-->
-<!--                src="https://flowbite.com/docs/images/people/profile-picture-3.jpg"-->
-<!--                alt="Bonnie Green">Bonnie Green</p>-->
-<!--            <p class="text-sm text-gray-600 dark:text-gray-400"><time pubdate datetime="2022-03-12"-->
-<!--                                                                      title="March 12th, 2022">Mar. 12, 2022</time></p>-->
-<!--          </div>-->
-<!--          <button id="dropdownComment3Button" data-dropdown-toggle="dropdownComment3"-->
-<!--                  class="inline-flex items-center p-2 text-sm font-medium text-center text-gray-500 dark:text-gray-40 bg-white rounded-lg hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-50 dark:bg-gray-900 dark:hover:bg-gray-700 dark:focus:ring-gray-600"-->
-<!--                  type="button">-->
-<!--            <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 3">-->
-<!--              <path d="M2 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Zm6.041 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM14 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Z"/>-->
-<!--            </svg>-->
-<!--            <span class="sr-only">Comment settings</span>-->
-<!--          </button>-->
-<!--          &lt;!&ndash; Dropdown menu &ndash;&gt;-->
-<!--          <div id="dropdownComment3"-->
-<!--               class="hidden z-10 w-36 bg-white rounded divide-y divide-gray-100 shadow dark:bg-gray-700 dark:divide-gray-600">-->
-<!--            <ul class="py-1 text-sm text-gray-700 dark:text-gray-200"-->
-<!--                aria-labelledby="dropdownMenuIconHorizontalButton">-->
-<!--              <li>-->
-<!--                <a href="#"-->
-<!--                   class="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">编辑</a>-->
-<!--              </li>-->
-<!--              <li>-->
-<!--                <a href="#"-->
-<!--                   class="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">删除</a>-->
-<!--              </li>-->
-<!--              <li>-->
-<!--                <a href="#"-->
-<!--                   class="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">举报</a>-->
-<!--              </li>-->
-<!--            </ul>-->
-<!--          </div>-->
-<!--        </footer>-->
-<!--        <p class="text-gray-500 dark:text-gray-400">The article covers the essentials, challenges, myths and stages the UX designer should consider while creating the design strategy.</p>-->
-<!--        <div class="flex items-center mt-4 space-x-4">-->
-<!--          <button type="button"-->
-<!--                  class="flex items-center text-sm text-gray-500 hover:underline dark:text-gray-400 font-medium">-->
-<!--            <svg class="mr-1.5 w-3.5 h-3.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 18">-->
-<!--              <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 5h5M5 8h2m6-3h2m-5 3h6m2-7H2a1 1 0 0 0-1 1v9a1 1 0 0 0 1 1h3v5l5-5h8a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1Z"/>-->
-<!--            </svg>-->
-<!--            回复-->
-<!--          </button>-->
-<!--        </div>-->
-<!--      </article>-->
-<!--      <article class="p-6 text-base bg-white border-t border-gray-200 dark:border-gray-700 dark:bg-gray-900">-->
-<!--        <footer class="flex justify-between items-center mb-2">-->
-<!--          <div class="flex items-center">-->
-<!--            <p class="inline-flex items-center mr-3 text-sm text-gray-900 dark:text-white font-semibold"><img-->
-<!--                class="mr-2 w-6 h-6 rounded-full"-->
-<!--                src="https://flowbite.com/docs/images/people/profile-picture-4.jpg"-->
-<!--                alt="Helene Engels">Helene Engels</p>-->
-<!--            <p class="text-sm text-gray-600 dark:text-gray-400"><time pubdate datetime="2022-06-23"-->
-<!--                                                                      title="June 23rd, 2022">Jun. 23, 2022</time></p>-->
-<!--          </div>-->
-<!--          <button id="dropdownComment4Button" data-dropdown-toggle="dropdownComment4"-->
-<!--                  class="inline-flex items-center p-2 text-sm font-medium text-center text-gray-500 dark:text-gray-40 bg-white rounded-lg hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-50 dark:bg-gray-900 dark:hover:bg-gray-700 dark:focus:ring-gray-600"-->
-<!--                  type="button">-->
-<!--            <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 3">-->
-<!--              <path d="M2 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Zm6.041 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM14 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Z"/>-->
-<!--            </svg>-->
-<!--          </button>-->
-<!--          &lt;!&ndash; Dropdown menu &ndash;&gt;-->
-<!--          <div id="dropdownComment4"-->
-<!--               class="hidden z-10 w-36 bg-white rounded divide-y divide-gray-100 shadow dark:bg-gray-700 dark:divide-gray-600">-->
-<!--            <ul class="py-1 text-sm text-gray-700 dark:text-gray-200"-->
-<!--                aria-labelledby="dropdownMenuIconHorizontalButton">-->
-<!--              <li>-->
-<!--                <a href="#"-->
-<!--                   class="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">编辑</a>-->
-<!--              </li>-->
-<!--              <li>-->
-<!--                <a href="#"-->
-<!--                   class="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">删除</a>-->
-<!--              </li>-->
-<!--              <li>-->
-<!--                <a href="#"-->
-<!--                   class="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">举报</a>-->
-<!--              </li>-->
-<!--            </ul>-->
-<!--          </div>-->
-<!--        </footer>-->
-<!--        <p class="text-gray-500 dark:text-gray-400">Thanks for sharing this. I do came from the Backend development and explored some of the tools to design my Side Projects.</p>-->
-<!--        <div class="flex items-center mt-4 space-x-4">-->
-<!--          <button type="button"-->
-<!--                  class="flex items-center text-sm text-gray-500 hover:underline dark:text-gray-400 font-medium">-->
-<!--            <svg class="mr-1.5 w-3.5 h-3.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 18">-->
-<!--              <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 5h5M5 8h2m6-3h2m-5 3h6m2-7H2a1 1 0 0 0-1 1v9a1 1 0 0 0 1 1h3v5l5-5h8a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1Z"/>-->
-<!--            </svg>-->
-<!--            回复-->
-<!--          </button>-->
-<!--        </div>-->
-<!--      </article>-->
+        <div class="bg-red-100 p-4 rounded-lg text-center shadow-sm">
+          <h2 class="text-xl font-semibold text-gray-700 mb-2">帮助</h2>
+          <p class="text-gray-600">需要帮助？查看我们的帮助中心。</p>
+          <button class="mt-3 bg-red-500 text-white py-1 px-3 rounded-md hover:bg-red-600 transition duration-300">获取帮助</button>
+        </div>
+      </div>
     </div>
-  </section>
-
+  </div>
 </template>
 
-
 <script lang="ts" setup>
-import {onMounted, ref} from 'vue'
-import axios from '@/axios'
+import { ref } from 'vue';
 
-
-const comments = ref([
-  {
-    commentId: '',
-    content: '',
-    updateTime: '',
-    userInfoSimRsp:{
-      profileimage: '',
-      userId: '',
-      username: '',
-    },
-    childList:{
-      commentId: '',
-      content: '',
-      updateTime: '',
-      userInfoSimRsp:{
-        profileimage: '',
-        userId: '',
-        username: '',
-      }
-    }
-  }
-])
-
-const commentsFetchData = async()=>{
-  const responseData = await axios.get("/comment/query/1003365697922928640");
-  console.log(responseData.data.data);
-  comments.value = responseData.data.data
-}
-
-// console.log("comments.value: ", comments.value)
-// commentsFetchData();
-
-
-const content = ref('');
-const addContent =  async ()=>{
-  const upateData = new FormData();
-  upateData.append('goodsId', '1003365697922928640')
-  upateData.append('content', content.value)
-
-  try{
-    const responseData = await axios.post("/comment/add", upateData,{
-      headers: {
-        'Content-Type': 'multipart/form-data',
-      },
-    });
-    console.log("add content responseData: ", responseData.data)
-  }catch(error){
-    console.log("add content error: ", error)
-  }
-
-}
-
-onMounted(()=>{
-  commentsFetchData()
-})
+// 模拟用户信息
+const username = ref('张三');
+const profileImage = ref('https://via.placeholder.com/96');
 </script>
+
+<style scoped>
+/* 自定义样式（如有需要） */
+</style>
