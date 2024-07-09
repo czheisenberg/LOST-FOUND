@@ -17,7 +17,7 @@
             <!-- 折叠按钮 end -->
           </div>
           <div class="flex-shrink-0 flex items-center">
-            <p class="text-xl font-bold text-gray-900 dark:text-white">LOST & FOUND</p>
+            <a href="/" class="text-xl font-bold text-gray-900 dark:text-white">LOST & FOUND</a>
           </div>
         </div>
         <div class="hidden md:flex md:items-center md:space-x-4 flex-grow">
