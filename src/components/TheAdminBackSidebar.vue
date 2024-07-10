@@ -11,7 +11,7 @@
           </button>
         <a href="/" class="flex ms-2 md:me-24">
             <!-- <img src="https://flowbite.com/docs/images/logo.svg" class="h-8 me-3" alt="LOST & FOUND Logo" /> -->
-            <span class="self-center text-xl font-semibold sm:text-2xl whitespace-nowrap dark:text-white">LOST & FOUND</span>
+            <span class="self-center text-xl font-semibold sm:text-2xl whitespace-nowrap dark:text-white">{{ webTitle }}</span>
         </a>
         </div>
 
@@ -245,6 +245,16 @@
 import { ref, onMounted, onBeforeUnmount } from 'vue';
 import axios from "@/axios";
 
+
+// 读取网站标题
+const webTitle = ref('')
+
+const webTitleFetchData = async ()=>{
+  const responseData = await axios.get("/webSetting/list")
+  console.log(responseData.data)
+  webTitle.value = responseData.data.data[0].webtitle
+}
+
 // 用户数据
 const account = ref('')
 const email = ref('')
@@ -319,6 +329,7 @@ const handleOutsideClick = (event: MouseEvent) => {
 onMounted(() => {
   document.addEventListener('click', handleOutsideClick);
   fetchData()
+  webTitleFetchData()
 });
 
 onBeforeUnmount(() => {

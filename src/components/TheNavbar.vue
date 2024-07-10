@@ -17,7 +17,7 @@
             <!-- 折叠按钮 end -->
           </div>
           <div class="flex-shrink-0 flex items-center">
-            <a href="/" class="text-xl font-bold text-gray-900 dark:text-white">LOST & FOUND</a>
+            <a href="/" class="text-xl font-bold text-gray-900 dark:text-white">{{ webTitle }}</a>
           </div>
         </div>
         <div class="hidden md:flex md:items-center md:space-x-4 flex-grow">
@@ -191,10 +191,21 @@ const handleOutsideClick = (event: MouseEvent) => {
   }
 };
 
+
+// 从数据库中读取网站标题
+const webTitle = ref('')
+
+const webTitleFetchData = async ()=>{
+  const responseData = await axios.get("/webSetting/list")
+  console.log(responseData.data)
+  webTitle.value = responseData.data.data[0].webtitle
+}
+
 // 添加事件监听器
 onMounted(() => {
   document.addEventListener('click', handleOutsideClick);
   fetchData();
+  webTitleFetchData()
 });
 
 // 移除事件监听器
