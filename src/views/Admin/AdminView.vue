@@ -789,7 +789,7 @@ export default defineComponent({
         response = await axios.get('/goods/list', {
           params:
               {
-                stuffState: false
+                stuffState: 0
               }
         })
         lostCount.value = response.data.data.total
@@ -798,7 +798,7 @@ export default defineComponent({
         response = await axios.get('/goods/list', {
           params:
               {
-                stuffState: true
+                stuffState: 1
               }
         })
         pickedUpCount.value = response.data.data.total
