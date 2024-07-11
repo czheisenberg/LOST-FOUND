@@ -10,6 +10,11 @@ const instance = axios.create({
 });
 
 instance.interceptors.request.use(config => {
+
+    const url = config.url;
+    if (url != null &&  url.includes("console.tim.qq.com"))
+        return config
+
     const tokenName = 'lftoken'; // 可以根据需要动态获取 tokenName
     const token = localStorage.getItem(tokenName);
     if (token) {

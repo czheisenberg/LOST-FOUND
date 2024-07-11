@@ -8,10 +8,9 @@ import 'element-plus/dist/index.css'
 import zhCn from 'element-plus/es/locale/lang/zh-cn'
 import UndrawUi from 'undraw-ui'
 import 'undraw-ui/dist/style.css'
-import { createPinia } from "pinia";
+import {createPinia} from "pinia";
 
 import VueParticles from 'vue-particles';
-
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const defaultImage = require('@/assets/default.svg');
@@ -24,7 +23,7 @@ document.addEventListener('error', (event: Event) => {
         target.src = defaultImage;
     }
 }, true);
-const app=createApp(App);
+const app = createApp(App);
 
 
 app.config.errorHandler = (err, vm, info) => {
@@ -34,12 +33,13 @@ app.config.errorHandler = (err, vm, info) => {
 
 
 // createApp(App).use(router).mount('#app')
-const pinia=createPinia();
+const pinia = createPinia();
 app.use(VueParticles)
 app.use(pinia);
 app.use(router);
-app.use(ElementPlus,{
+app.use(ElementPlus, {
     locale: zhCn
 });
 app.use(UndrawUi)
+app.config.compilerOptions.isCustomElement = (tag) => tag === 'vue-advanced-chat' || tag === 'emoji-picker'
 app.mount('#app');

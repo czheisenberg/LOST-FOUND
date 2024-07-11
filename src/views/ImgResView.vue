@@ -104,8 +104,8 @@ export default defineComponent({
       <div class="bg-gray-100 dark:bg-gray-700 h-full rounded-lg mb-4 md:mb-0 mx-auto md:mx-0 md:w-1/2 lg:w-1/3 xl:w-1/4">
         <img :src="fileUrl" class="max-w-full max-h-full object-contain scale-75"/>
       </div>
-      <div class="flex lg:flex-row flex-col w-full px-4 mb-4">
-        <div v-for="(card, index) in goodsRes" :key="index" class="w-full h-full px-4 mb-4">
+      <div class="flex lg:flex-row lg:flex-wrap flex-col w-full px-4 mb-4">
+        <div v-for="(card, index) in goodsRes" :key="index" class=" lg:w-1/2 px-4 mb-4">
           <div class="bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
             <div class="flex justify-between items-center p-4">
               <a href="#" class="flex items-center">
