@@ -26,8 +26,9 @@
 
           <!-- 物品状态判断 -->
           <div class="mt-2.5 mb-5">
-            <span v-if="card.stuffState" class="bg-green-300 text-blue-800 text-xs font-semibold px-2.5 py-0.5 rounded dark:bg-green-300 dark:text-blue-800 ms-3">捡到物品</span>
-            <span v-else class="bg-red-300 text-blue-800 text-xs font-semibold px-2.5 py-0.5 rounded dark:bg-red-300 dark:text-blue-800 ms-3">丢失物品</span>
+            <span v-if="card.stuffState == 1" class="bg-green-300 text-blue-800 text-xs font-semibold px-2.5 py-0.5 rounded dark:bg-green-300 dark:text-blue-800 ms-3">捡到物品</span>
+            <span v-else-if="card.stuffState == 0" class="bg-red-300 text-blue-800 text-xs font-semibold px-2.5 py-0.5 rounded dark:bg-red-300 dark:text-blue-800 ms-3">丢失物品</span>
+            <span v-else class="bg-blue-700 text-white text-xs font-semibold px-2.5 py-0.5 rounded dark:bg-red-300 dark:text-blue-800 ms-3">已完成</span>
           </div>
           <!-- 联系电话和详细信息按钮 -->
           <div class="flex items-center justify-between">
@@ -287,6 +288,7 @@ const fetchData = async()=>{
             phoneNumber: item.phonenumber,
             stuffState: item.stuffstate,
           }));
+          cards.value.reverse()
         })
         .catch(error => {
           console.error('Error fetching data:', error);

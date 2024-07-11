@@ -122,8 +122,9 @@ export default defineComponent({
                 <h5 class="text-xl font-semibold tracking-tight text-gray-900 dark:text-white">{{ card.goodsInfoRsp.message }}</h5>
               </a>
               <div class="mt-2.5 mb-5">
-                <span v-if="card.goodsInfoRsp.stuffstate" class="bg-green-300 text-blue-800 text-xs font-semibold px-2.5 py-0.5 rounded dark:bg-green-300 dark:text-blue-800 ms-3">捡到物品</span>
-                <span v-else class="bg-red-300 text-blue-800 text-xs font-semibold px-2.5 py-0.5 rounded dark:bg-red-300 dark:text-blue-800 ms-3">丢失物品</span>
+                <span v-if="card.goodsInfoRsp.stuffstate == 0" class="bg-green-300 text-blue-800 text-xs font-semibold px-2.5 py-0.5 rounded dark:bg-green-300 dark:text-blue-800 ms-3">捡到物品</span>
+                <span v-else-if="card.goodsInfoRsp.stuffstate == 1" class="bg-red-300 text-blue-800 text-xs font-semibold px-2.5 py-0.5 rounded dark:bg-red-300 dark:text-blue-800 ms-3">丢失物品</span>
+                <span v-else class="bg-blue-700 text-white text-xs font-semibold px-2.5 py-0.5 rounded dark:bg-red-300 dark:text-blue-800 ms-3">已完成</span>
               </div>
               <div class="flex items-center justify-between">
                 <span class="text-xs font-bold text-gray-900 dark:text-white">联系电话: {{ card.goodsInfoRsp.phonenumber }}</span>
@@ -139,8 +140,6 @@ export default defineComponent({
         </div>
       </div>
     </div>
-
-
   </main>
 
 </template>
