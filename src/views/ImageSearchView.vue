@@ -35,7 +35,7 @@ const handleFiles = (files: FileList) => {
     fileReader.onload = () => {
       if (fileReader.result) {
         localStorage.setItem('uploadImg', fileReader.result.toString());
-        router.push({name: 'imgView', query: {goodsRes: JSON.stringify(goodsRes.value)}});
+        router.push({ name: 'imgView', query: { goodsRes: JSON.stringify(goodsRes.value) } });
       }
 
     };
@@ -123,19 +123,15 @@ const handleFileChange = (event: Event) => {
   </div>
 
   <div v-if="recSuccess"
-       class="m-2 p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+               class="m-2 p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
     <div class="flex justify-between pb-5">
-      <button @click=" goodsRes = []; recSuccess = false; uploadSuccess=true; fileInputRef=null" type="button"
-              class="text-white h-8 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-full text-sm p-2.5 text-center inline-flex items-center me-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-        <svg class="w-6 h-6 text-white dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24"
-             height="24" fill="none" viewBox="0 0 24 24">
-          <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                d="m15 19-7-7 7-7"/>
+      <button @click=" goodsRes = []; recSuccess = false; uploadSuccess=true; fileInputRef=null" type="button" class="text-white h-8 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-full text-sm p-2.5 text-center inline-flex items-center me-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+        <svg class="w-6 h-6 text-white dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+          <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m15 19-7-7 7-7"/>
         </svg>
         <span class="sr-only">Icon description</span>
       </button>
-      <h5 class="mb-2 content-center text-2xl font-bold tracking-tight text-gray-900 dark:text-white text-center">
-        搜索结果</h5>
+      <h5 class="mb-2 content-center text-2xl font-bold tracking-tight text-gray-900 dark:text-white text-center">搜索结果</h5>
       <div/>
     </div>
 
@@ -181,8 +177,7 @@ const handleFileChange = (event: Event) => {
       </div>
     </div>
 
-    <h2 class="p-10 text-center mb-4 text-4xl font-extrabold tracking-tight leading-none text-gray-900 md:text-5xl lg:text-6xl dark:text-white">
-      没有找到相似的物品</h2>
+    <h2 class="p-10 text-center mb-4 text-4xl font-extrabold tracking-tight leading-none text-gray-900 md:text-5xl lg:text-6xl dark:text-white">没有找到相似的物品</h2>
 
   </div>
 

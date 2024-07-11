@@ -26,6 +26,11 @@ const routes: Array<RouteRecordRaw> = [
     meta: {title: '首页'}
   },
   {
+    path: '/about',
+    name: 'about',
+    component:() => import('@/components/TheAbout.vue')
+  },
+  {
     path: '/register',
     name: 'register',
     component: Register,
@@ -201,11 +206,6 @@ const routes: Array<RouteRecordRaw> = [
     path: '/imgView',
     name: 'imgView',
     component:()=>import('../views/ImgResView.vue')
-  },
-  {
-    path: '/chat',
-    name: 'chat',
-    component:()=>import('../views/ChatView.vue')
   },
   {
     path: '/permissionError',
