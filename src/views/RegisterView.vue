@@ -83,9 +83,11 @@ import { useRouter } from 'vue-router';
         })
 
         msg.value = '注册完成'
-        router.push('/login')
+        // router.push('/login')
+        console.log("注册返回: ", responseData.data)
       }catch (error){
         msg.value = error.message
+        console.log("注册失败: ", error)
       }
 
 }

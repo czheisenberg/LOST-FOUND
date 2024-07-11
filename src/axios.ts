@@ -4,7 +4,7 @@ import router from "@/router";
 
 const instance = axios.create({
     withCredentials: true,
-    baseURL: 'http://127.0.0.1:8081',
+    baseURL: 'http://localhost:8081',
     timeout: 1000,
     // headers: { 'Content-Type': 'application/json' }
 });

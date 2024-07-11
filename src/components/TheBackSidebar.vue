@@ -12,7 +12,7 @@
 
         <a href="/" class="flex ms-2 md:me-24">
             <!-- <img src="https://flowbite.com/docs/images/logo.svg" class="h-8 me-3" alt="LOST & FOUND Logo" /> -->
-            <span class="self-center text-xl font-semibold sm:text-2xl whitespace-nowrap dark:text-white">LOST & FOUND</span>
+            <span class="self-center text-xl font-semibold sm:text-2xl whitespace-nowrap dark:text-white">{{ webTitle }}</span>
         </a>
         </div>
         <div class="flex items-center">
@@ -99,6 +99,15 @@ const isDropdownOpen = ref(false);
 const button = ref<HTMLButtonElement | null>(null);
 const dropdown = ref<HTMLDivElement | null>(null);
 
+// 网站标题读取
+const webTitle = ref('')
+
+const webTitleFetchData = async ()=>{
+  const responseData = await axios.get("/webSetting/list")
+  console.log("网站标题",responseData.data)
+  webTitle.value = responseData.data.data[0].webtitle
+}
+
 // 用户数据
 const account = ref('')
 const email = ref('')
@@ -152,6 +161,7 @@ const handleOutsideClick = (event: MouseEvent) => {
 onMounted(() => {
   document.addEventListener('click', handleOutsideClick);
   fetchData()
+  webTitleFetchData()
 });
 
 // 移除事件监听器
