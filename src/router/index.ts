@@ -26,6 +26,11 @@ const routes: Array<RouteRecordRaw> = [
     meta: {title: '首页'}
   },
   {
+    path: '/about',
+    name: 'about',
+    component:() => import('@/components/TheAbout.vue')
+  },
+  {
     path: '/register',
     name: 'register',
     component: Register,

@@ -17,7 +17,7 @@
             <!-- 折叠按钮 end -->
           </div>
           <div class="flex-shrink-0 flex items-center">
-            <a href="/" class="text-xl font-bold text-gray-900 dark:text-white">LOST & FOUND</a>
+            <a href="/" class="text-xl font-bold text-gray-900 dark:text-white">{{ webTitle }}</a>
           </div>
         </div>
         <div class="hidden md:flex md:items-center md:space-x-4 flex-grow">
@@ -28,6 +28,7 @@
           </router-link>
           <router-link to="/imgSearch" class="text-gray-900 dark:text-white px-3 py-2 rounded-md text-sm font-medium">以图搜图</router-link>
           <router-link to="/chat" class="text-gray-900 dark:text-white px-3 py-2 rounded-md text-sm font-medium">历史聊天</router-link>
+          <router-link to="/about" class="text-gray-900 dark:text-white px-3 py-2 rounded-md text-sm font-medium">关于我们</router-link>
           <div class="relative flex-grow flex items-center space-x-3">
             <input type="text" placeholder="关键词搜索：钥匙 | 水卡 | 雨伞 ……"
                    v-model="searchQuery"
@@ -96,6 +97,8 @@
         <a href="/notice"
            class="block text-gray-900 dark:text-white px-3 py-2 rounded-md text-base font-medium">通知</a>
         <router-link to="/imgSearch" class="text-gray-900 dark:text-white px-3 py-2 rounded-md text-sm font-medium">以图搜图</router-link>
+        <br>
+        <router-link to="/about" class="text-gray-900 dark:text-white px-3 py-2 rounded-md text-sm font-medium">关于我们</router-link>
 <!--        <div class="relative">-->
 <!--          <input type="text" placeholder="搜索..."-->
 <!--                 class="w-full px-4 py-2 mb-2 rounded-md border border-gray-300 focus:border-blue-500 focus:ring focus:ring-blue-200 focus:outline-none dark:bg-gray-700 dark:text-white"/>-->
@@ -189,10 +192,21 @@ const handleOutsideClick = (event: MouseEvent) => {
   }
 };
 
+
+// 从数据库中读取网站标题
+const webTitle = ref('')
+
+const webTitleFetchData = async ()=>{
+  const responseData = await axios.get("/webSetting/list")
+  console.log(responseData.data)
+  webTitle.value = responseData.data.data[0].webtitle
+}
+
 // 添加事件监听器
 onMounted(() => {
   document.addEventListener('click', handleOutsideClick);
   fetchData();
+  webTitleFetchData()
 });
 
 // 移除事件监听器

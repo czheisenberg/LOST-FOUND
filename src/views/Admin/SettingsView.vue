@@ -32,14 +32,14 @@
 
       <div class="p-4 bg-white block sm:flex items-center justify-between border-b border-gray-200 lg:mt-1.5 dark:bg-gray-800 dark:border-gray-700">
         <div class="w-full">
-          <form class="space-y-4" >
+          <form class="space-y-4" @submit.prevent="handleUpdate">
             <div>
               <label for="title" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">网站标题</label>
-              <input type="text" name="title" id="title" v-model="title" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="" required="">
+              <input type="text" name="title" id="title" v-model="webTitle" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="" required="">
             </div>
             <div>
               <label for="description" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">网站描述</label>
-              <textarea id="description" rows="4" v-model="description" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="" required=""></textarea>
+              <textarea id="description" rows="4" v-model="webDescription" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="" required=""></textarea>
             </div>
             <div>
               <label for="theme" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">主题选择</label>
@@ -51,7 +51,9 @@
               <button type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">保存设置</button>
 
             </div>
-
+            <div class="text-green-500">
+              {{ msg }}
+            </div>
           </form>
         </div>
       </div>
@@ -64,9 +66,47 @@
 <script lang="ts" setup>
 
 import TheAdminBackSidebar from "@/components/TheAdminBackSidebar.vue";
-import {ref} from "vue";
+import {onMounted, ref} from "vue";
+import {useRouter} from "vue-router";
+import axios from '@/axios'
 
-const title = ref("LOST&FOUND")
-const description = ref("校园失物招领系统——LOST&FOUND平台,通过整合线上线下资源，构建高效便捷的信息交互平台，力求解决师生们的失物问题，提升校园生活的便利性和秩序性，营造良好的校园文化氛围，强化师生之间的互助与关爱。同时，随着技术的不断发展和完善，该系统有望与校园其他管理系统深度融合，拓展更多功能和服务，进而辐射到周边社区乃至更广泛的区域，成为连接校园内外的重要桥梁，为构建更加和谐、智慧的校园环境发挥关键作用。")
+// const title = ref("LOST&FOUND")
+// const description = ref("校园失物招领系统——LOST&FOUND平台,通过整合线上线下资源，构建高效便捷的信息交互平台，力求解决师生们的失物问题，提升校园生活的便利性和秩序性，营造良好的校园文化氛围，强化师生之间的互助与关爱。同时，随着技术的不断发展和完善，该系统有望与校园其他管理系统深度融合，拓展更多功能和服务，进而辐射到周边社区乃至更广泛的区域，成为连接校园内外的重要桥梁，为构建更加和谐、智慧的校园环境发挥关键作用。")
+const router = useRouter()
+const webTitle = ref('')
+const webDescription = ref('')
+
+// 读取数据
+const FetchData = async ()=>{
+  const responseData = await axios.get("/webSetting/list")
+  console.log(responseData.data)
+  webTitle.value = responseData.data.data[0].webtitle
+  webDescription.value = responseData.data.data[0].webdescription
+}
+
+// 更新数据
+const msg = ref('')
+const handleUpdate = async ()=>{
+  // console.log(webTitle.value)
+  const updateData = new FormData();
+  updateData.append('webtitle', webTitle.value)
+  updateData.append('webdescription', webDescription.value)
+  try{
+    const responseData = await axios.post("/webSetting/list", updateData, {
+      headers:{
+        'Content-Type':"multipart/form-data",
+      }
+    })
+    msg.value = "设置成功!"
+    router.go(0)
+  }catch(error){
+    msg.value = error.message
+  }
+}
+
+
+onMounted(()=>{
+  FetchData();
+})
 
 </script>
