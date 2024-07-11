@@ -54,10 +54,10 @@
               <label for="birthday" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">生日</label>
               <input type="text" name="birthday" id="birthday" v-model="birthday" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="2001-01-01" required="">
             </div>
-              <div>
-              <label for="password" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">密码</label>
-                <input type="password" name="password" id="password" v-model="password" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="******" required="">
-            </div>
+<!--              <div>-->
+<!--              <label for="password" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">密码</label>-->
+<!--                <input type="password" name="password" id="password" v-model="password" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="******" required="">-->
+<!--            </div>-->
             <div>
               <button type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">提交</button>
               <a href="/admin/user" type="button" class="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900">取消</a>
@@ -106,7 +106,7 @@ const profileImage = ref('')
 const email = ref('')
 const phoneNumber = ref('')
 const birthday = ref('')
-const password = ref('')
+// const password = ref('')
 const msg = ref('')
 
 // 获取已有数据，编辑页面进行渲染
@@ -119,7 +119,7 @@ const userInfomationFetchData = async ()=>{
   email.value = responseData.data.data.email
   phoneNumber.value = responseData.data.data.phonenumber
   birthday.value = responseData.data.data.birthday
-  password.value = responseData.data.data.password
+  // password.value = responseData.data.data.password
 }
 
 // 编辑用户数据
@@ -133,7 +133,7 @@ const handleUpdateSubmit = async ()=>{
     uploadData.append('email', email.value)
     uploadData.append('phonenumber', phoneNumber.value)
     uploadData.append('birthday', birthday.value)
-    uploadData.append('password', password.value)
+    // uploadData.append('password', password.value)
 
     try{
       const responseData = await axios.put('/userManage/update', uploadData,{

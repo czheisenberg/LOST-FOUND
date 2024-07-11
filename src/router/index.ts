@@ -88,6 +88,11 @@ const routes: Array<RouteRecordRaw> = [
     component:() => import('@/components/TheAdminAdd.vue')
   },
   {
+    path: '/admin/goods/recruitment',
+    name: 'adminGoodsRecruitment',
+    component:() => import('@/views/Admin/AdminGoodsRecruitmentView.vue')
+  },
+  {
     path: '/admin/lost',
     name: 'adminlost',
     component: AdminLost
@@ -171,6 +176,11 @@ const routes: Array<RouteRecordRaw> = [
     path: '/user/goods/add',
     name: 'userGoodsAdd',
     component:() => import('@/components/TheAdd.vue')
+  },
+  {
+    path: '/user/goods/recruitment',
+    name: 'userGoodsRecruitment',
+    component:() => import('@/views/User/goods/UserGoodsRecruitmentView.vue')
   },
   {
     path: '/details/:id',
