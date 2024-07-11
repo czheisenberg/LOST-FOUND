@@ -4,17 +4,12 @@ import router from "@/router";
 
 const instance = axios.create({
     withCredentials: true,
-    baseURL: 'http://127.0.0.1:8088',
-    timeout: 1000 * 30,
+    baseURL: 'http://127.0.0.1:8081',
+    timeout: 1000,
     // headers: { 'Content-Type': 'application/json' }
 });
 
 instance.interceptors.request.use(config => {
-
-    const url = config.url;
-    if (url != null &&  url.includes("console.tim.qq.com"))
-        return config
-
     const tokenName = 'lftoken'; // 可以根据需要动态获取 tokenName
     const token = localStorage.getItem(tokenName);
     if (token) {

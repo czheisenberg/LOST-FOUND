@@ -203,11 +203,6 @@ const routes: Array<RouteRecordRaw> = [
     component:()=>import('../views/ImgResView.vue')
   },
   {
-    path: '/chat',
-    name: 'chat',
-    component:()=>import('../views/ChatView.vue')
-  },
-  {
     path: '/permissionError',
     name: 'permissionError',
     component:()=>import('../views/PermissionError.vue')
