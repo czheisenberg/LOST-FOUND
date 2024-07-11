@@ -27,7 +27,6 @@
             通知
           </router-link>
           <router-link to="/imgSearch" class="text-gray-900 dark:text-white px-3 py-2 rounded-md text-sm font-medium">以图搜图</router-link>
-          <router-link to="/chat" class="text-gray-900 dark:text-white px-3 py-2 rounded-md text-sm font-medium">历史聊天</router-link>
           <div class="relative flex-grow flex items-center space-x-3">
             <input type="text" placeholder="关键词搜索：钥匙 | 水卡 | 雨伞 ……"
                    v-model="searchQuery"
