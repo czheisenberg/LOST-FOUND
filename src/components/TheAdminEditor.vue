@@ -71,9 +71,6 @@
               </div>
             </div>
             <div>
-              {{ msg }}
-            </div>
-            <div>
               <button type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">提交</button>
               <a href="/admin/lost" type="button" class="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900">取消</a>
             </div>
@@ -93,11 +90,12 @@ import TheAdminBackSidebar from "@/components/TheAdminBackSidebar.vue";
 import {useRoute, useRouter} from "vue-router";
 import axios from "@/axios";
 import dayjs from "dayjs";
+import notification from "@/notification";
 
 const route = useRoute()
 const router = useRouter()
 const goodsId = route.params.id
-console.log("goodsId: ", goodsId)
+// console.log("goodsId: ", goodsId)
 const cards = ref([])
 
 
@@ -167,13 +165,13 @@ const handleUpdate = async()=>{
           'Content-Type':'multipart/form-data',
         },
       })
-      msg.value = '更新成功'
-      console.log('responseData : ', responseData.data)
+      notification.suc("更新成功","")
+      // console.log('responseData : ', responseData.data)
       router.go(-1)
 
 
     }catch (e){
-      msg.value = String(e.message)
+      notification.error("更新失败!", e.message)
     }
 
   }

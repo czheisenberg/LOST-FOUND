@@ -68,11 +68,7 @@
                   </div>
 
             </div>
-            <div>
-              {{ msg }}
-            </div>
-
-            <div>
+              <div>
               <button type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">提交</button>
               <a href="/admin/lost" class="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900">取消</a>
             </div>
@@ -93,6 +89,7 @@ import { ref } from 'vue';
 import axios from '../axios'
 import {  useRouter } from 'vue-router';
 import dayjs from "dayjs";
+import notification from "@/notification";
 
 
 const router = useRouter()
@@ -133,7 +130,6 @@ const handleDateChange = (value) => {
 }
 
 // 提交表单时的处理函数
-const msg = ref('')
 const handleSubmit = async () => {
   if (selectedFile.value) {
     const uploadData = new FormData();
@@ -146,7 +142,7 @@ const handleSubmit = async () => {
     uploadData.append('goodsimg', selectedFile.value);
 
     if(formData.value.phonenumber.length > 11 || formData.value.phonenumber.length < 0){
-      msg.value = '手机号格式错误'
+      notification.error("手机号格式错误!", "")
     }else{
       try {
         const response = await axios.post('/goods/add', uploadData, {
@@ -154,22 +150,19 @@ const handleSubmit = async () => {
             'Content-Type': 'multipart/form-data',
           },
         });
-        msg.value = '发布成功'
+        notification.suc("发布成功", "")
         // console.log('上传成功:', response.data);
-
         // router.go(-1)
         router.push('/admin/lost')
       } catch (error) {
-        msg.value = String(error)
-        // console.error('上传失败:', error);
+        notification.error("发布失败!", error.message)
       }
     }
 
 
 
   } else {
-    msg.value="请选择一张图片"
-    // console.log('请先选择一个文件');
+    notification.error("请选择一张图片", "")
   }
 };
 
