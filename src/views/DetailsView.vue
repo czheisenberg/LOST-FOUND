@@ -117,7 +117,7 @@ export default defineComponent({
 
     const detailData = async () => {
       try {
-        const responseData = await axios.get(`/goods/list/${goodsId}`)
+        const responseData = await axios.get(`/goods/listSim/${goodsId}`)
         // console.log(responseData.data.data)
         // console.log(responseData.data.data.address)
         cards.value = responseData.data.data
