@@ -2,19 +2,19 @@
   <div :key="currentLanguage">
     <slot>
       <div :class="['TUIKit', isH5 && 'TUIKit-h5']">
-<!--        <div-->
-<!--            v-if="!(isH5 && currentConversationID)"-->
-<!--            class="TUIKit-navbar"-->
-<!--        >-->
-<!--            <div-->
-<!--                v-for="item of navbarList"-->
-<!--                :key="item.id"-->
-<!--                :class="['TUIKit-navbar-item', currentNavbar === item.id && 'TUIKit-navbar-item-active']"-->
-<!--                @click="currentNavbar = item.id"-->
-<!--            >-->
-<!--              {{ TUITranslateService.t(item.label) }}-->
-<!--            </div>-->
-<!--        </div>-->
+        <!--        <div-->
+        <!--            v-if="!(isH5 && currentConversationID)"-->
+        <!--            class="TUIKit-navbar"-->
+        <!--        >-->
+        <!--            <div-->
+        <!--                v-for="item of navbarList"-->
+        <!--                :key="item.id"-->
+        <!--                :class="['TUIKit-navbar-item', currentNavbar === item.id && 'TUIKit-navbar-item-active']"-->
+        <!--                @click="currentNavbar = item.id"-->
+        <!--            >-->
+        <!--              {{ TUITranslateService.t(item.label) }}-->
+        <!--            </div>-->
+        <!--        </div>-->
         <div class="TUIKit-main-container">
           <div
               v-if="currentNavbar === 'message'"
@@ -101,7 +101,16 @@ const props = defineProps({
     default: '',
     required: false, // When integrating Chat independently, you need to pass the conversationID
   },
-
+  pubId: {
+    type: String,
+    default: '',
+    required: false, // When integrating Chat independently, you need to pass the conversationID
+  },
+  url: {
+    type: String,
+    default: '',
+    required: false, // When integrating Chat independently, you need to pass the conversationID
+  },
 });
 
 onMounted(() => {
@@ -122,7 +131,7 @@ onMounted(() => {
 });
 
 function login() {
-  const {SDKAppID, userID, userSig, conversationID} = props;
+  const {SDKAppID, userID, userSig, conversationID, pubId, url} = props;
   const sig = genTestUserSig({
     SDKAppID: SDKAppID,
     secretKey: "eca447b02f9c451f16e375b681636348a61815456a4ec90e7a47b2efa1f92bb8",
@@ -138,9 +147,28 @@ function login() {
     }).then(() => {
       // Execute the following code when integrating Chat independently
       if (conversationID.startsWith('C2C') || conversationID.startsWith('GROUP')) {
-        TUIConversationService.switchConversation(conversationID).catch((err)=> {
-          console.log(err)
-        })
+        if (pubId && pubId.length != 0) {
+          // 构建初始消息
+          let {chat} = TUILogin.getContext();
+          let message = chat.createTextMessage({
+            to: pubId,
+            conversationType: 'C2C',
+            payload: {text: "物品URL： " + url}
+          });
+          // 发送消息
+          let promise = chat.sendMessage(message);
+          promise.then(function (imResponse) {
+            // 发送成功
+            console.log(imResponse);
+          }).catch(function (imError) {
+            // 发送失败
+            console.warn('sendMessage error:', imError);
+          }).finally(() => {
+            TUIConversationService.switchConversation(conversationID).catch((err) => {
+              console.log(err)
+            })
+          })
+        }
       }
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
     }).catch((error) => {

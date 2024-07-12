@@ -1,6 +1,6 @@
 <template>
   <TheNavbar/>
-<!--  <h2>{{ searchQuery }}</h2>-->
+  <!--  <h2>{{ searchQuery }}</h2>-->
   <div class="container mx-auto mt-4 flex flex-wrap dark:bg-gray-800">
     <!-- 循环渲染当前页的卡片 -->
     <div v-for="(card, index) in paginatedCards" :key="index" class="w-full sm:w-1/2 md:w-1/2 lg:w-1/3 xl:w-1/4 px-4 mb-4">

@@ -3,7 +3,7 @@
     <TheNavbar/>
     <div class="flex content-center justify-center items-center h-full">
         <div v-if="loadSuc" id="app">
-          <TUIKit v-if="userId.length != 0" :SDKAppID="1600044444" :userID="userId" :conversationID="clickId"/>
+          <TUIKit v-if="userId.length != 0" :SDKAppID="1600044444" :userID="userId" :conversationID="clickId" :pubId="pubId" :url="url"/>
           <TUICallKit class="callkit-container" :allowedMinimized="true" :allowedFullScreen="false"/>
         </div>
       <div v-if="!loadSuc" role="status" class="mt-64">
@@ -23,72 +23,81 @@ import {onBeforeMount, onMounted, ref} from "vue";
 import axios from "@/axios";
 import TheNavbar from "@/components/TheNavbar.vue";
 import {useRoute} from "vue-router";
-import {
-  TUIConversationService,
-} from '@tencentcloud/chat-uikit-engine';
-import {enableSampleTaskStatus} from "@/TUIKit/utils/enableSampleTaskStatus";
+import {TUILogin, TUICore, TUIConstants} from '@tencentcloud/tui-core';
+import { ChatSDK   } from '@tencentcloud/chat';
+
 
 const userId = ref('')
 const loadSuc = ref(false)
 
-const clickId = ref()
+const clickId = ref('')
+const pubId = ref('')
+const url = ref('')
 
 const route = useRoute()
 
-onBeforeMount(async () => {
+const registerUser = async (userId, username) => {
+  const userSigT = genTestUserSig({
+    SDKAppID: 1600044444,
+    secretKey: "eca447b02f9c451f16e375b681636348a61815456a4ec90e7a47b2efa1f92bb8",
+    userID: 'administrator'
+  }).userSig
 
 
-  try {
-    let response = await axios.get('/userinfo/selfQuery');
-    const userID = response.data.data.userId
-    const username = response.data.data.username
+  // 判断账户是否注册
+  let response = await axios.post('https://console.tim.qq.com/v4/im_open_login_svc/account_check?sdkappid=' + 1600044444 + '&identifier=administrator&usersig=' + userSigT + '&random=2949672&contenttype=json'
+      , {
+        "CheckItem": [
+          {
+            "UserID": userId
+          }
+        ]
+      }, {
+        withCredentials: false
+      })
 
-    const userSig = genTestUserSig({
-      SDKAppID: 1600044444,
-      secretKey: "eca447b02f9c451f16e375b681636348a61815456a4ec90e7a47b2efa1f92bb8",
-      userID: 'administrator'
-    }).userSig
-
-
-    // 判断账户是否注册
-    response = await axios.post('https://console.tim.qq.com/v4/im_open_login_svc/account_check?sdkappid=' + 1600044444 + '&identifier=administrator&usersig=' + userSig + '&random=2949672&contenttype=json'
+  // 注册账号
+  if (response.data.ResultItem[0].AccountStatus != "Imported") {
+    response = await axios.post('https://console.tim.qq.com/v4/im_open_login_svc/account_import?sdkappid=' + 1600044444 + '&identifier=administrator&usersig=' + userSigT + '&random=9999&contenttype=json'
         , {
-          "CheckItem": [
-            {
-              "UserID": userID
-            }
-          ]
+          "UserID": userId,
+          "Nick": username,
+          "FaceUrl": ""
         }, {
           withCredentials: false
         })
+    if (response.data.ErrorCode == 0) {
+      console.log("账号注册成功")
+    } else {
+      console.log("账号注册失败")
+    }
+  }
+}
 
-    // 注册账号
-    if (response.data.ResultItem[0].AccountStatus != "Imported") {
-      response = await axios.post('https://console.tim.qq.com/v4/im_open_login_svc/account_import?sdkappid=' + 1600044444 + '&identifier=administrator&usersig=' + userSig + '&random=9999&contenttype=json'
-          , {
-            "UserID": userID,
-            "Nick": username,
-            "FaceUrl": ""
-          }, {
-            withCredentials: false
-          })
-      if (response.data.ErrorCode == 0) {
-        console.log("账号注册成功")
-      } else {
-        console.log("账号注册失败")
-      }
+onBeforeMount(async () => {
+  try {
+    let response = await axios.get('/userinfo/selfQuery');
+    const userIDT = response.data.data.userId
+    const username = response.data.data.username
+
+    userId.value = userIDT
+
+    // 注册访问者
+    response = await registerUser(userIDT, username);
+
+    if (route.query.userId && route.query.userId.length != 0) {
+      // 注册持有者
+      response = await registerUser(route.query.userId, route.query.username);
+      clickId.value = "C2C" + route.query.userId
+      pubId.value = route.query.userId
+      url.value = route.query.url
     }
 
-    userId.value = userID
-
-    clickId.value = "C2C" + route.query.userId
     loadSuc.value = true
-
   } catch (error) {
     console.error('获取用户信息失败:', error);
     loadSuc.value = true
   }
-
 })
 
 // onMounted(()=> {
@@ -103,6 +112,9 @@ onBeforeMount(async () => {
 //         })
 //   }
 // })
+
+
+
 
 </script>
 <style lang="scss">
