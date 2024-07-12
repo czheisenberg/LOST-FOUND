@@ -44,15 +44,12 @@
             <div>
               <label for="theme" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">主题选择</label>
               <select id="theme" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" required="">
-                <option value="0">白天</option><option value="1">黑夜</option></select>
+                <option value="0">右上角月亮/太阳按钮</option></select>
             </div>
 
             <div>
               <button type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">保存设置</button>
 
-            </div>
-            <div class="text-green-500">
-              {{ msg }}
             </div>
           </form>
         </div>
@@ -69,6 +66,7 @@ import TheAdminBackSidebar from "@/components/TheAdminBackSidebar.vue";
 import {onMounted, ref} from "vue";
 import {useRouter} from "vue-router";
 import axios from '@/axios'
+import notification from "@/notification";
 
 // const title = ref("LOST&FOUND")
 // const description = ref("校园失物招领系统——LOST&FOUND平台,通过整合线上线下资源，构建高效便捷的信息交互平台，力求解决师生们的失物问题，提升校园生活的便利性和秩序性，营造良好的校园文化氛围，强化师生之间的互助与关爱。同时，随着技术的不断发展和完善，该系统有望与校园其他管理系统深度融合，拓展更多功能和服务，进而辐射到周边社区乃至更广泛的区域，成为连接校园内外的重要桥梁，为构建更加和谐、智慧的校园环境发挥关键作用。")
@@ -85,7 +83,6 @@ const FetchData = async ()=>{
 }
 
 // 更新数据
-const msg = ref('')
 const handleUpdate = async ()=>{
   // console.log(webTitle.value)
   const updateData = new FormData();
@@ -97,10 +94,10 @@ const handleUpdate = async ()=>{
         'Content-Type':"multipart/form-data",
       }
     })
-    msg.value = "设置成功!"
+    notification.suc("设置成功!","")
     router.go(0)
   }catch(error){
-    msg.value = error.message
+    notification.error("设置失败!","")
   }
 }
 
