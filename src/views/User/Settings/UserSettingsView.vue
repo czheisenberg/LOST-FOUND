@@ -63,7 +63,7 @@
 
   <div class="p-4 mb-4 bg-white border border-gray-200 rounded-lg shadow-sm 2xl:col-span-2 dark:border-gray-700 sm:p-6 dark:bg-gray-800">
       <h3 class="mb-4 text-xl font-semibold dark:text-white">账户密码</h3>
-      <form action="#">
+<!--      <form action="#">-->
           <div class="grid grid-cols-6 gap-6">
               <div class="col-span-6 sm:col-span-3">
                   <label for="password" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">新密码</label>
@@ -89,7 +89,7 @@
                               </li>
                               <li class="flex items-center">
                                   <svg class="w-4 h-4 mr-2 text-gray-300 dark:text-gray-400" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
-                                  更长的密码(最小6个字符)
+                                  更长的密码(最小12个字符)
                               </li>
                           </ul>
                   </div>
@@ -105,7 +105,7 @@
               <button type="reset" class="text-white bg-red-500 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800" >取消</button>
             </div>
           </div>
-      </form>
+<!--      </form>-->
   </div>
 </div>
 <div class="col-span-2">
@@ -154,6 +154,7 @@ import axios from '../../../axios'
 import {onMounted, ref} from "vue";
 import {  useRouter } from 'vue-router';
 import dayjs from 'dayjs'
+import notification from "@/notification";
 
 
 const router = useRouter()
@@ -187,17 +188,22 @@ const updatePssword = async() => {
   try {
 
     if (pwd.value.length < 6 || pwd.value != conPwd.value) {
-      alert("密码不规范重新输入")
+      notification.error('修改密码失败', '密码不规范')
       return
     }
+
     const dataPass = pwd.value
     const rsp = await axios.get('userinfo/updatePass', {params:{
         pwd:dataPass
       } })
-    console.log(rsp.data)
-    alert("密码更新成功!")
+
+    if (rsp.data.code == 200) {
+      notification.suc('修改密码成功', '')
+    } else {
+      notification.error('修改密码失败', rsp.data.message)
+    }
   } catch (e) {
-    console.log(e)
+    notification.error('修改密码失败', '服务器内部错误')
   }
 }
 
@@ -227,16 +233,15 @@ const formData = ref({
 const msg = ref('')
 const handleSubmitProfileImage = async () => {
   if (selectedFile.value) {
-    // uploadData.append('profileimage', selectedFile.value);
-
-    let param = new FormData()  // 创建form对象
-    param.append('profileimage', selectedFile.value, selectedFile.value.name)  // 通过append向form对象添加数据
-    let config = {
-      headers: {'Content-Type': 'multipart/form-data'}
-    }
+    const uploadData = new FormData();
+    uploadData.append('profileimage', selectedFile.value);
 
     try {
-      const response = await axios.post('/userinfo/updateUserImg', param, config);
+      const response = await axios.post('/userinfo/updateUserInfo', uploadData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
       msg.value = '更新成功'
       // console.log('response.data:', response.data);
 
@@ -263,11 +268,10 @@ const handleSubmitInformation = async()=>{
   uploadData.append('birthday', birthday.value);
 
   try {
-    const response = await axios.post('/userinfo/updateUserInfo', {
-      username: username.value,
-      phonenumber: phoneNumber.value,
-      email: email.value,
-      birthday: birthday.value
+    const response = await axios.post('/userinfo/updateUserInfo', uploadData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
     });
     msg2.value = '更新成功'
     console.log('----------------------response.data:', response.data);

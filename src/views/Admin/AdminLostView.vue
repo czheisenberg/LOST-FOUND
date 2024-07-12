@@ -191,6 +191,7 @@ import {defineComponent, ref, computed, onMounted, Ref} from 'vue';
 import axios from '../../axios'
 import TheAdminBackSidebar from '@/components/TheAdminBackSidebar.vue';
 import {  useRouter } from 'vue-router';
+import notification from "@/notification";
 
 
 
@@ -456,7 +457,7 @@ export default defineComponent({
       const userConfirmed = confirm('确定要删除吗？删除后将无法恢复！')
       if (userConfirmed) {
         deleteProduct(id)
-        alert('已删除！该项已被删除。')
+        notification.suc("物品删除成功", '')
       }
     }
 
@@ -465,8 +466,10 @@ export default defineComponent({
 
         const deleteResponse = await axios.delete(`/goods/delete?goodsId=${id}`)
         if(deleteResponse.data.message === "ok"){
+          // 重新加载数据
           router.go(0)
         }
+        await fetchData()
       } catch (e) {
         console.log("del err:", e)
       }
