@@ -3,7 +3,7 @@
     <div class="max-w-2xl mx-auto px-4">
       <div class="flex justify-between items-center mb-6">
         <h2 class="text-lg lg:text-2xl font-bold text-gray-900 dark:text-white">留言 ({{ comments.length }})</h2>
-        <h3 class="text-green-500">{{ msg }}</h3>
+<!--        <h3 class="text-green-500">{{ msg }}</h3>-->
       </div>
       <form class="mb-6" @submit.prevent="addComment">
         <div class="py-2 px-4 mb-4 bg-white rounded-lg rounded-t-lg border border-gray-200 dark:bg-gray-800 dark:border-gray-700">
@@ -36,9 +36,9 @@
           </button>
           <div v-if="comment.showDropdown" class="z-10 w-36 bg-white rounded divide-y divide-gray-100 shadow dark:bg-gray-700 dark:divide-gray-600">
             <ul class="py-1 text-sm text-gray-700 dark:text-gray-200">
-              <li><a @click.prevent="editComment(commentIndex)" class="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Edit</a></li>
-              <li><a @click.prevent="removeComment(comment.commentId)" class="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Remove</a></li>
-              <li><a href="#" class="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Report</a></li>
+              <li><a @click.prevent="editComment(commentIndex)" class="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">编辑</a></li>
+              <li><a @click.prevent="removeComment(comment.commentId)" class="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">删除</a></li>
+<!--              <li><a href="#" class="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Report</a></li>-->
             </ul>
           </div>
         </footer>
@@ -88,9 +88,9 @@
               </button>
               <div v-if="reply.showDropdown" class="z-10 w-36 bg-white rounded divide-y divide-gray-100 shadow dark:bg-gray-700 dark:divide-gray-600">
                 <ul class="py-1 text-sm text-gray-700 dark:text-gray-200">
-                  <li><a @click.prevent="editReply(commentIndex, replyIndex)" class="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Edit</a></li>
-                  <li><a @click.prevent="removeComment(reply.commentId)" class="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Remove</a></li>
-                  <li><a href="#" class="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Report</a></li>
+                  <li><a @click.prevent="editReply(commentIndex, replyIndex)" class="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">编辑</a></li>
+                  <li><a @click.prevent="removeComment(reply.commentId)" class="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">删除</a></li>
+<!--                  <li><a href="#" class="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Report</a></li>-->
                 </ul>
               </div>
             </footer>
@@ -132,6 +132,7 @@
 import axios from '@/axios';
 import { ref, reactive, onMounted,defineProps } from 'vue';
 import { useRouter } from 'vue-router';
+import notification from "@/notification";
 
 // 接受父组件DetailsView.vue传递的值；子组件调用方式: props.goodsId
 const props = defineProps(['goodsId'])
@@ -175,9 +176,15 @@ const profileimage = ref('')
 const currentUserFetchData = async()=>{
   const responseData = await axios.get("/userinfo/selfQuery");
   // console.log("currentUserFetchData: ", responseData.data.data)
-  userId.value = responseData.data.data.userId;
-  username.value = responseData.data.data.username;
-  profileimage.value = responseData.data.data.profileimage;
+  if(responseData.data.code == 200){
+    userId.value = responseData.data.data.userId;
+    console.log("获取的userId:", responseData.data.data.userId)
+    username.value = responseData.data.data.username;
+    profileimage.value = responseData.data.data.profileimage;
+  }else{
+    notification.error('尚未登录，请登录查看', '')
+  }
+
 }
 
 const newComment = ref<string>('');
@@ -187,10 +194,11 @@ const comments = reactive<Comment[]>([]);
 const fetchComments = async () => {
   try {
     const response = await axios.get(`/comment/query/${props.goodsId}`);
-    console.log("xxxxx: ", response.data.data)
+    // console.log("xxxxx: ", response.data.data)
     comments.push(...response.data.data);
   } catch (error) {
-    console.log('Error fetching comments:', error);
+    // console.log('Error fetching comments:', error);
+    notification.error('尚未登录，请登录查看', '')
   }
 };
 
@@ -199,7 +207,6 @@ onMounted(() => {
   currentUserFetchData();
 });
 
-const msg = ref('')
 // 新增留言
 const addComment = async () => {
   if (newComment.value.trim()) {
@@ -221,7 +228,8 @@ const addComment = async () => {
     comments.push(newCommentData);
 
     // newComment.value = '';
-    console.log("newCommentData: ", newCommentData)
+    // console.log("newCommentData: ", newCommentData)
+    notification.suc('新增成功!', '')
 
     // 调用api将留言插入数据库.
     const updateData = new FormData();
@@ -235,11 +243,12 @@ const addComment = async () => {
         }
       })
       console.log("================== ad new comment ok", responseData.data)
-      msg.value = '新增留言成功!'
+      // msg.value = '新增留言成功!'
+      notification.suc('新增成功!', '')
       router.go(0)
     }catch(error){
-      console.log("add new comment error: ", error)
-      msg.value = error.message
+      // console.log("add new comment error: ", error)
+      notification.error('新增留言失败!', '')
     }
   }
 
@@ -252,11 +261,11 @@ const removeComment = async(commentId)=>{
   // 获取ok
   try{
     const responseData = await axios.delete(`/comment/delete/${commentId}`)
-    console.log("删除返回情况：", responseData.data)
-    msg.value = '已删除当前留言!'
+    // console.log("删除返回情况：", responseData.data)
+    notification.suc("已删除!", '')
     router.go(0)
   }catch(error){
-    msg.value = error.message;
+    notification.suc("删除发生错误!", '')
   }
 
 }
@@ -313,10 +322,12 @@ const addReply = async (commentIndex: number, replyIndex?: number) => {
             'Content-Type':'multipart/form-data'
           }
         })
-        msg.value = '回复成功!'
+        // msg.value = '回复成功!'
+        notification.suc("回复成功", '')
         router.go(0)
       }catch(error){
-        msg.value = error.message
+        // msg.value = error.message
+        notification.error("回复失败!发送未知错误!", '')
       }
     }
   } else {
@@ -353,11 +364,11 @@ const addReply = async (commentIndex: number, replyIndex?: number) => {
             'Content-Type':'multipart/form-data'
           }
         })
-        console.log("----------------- add reply comment ok", responseData.data)
-        msg.value = '回复成功'
+        // console.log("----------------- add reply comment ok", responseData.data)
+        notification.suc("回复成功!",'')
         router.go(0)
       }catch(error){
-        msg.value = error.message
+        notification.error("回复失败!发生未知错误!",'')
       }
 
 
@@ -390,10 +401,10 @@ const updateComment = async (commentIndex: number) => {
         }
       })
       // console.log("更新后返回数据: ", responseData.data)
-      msg.value = '更新完毕!'
+      notification.suc("更新成功!", '')
       router.go(0)
     }catch(error){
-      msg.value = error.message
+      notification.error("更新失败!发生未知错误1", "")
     }
 
 
@@ -432,10 +443,10 @@ const updateReply = async (commentIndex: number, replyIndex: number) => {
         }
       })
       // console.log("更新后返回数据: ", responseData.data)
-      msg.value = '更新完毕!'
+      notification.suc("更新完成!", "")
       router.go(0)
     }catch(error){
-      msg.value = error.message
+      notification.error("更新错误!发生未知错误!","")
     }
 
 
