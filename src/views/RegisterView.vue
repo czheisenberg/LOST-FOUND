@@ -3,7 +3,7 @@
   <div class="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
       <a href="/" class="flex items-center mb-6 text-2xl font-semibold text-gray-900 dark:text-white">
           <!-- <img class="w-8 h-8 mr-2" src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/logo.svg" alt="logo"> -->
-          LOST & FOUND    
+          LOST & FOUND
       </a>
       <div class="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
           <div class="p-6 space-y-4 md:space-y-6 sm:p-8">
@@ -58,6 +58,8 @@
 import {ref } from 'vue';
 import axios from '../axios';
 import { useRouter } from 'vue-router';
+import notification from "@/notification";
+import {response} from "express";
 
     const router = useRouter(); // 获取路由对象
 
@@ -82,12 +84,14 @@ import { useRouter } from 'vue-router';
           },
         })
 
-        msg.value = '注册完成'
-        // router.push('/login')
-        console.log("注册返回: ", responseData.data)
+        if (responseData.data.code == 200) {
+          notification.suc('注册成功', '')
+          router.push('/login')
+        } else {
+          notification.error('注册失败', responseData.data.message)
+        }
       }catch (error){
-        msg.value = error.message
-        console.log("注册失败: ", error)
+        notification.suc('注册失败', '服务器内部错误')
       }
 
 }
