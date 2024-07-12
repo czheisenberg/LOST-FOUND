@@ -54,7 +54,7 @@
                 <button type="reset" class="text-white bg-red-500 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800" >取消</button>
               </div>
 
-              <div class="text-green-500 mt-1">{{ msg }}</div>
+<!--              <div class="text-green-500 mt-1">{{ msg }}</div>-->
 
           </div>
       </div>
@@ -89,7 +89,7 @@
                               </li>
                               <li class="flex items-center">
                                   <svg class="w-4 h-4 mr-2 text-gray-300 dark:text-gray-400" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
-                                  更长的密码(最小12个字符)
+                                  更长的密码(最小6个字符)
                               </li>
                           </ul>
                   </div>
@@ -127,14 +127,22 @@
               </div>
               <div class="col-span-6 sm:col-span-3">
                   <label for="birthday" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">生日</label>
-                  <input type="text" v-model="birthday" name="birthday" id="birthday" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="2001-01-01" required>
+<!--                  <input type="text" v-model="birthday" name="birthday" id="birthday" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="2001-01-01" required>-->
+                <div class="block">
+                  <el-date-picker
+                      v-model="birthday"
+                      type="date"
+                      placeholder="选择一个日期"
+                      @change="handleDateChange"
+                  />
+                </div>
               </div>
             <div class="col-span-6 sm:col-full  space-x-3">
               <button type="submit" class="text-white bg-blue-500 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800" >保存</button>
               <button type="reset" class="text-white bg-red-500 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800" >取消</button>
             </div>
           </div>
-        <div class="text-green-500 mt-1">{{ msg2 }}</div>
+<!--        <div class="text-green-500 mt-1">{{ msg2 }}</div>-->
       </form>
   </div>
 </div>
@@ -152,12 +160,13 @@
 import TheBackSidebar from '@/components/TheBackSidebar.vue';
 import axios from '../../../axios'
 import {onMounted, ref} from "vue";
-import {  useRouter } from 'vue-router';
+import {  useRouter, useRoute } from 'vue-router';
 import dayjs from 'dayjs'
 import notification from "@/notification";
 
 
 const router = useRouter()
+const route = useRoute()
 
 const userInfo = ref('')
 
@@ -173,7 +182,7 @@ const conPwd = ref('')
 const userInfoFetchData = async()=>{
   try {
     const responseData = await axios.get('userinfo/selfQuery')
-    console.log("responseData.data.data ++++++++++++++++++",responseData.data.data)
+    // console.log("responseData.data.data ++++++++++++++++++",responseData.data.data)
     userInfo.value = responseData.data.data
     username.value = responseData.data.data.username
     email.value = responseData.data.data.email
@@ -188,22 +197,21 @@ const updatePssword = async() => {
   try {
 
     if (pwd.value.length < 6 || pwd.value != conPwd.value) {
-      notification.error('修改密码失败', '密码不规范')
+      // alert("密码不规范重新输入")
+      notification.error("密码不规范或两次密码不一致，重新输入!","")
       return
     }
-
     const dataPass = pwd.value
     const rsp = await axios.get('userinfo/updatePass', {params:{
         pwd:dataPass
       } })
-
-    if (rsp.data.code == 200) {
-      notification.suc('修改密码成功', '')
-    } else {
-      notification.error('修改密码失败', rsp.data.message)
-    }
+    // console.log(rsp.data)
+    // alert("密码更新成功!")
+    notification.suc("密码更改成功!","")
+    router.push("/logout")
   } catch (e) {
-    notification.error('修改密码失败', '服务器内部错误')
+    // console.log(e)
+    notification.error("密码更改失败!", e.message)
   }
 }
 
@@ -230,32 +238,39 @@ const formData = ref({
 });
 
 // 提交表单时的处理函数
-const msg = ref('')
 const handleSubmitProfileImage = async () => {
   if (selectedFile.value) {
-    const uploadData = new FormData();
-    uploadData.append('profileimage', selectedFile.value);
+    // uploadData.append('profileimage', selectedFile.value);
+
+    let param = new FormData()  // 创建form对象
+    param.append('profileimage', selectedFile.value, selectedFile.value.name)  // 通过append向form对象添加数据
+    let config = {
+      headers: {'Content-Type': 'multipart/form-data'}
+    }
 
     try {
-      const response = await axios.post('/userinfo/updateUserInfo', uploadData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-      });
-      msg.value = '更新成功'
+      const response = await axios.post('/userinfo/updateUserImg', param, config);
       // console.log('response.data:', response.data);
+      notification.suc("头像更新成功!","")
 
       router.go(0)
     } catch (error) {
-      msg.value = String(error)
-      // console.error('上传失败:', error);
+      notification.error("头像更新失败!", error.message)
     }
 
   } else {
-    msg.value="请选择一张图片"
-    // console.log('请先选择一个文件');
+    notification.error("请选择一张图片!","")
   }
 };
+
+// 获取日期
+const currentDate = ref('')
+const handleDateChange = (value) => {
+  currentDate.value = dayjs(value).format("YYYY-MM-DD")
+
+  // console.log('选定的日期是:', value)
+  console.log("选定的日期是",currentDate.value)
+}
 
 // 更新用户信息
 const msg2 = ref('')
@@ -265,21 +280,21 @@ const handleSubmitInformation = async()=>{
   uploadData.append('username', username.value);
   uploadData.append('phonenumber', phoneNumber.value);
   uploadData.append('email', email.value);
-  uploadData.append('birthday', birthday.value);
+  uploadData.append('birthday', currentDate.value);
 
   try {
-    const response = await axios.post('/userinfo/updateUserInfo', uploadData, {
-      headers: {
-        'Content-Type': 'multipart/form-data',
-      },
+    const response = await axios.post('/userinfo/updateUserInfo', {
+      username: username.value,
+      phonenumber: phoneNumber.value,
+      email: email.value,
+      birthday: birthday.value
     });
-    msg2.value = '更新成功'
-    console.log('----------------------response.data:', response.data);
-
+    // console.log('----------------------response.data:', response.data);
     router.go(0)
   } catch (error) {
-    msg2.value = String(error)
-    console.error('error:', error)
+    // msg2.value = String(error)
+    // console.error('error:', error)
+    notification.error("更新失败!", error.message)
   }
 
 }
