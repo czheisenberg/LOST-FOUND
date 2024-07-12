@@ -52,6 +52,8 @@ import { defineComponent, ref } from 'vue';
 import axios from '../axios';
 import { LoginRequest, LoginResponse } from '../types';
 import { useRoute, useRouter } from 'vue-router';
+import { ElNotification } from 'element-plus'
+import notification from "@/notification";
 
 export default defineComponent({
   setup() {
@@ -70,7 +72,7 @@ export default defineComponent({
 
 
       try {
-        const response = await axios.post<LoginResponse>('/login/doLogin',   requestData);
+        const response = await axios.post('/login/doLogin',   requestData);
         // console.log("--------",requestData)
         if (response.data.code === 200) {
           const { tokenName, tokenValue } = response.data.data;
@@ -83,11 +85,10 @@ export default defineComponent({
             router.push('/user')
           }
         } else {
-          console.error('Login failed:', response.data.msg);
-          message.value = response.data.msg
+          notification.error('登录失败', response.data.message)
         }
       } catch (error) {
-        console.error('Login failed:', error);
+        notification.error('登录失败', '服务器内部错误')
       }
     };
 
