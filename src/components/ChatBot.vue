@@ -78,7 +78,7 @@ const closeWebSocket = () => {
 
 onMounted(() => {
   if ('WebSocket' in window) {
-    websocket.value = new WebSocket(`ws://localhost:8081/ws/${clientId}`);
+    websocket.value = new WebSocket(`ws://localhost:8088/ws/${clientId}`);
 
     websocket.value.onerror = () => {
       addMessage("连接错误", 'received');
