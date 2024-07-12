@@ -52,10 +52,6 @@
 
             </div>
 
-            <div class="text-green-500">
-              {{ msg }}
-            </div>
-
           </form>
         </div>
       </div>
@@ -69,19 +65,19 @@ import TheAdminBackSidebar from "@/components/TheAdminBackSidebar.vue";
 import {ref} from "vue";
 import axios from '@/axios'
 import {useRouter} from "vue-router";
+import notification from "@/notification";
 
 const content = ref('')
-const msg = ref('')
 const router = useRouter()
 
 const fetchData = async ()=>{
   try{
     const responseData = await axios.get(`/userManage/notification?content=${content.value}`)
     // console.log(responseData.data.data)
-    msg.value = '新增成功'
+    notification.suc("新增成功!","")
     router.push("/admin/notice")
   }catch(e){
-    msg.value = e.message
+    notification.error("新增失败!", e.message)
   }
 
 }
