@@ -9,12 +9,11 @@ import zhCn from 'element-plus/es/locale/lang/zh-cn'
 import UndrawUi from 'undraw-ui'
 import 'undraw-ui/dist/style.css'
 import {createPinia} from "pinia";
-
 import VueParticles from 'vue-particles';
+import notification from '@/notification'
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const defaultImage = require('@/assets/default.svg');
-
 
 // 添加全局图像错误处理事件
 document.addEventListener('error', (event: Event) => {
@@ -41,5 +40,6 @@ app.use(ElementPlus, {
     locale: zhCn
 });
 app.use(UndrawUi)
+app.config.globalProperties.$notify = notification; // 将通知模块挂载到全局属性
 app.config.compilerOptions.isCustomElement = (tag) => tag === 'vue-advanced-chat' || tag === 'emoji-picker'
 app.mount('#app');
