@@ -57,7 +57,7 @@
           <!-- 黑白切换按钮 end for all screens -->
 
           <!-- 登录下拉列表 start -->
-          <div class="relative" @click="toggleDropdown" v-click-outside="closeDropdown">
+          <div class="relative z-50" @click="toggleDropdown" v-click-outside="closeDropdown">
             <button type="button"
                     class="flex text-sm bg-gray-200 rounded-full focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600"
                     aria-expanded="false">

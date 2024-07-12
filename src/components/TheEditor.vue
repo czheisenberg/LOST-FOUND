@@ -110,7 +110,7 @@ const stuffState = ref('')
 const dateTime = ref('')
 const detailData = async ()=>{
   try{
-    const responseData = await axios.get(`/goods/list/${goodsId}`)
+    const responseData = await axios.get(`/goods/listSim/${goodsId}`)
     // cards.value = responseData.data.data
     goods.value = responseData.data.data.goods
     phoneNumber.value = responseData.data.data.phonenumber
