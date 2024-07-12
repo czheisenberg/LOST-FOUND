@@ -326,7 +326,7 @@ const queryContent=ref(null);//与输入框进行双向绑定获取输入值
 // 进入页面初始化数据。
 
 const fetchData = async() =>{
-  let {data}= await axios.post("http://localhost:8081/log/apiList",{
+  let {data}= await axios.post("/log/apiList",{
     method:queryContent.value,
     beginTime:null,
     endTime:null
@@ -338,7 +338,7 @@ const fetchData = async() =>{
 const query=async ()=>{
 
   if(value.value[0]==null&&value.value[1]==null){
-    let {data}= await axios.post("http://localhost:8081/log/apiList",{
+    let {data}= await axios.post("/log/apiList",{
       method:queryContent.value,
       beginTime:null,
       endTime:null
@@ -354,7 +354,7 @@ const query=async ()=>{
     let end=new Date(value.value[1]);
 
     /* 查询按钮 */
-    let {data}= await axios.post("http://localhost:8081/log/apiList",{
+    let {data}= await axios.post("/log/apiList",{
       method:queryContent.value,
       beginTime:begin,
       endTime:end
@@ -382,7 +382,7 @@ function  clickCancel(){
 let idUser=ref<number>();
 const clickSure= async()=>{
   //向后端发送请求，删除数据
-  let {data}=await axios.get("http://localhost:8081/log/deleteByidApi",{
+  let {data}=await axios.get("/log/deleteByidApi",{
     params:{
       idUser:idUser.value
     }
