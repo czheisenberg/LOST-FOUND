@@ -227,15 +227,16 @@ const formData = ref({
 const msg = ref('')
 const handleSubmitProfileImage = async () => {
   if (selectedFile.value) {
-    const uploadData = new FormData();
-    uploadData.append('profileimage', selectedFile.value);
+    // uploadData.append('profileimage', selectedFile.value);
+
+    let param = new FormData()  // 创建form对象
+    param.append('profileimage', selectedFile.value, selectedFile.value.name)  // 通过append向form对象添加数据
+    let config = {
+      headers: {'Content-Type': 'multipart/form-data'}
+    }
 
     try {
-      const response = await axios.post('/userinfo/updateUserInfo', uploadData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-      });
+      const response = await axios.post('/userinfo/updateUserImg', param, config);
       msg.value = '更新成功'
       // console.log('response.data:', response.data);
 
@@ -262,10 +263,11 @@ const handleSubmitInformation = async()=>{
   uploadData.append('birthday', birthday.value);
 
   try {
-    const response = await axios.post('/userinfo/updateUserInfo', uploadData, {
-      headers: {
-        'Content-Type': 'multipart/form-data',
-      },
+    const response = await axios.post('/userinfo/updateUserInfo', {
+      username: username.value,
+      phonenumber: phoneNumber.value,
+      email: email.value,
+      birthday: birthday.value
     });
     msg2.value = '更新成功'
     console.log('----------------------response.data:', response.data);

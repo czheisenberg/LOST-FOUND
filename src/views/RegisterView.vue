@@ -13,7 +13,7 @@
               <form class="space-y-4 md:space-y-6" @submit.prevent="handleRegister">
                 <div>
                   <label for="account" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">昵称</label>
-                  <input type="text" v-model="account" name="account" id="account" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="username" required>
+                  <input type="text" v-model="account" name="account" id="account" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="account" required>
                 </div>
                 <div>
                   <label for="username" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">真实姓名</label>
@@ -82,7 +82,7 @@ import { useRouter } from 'vue-router';
           },
         })
 
-        msg.value = '注册完成'
+        msg.value = responseData.data.message
         // router.push('/login')
         console.log("注册返回: ", responseData.data)
       }catch (error){
