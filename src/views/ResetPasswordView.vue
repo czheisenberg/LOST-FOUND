@@ -26,22 +26,26 @@
                     >
                       {{ isCountingDown ? `${minutes}:${seconds < 10 ? '0' : ''}${seconds}` : '获取验证码' }}
                     </button>
-                <p class="text-green-500"> {{ msg1 }}</p>
+<!--                <p class="text-green-500"> {{ msg1 }}</p>-->
               </div>
               <div>
                   <label for="newPassword" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">新密码</label>
-                  <input type="confirm-password" v-model="newPassword" name="newPassword" id="newPassword" placeholder="••••••••" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
+                  <input type="password" v-model="newPassword" name="newPassword" id="newPassword" placeholder="••••••••" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
               </div>
-              <div class="flex items-start">
+              <div class="flex items-start justify-between">
                   <div class="flex items-center h-5">
                     <input id="newsletter" aria-describedby="newsletter" type="checkbox" class="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-primary-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-primary-600 dark:ring-offset-gray-800" required>
+                    <div class="ml-3 text-sm">
+                      <label for="newsletter" class="font-light text-gray-500 dark:text-gray-300">我接受 <a class="font-medium text-primary-600 hover:underline dark:text-primary-500" href="#">这些条款和条件</a></label>
+                    </div>
                   </div>
-                  <div class="ml-3 text-sm">
-                    <label for="newsletter" class="font-light text-gray-500 dark:text-gray-300">我接受 <a class="font-medium text-primary-600 hover:underline dark:text-primary-500" href="#">这些条款和条件</a></label>
-                  </div>
+
+                <div class="ml-3 text-sm font-light text-gray-500 dark:text-gray-300">
+                  <a href="/login">返回登录</a>
+                </div>
               </div>
               <button type="submit" class="w-full text-white bg-blue-500 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">重置密码</button>
-              <p class="text-green-500"> {{ msg2 }}</p>
+<!--              <p class="text-green-500"> {{ msg2 }}</p>-->
           </form>
       </div>
   </div>
@@ -52,6 +56,7 @@
 import {ref} from 'vue'
 import axios from '@/axios'
 import {useRouter} from "vue-router";
+import notification from "@/notification";
 
 const router = useRouter()
 
@@ -80,13 +85,11 @@ const requesetVerificationCode = async() =>{
         'Content-Type':'multipart/form-data'
       }
     })
-    msg1.value = "验证码已发送，请查看你的邮箱!"
-    // console.log("验证码已发送，请查看你的邮箱!")
+    notification.suc('验证码已发送，请查看你的邮箱!', '')
     // 开始倒计时
     startCountdown();
   }catch(error){
-    // console.log("验证码发送失败，检查输入的邮箱有效性")
-    msg1.value = "验证码发送失败，检查输入的邮箱有效性 或者你的账户不存在!"
+    notification.error('验证码发送失败，检查输入的邮箱有效性 或者你的账户不存在!','')
   }
 }
 // 两分钟倒计时
@@ -122,14 +125,12 @@ const handleSubmit = async () =>{
         'Content-Type':'multipart/form-data'
       }
     })
-    // console.log("密码重置成功!", responseData.data)
-    msg2.value = "密码重置成功! 3秒后跳转登录页面!"
+    notification.suc('密码重置成功! 3秒后跳转登录页面!', '')
     setTimeout(()=>{
       router.push("/login")
     },3000)
   }catch(error){
-    // console.log("发生错误: ", error)
-    msg2.value = "密码重置失败! 请稍后尝试或联系管理员更改密码!"
+    notification.error('密码重置失败! 请稍后尝试或联系管理员更改密码!','')
   }
 }
 
