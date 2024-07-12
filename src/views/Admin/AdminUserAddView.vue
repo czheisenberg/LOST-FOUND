@@ -37,7 +37,7 @@
               <label for="account" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">用户名</label>
               <input type="text" name="account" id="account" v-model="account" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="username" required=""></div>
             <div>
-              <label for="username" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">昵称</label>
+              <label for="username" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">真实姓名</label>
               <input type="text" name="username" id="username" v-model="username" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" required="" placeholder="nick name"></div>
 <!--            <div>-->
 <!--              <label for="file_input" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">头像</label>-->
@@ -52,17 +52,20 @@
             </div>
             <div>
               <label for="birthday" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">生日</label>
-              <input type="text" name="birthday" id="birthday" v-model="birthday" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" required="" placeholder="2001-01-01">
+<!--              <input type="text" name="birthday" id="birthday" v-model="birthday" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" required="" placeholder="2001-01-01">-->
+              <div class="block">
+                <el-date-picker
+                    v-model="birthday"
+                    type="date"
+                    placeholder="选择一个日期"
+                    @change="handleDateChange"
+                />
+              </div>
             </div>
             <div>
               <label for="password" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">密码</label>
               <input type="password" name="password" id="password" v-model="password" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" required="" placeholder="******">
             </div>
-
-            <div>
-              {{ msg }}
-            </div>
-
             <div>
               <button type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">提交</button>
               <a href="/admin/user" type="button" class="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900">取消</a>
@@ -86,6 +89,8 @@ import TheAdminBackSidebar from "@/components/TheAdminBackSidebar.vue";
 import { ref } from 'vue';
 import axios from '../../axios'
 import {  useRouter } from 'vue-router';
+import notification from "@/notification";
+import dayjs from "dayjs";
 
 
 const router = useRouter()
@@ -99,7 +104,16 @@ const phoneNumber = ref('')
 const birthday = ref('')
 const password = ref('')
 
-const msg = ref('')
+
+// 获取日期
+const currentDate = ref('')
+const handleDateChange = (value) => {
+  currentDate.value = dayjs(value).format("YYYY-MM-DD")
+
+  // console.log('选定的日期是:', value)
+  console.log("选定的日期是",currentDate.value)
+}
+
 const handleSubmit = async()=>{
     const uploadData = new FormData();
     uploadData.append('account', account.value)
@@ -120,13 +134,13 @@ const handleSubmit = async()=>{
       })
     if(responseData.data.message === "ok"){
       // console.log(responseData.data)
-      msg.value = "新增用户完成"
+      notification.suc("新增用户完成!","")
 
       router.push('/admin/user')
     }
 
   }catch (error){
-      msg.value = error.message
+      notification.error("新增用户失败!", error.message)
   }
 }
 
